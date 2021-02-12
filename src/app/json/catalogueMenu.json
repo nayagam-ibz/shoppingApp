@@ -1,0 +1,43 @@
+{
+  "catalogue": [
+    {
+      "id": 1,
+      "name": "Clothing",
+    },
+
+    {
+      "id": 2,
+      "name": "Mens's Fashion",
+    },
+
+    {
+      "id": 3,
+      "name": "Girls Fashion",
+    },
+   
+    {
+      "id": 4,
+      "name": 'Boys Fashion',
+    },
+
+    {
+      "id": 5,
+      "name": "Kids Fashion",
+    },
+
+    {
+      "id": 6,
+      "name": "Costmatices"
+    },
+
+    {
+      "id": 7,
+      "name": "Handbags",
+    },
+
+    {
+      "id": 8,
+      "name": "Accessories",
+    }
+  ]
+}
