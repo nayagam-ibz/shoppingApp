@@ -1,57 +1,101 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
-
-import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
-
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {View, Text, StyleSheet,TouchableOpacity} from 'react-native';
+import {DrawerContentScrollView} from '@react-navigation/drawer';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
 
 function DrawerContent(props) {
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          <View style={{flexDirection: 'row', marginTop: 15}}>
-            <Image
-              source={{
-                uri: 'https://api.adorable.io/avatars/50/abott@adorable.png',
-              }}
-              size={50}
-            />
-            <View style={{marginLeft: 15, flexDirection: 'column'}}>
-              <Text style={styles.title}>John Doe</Text>
-              <Text style={styles.caption}>@j_doe</Text>
-            </View>
+          <View style={{paddingHorizontal: 20, paddingVertical: 40}}>
+            <Text style={styles._userName}>Oleh Chabanov</Text>
+            <Text style={styles._userCaption}>+38 (099) 123 45 67</Text>
           </View>
-          <View style={styles.drawerSection}>
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
-              )}
-              label="Home"
+          <View>
+            <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('Home');
               }}
-            />
+              style={styles._drawerRow}>
+              <MaterialCommunityIcons
+                name="home"
+                size={20}
+                color="#7B5996"
+                style={styles._drawerIcons}
+              />
+              <Text style={styles._drwerTitle}>Home</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('Myorders');
+              }}
+              style={styles._drawerRow}>
+              <MaterialCommunityIcons
+                name="truck-fast-outline"
+                size={20}
+                color="#7B5996"
+                style={styles._drawerIcons}
+              />
+              <Text style={styles._drwerTitle}>My Orders</Text>
+            </TouchableOpacity>
 
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
-              )}
-              label="Catalogue"
+            <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate('Home');
+                props.navigation.navigate('Catalogue');
               }}
-            />
+              style={styles._drawerRow}>
+              <Ionicons
+                name="layers-outline"
+                size={20}
+                color="#7B5996"
+                style={styles._drawerIcons}
+              />
+              <Text style={styles._drwerTitle}>Catalogue</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('Favourite');
+              }}
+              style={styles._drawerRow}>
+              <Entypo
+                name="heart-outlined"
+                size={20}
+                color="#7B5996"
+                style={styles._drawerIcons}
+              />
+              <Text style={styles._drwerTitle}>My Wishlist</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('Account');
+              }}
+              style={styles._drawerRow}>
+              <MaterialCommunityIcons
+                name="account"
+                size={20}
+                color="#7B5996"
+                style={styles._drawerIcons}
+              />
+              <Text style={styles._drwerTitle}>My Account</Text>
+            </TouchableOpacity>
 
-            <DrawerItem
-              icon={({color, size}) => (
-                <Icon name="home-outline" color={color} size={size} />
-              )}
-              label="Favourite"
+            <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate('Home');
               }}
-            />
+              style={styles._drawerRow}>
+              <Feather
+                name="log-out"
+                size={20}
+                color="#7B5996"
+                style={styles._drawerIcons}
+              />
+              <Text style={styles._drwerTitle}>Logout</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </DrawerContentScrollView>
@@ -62,47 +106,33 @@ function DrawerContent(props) {
 export default DrawerContent;
 
 const styles = StyleSheet.create({
-  drawerContent: {
-    flex: 1,
-  },
-  userInfoSection: {
-    paddingLeft: 20,
-  },
-  title: {
+  _userName: {
     fontSize: 16,
     marginTop: 3,
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat-Medium',
+    color: '#222',
   },
-  caption: {
-    fontSize: 14,
-    lineHeight: 14,
+  _userCaption: {
+    fontSize: 12,
+    marginTop: 5,
+    color: '#222',
+    fontFamily: 'Montserrat-Medium',
   },
-  row: {
-    marginTop: 20,
+
+  _drawerRow: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
     flexDirection: 'row',
     alignItems: 'center',
   },
-  section: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 15,
+
+  _drwerTitle: {
+    fontSize: 13,
+    color: '#222',
+    fontFamily: 'Montserrat-Medium',
   },
-  paragraph: {
-    fontWeight: 'bold',
-    marginRight: 3,
-  },
-  drawerSection: {
-    marginTop: 15,
-  },
-  bottomDrawerSection: {
-    marginBottom: 15,
-    borderTopColor: '#f4f4f4',
-    borderTopWidth: 1,
-  },
-  preference: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+
+  _drawerIcons: {
+    width: 40,
   },
 });

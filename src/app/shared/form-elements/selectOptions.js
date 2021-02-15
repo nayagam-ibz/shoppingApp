@@ -34,31 +34,31 @@ const selectPicker = (props) => {
             return (
               <TouchableOpacity
                 key={index}
-                onPress={() => onNavigation(item)}
+                onPress={() => onNavigation(item.name)}
                 style={{flexDirection: 'row'}}>
                 {optionType && optionType === "size" ? (
                   <View
                     style={{
                       width: 40,
                       height: 32,
-                      backgroundColor: value === item ? "orange" : '#fff',
+                      backgroundColor: value === item.name ? "orange" : '#fff',
                       borderRadius:2,
                       borderWidth: 1,
-                      borderColor: value === item ? 'orange' : '#ddd',
+                      borderColor: value === item.name ? 'orange' : '#ddd',
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}>
-                    <Text style={{fontFamily: 'Montserrat-Medium', fontSize: 12}}>{item}</Text>
+                    <Text style={{fontFamily: 'Montserrat-Medium', fontSize: 12, color: value === item.name ? '#fff' : '#7a7a7a',}}>{item.name}</Text>
                   </View>
                 ) : (
                   <View
                     style={{
                       width: 30,
                       height: 30,
-                      backgroundColor: item,
+                      backgroundColor: item.name,
                       borderRadius: 20,
                       borderWidth: 1,
-                      borderColor: value === item ? "orange" : item,
+                      borderColor: value === item.name ? "orange" : item.name,
                     }}
                   />
                 )}
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Medium',
     fontSize: 12,
     color: '#7a7a7a',
-    marginBottom: 5,
+    marginBottom: 10,
   }
 
 });

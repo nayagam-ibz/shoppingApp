@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {textInput} from '../shared/form-elements';
 import {Field, reduxForm, SubmissionError} from 'redux-form';
 import {connect} from 'react-redux';
-
+import CustomHeader from '../header/header';
 
 class Form extends React.Component {
 	_submitProfile(values) {
@@ -14,29 +14,45 @@ class Form extends React.Component {
 		const {handleSubmit} = this.props;
 		return (
 			<View style={styles.container}>
-			  <View style={{paddingHorizontal: 10}}>
+				<CustomHeader
+					navigation={this.props.navigation}
+					isHeader="Edit Your Account"
+					isBack="isBack"
+					name="Account"
+				/>
+				<View style={{paddingHorizontal: 10, paddingVertical: 40}}>
 					<View style={styles._formGroup}>
 						<Field
-							name="name"
+							name="email"
 							component={textInput}
-							label="Name"
+							label="Email"
+							underlineColorAndroid="transparent"
+						/>
+					</View>
+					<View style={styles._formGroup}>
+						<Field
+							name="password"
+							component={textInput}
+							label="Password"
+							secureTextEntry={true}
+							underlineColorAndroid="transparent"
 						/>
 					</View>
 
 					<View style={styles._formGroup}>
 						<Field
-							name="phoneNumber"
+							name="password_confirmation"
 							component={textInput}
-							label="PhoneNumber"
+							label="Password Confirmation"
+							secureTextEntry={true}
+							underlineColorAndroid="transparent"
 						/>
 					</View>
-			  </View>
-				<View style={styles._flexEnd}>
 					<TouchableOpacity
-						style={styles._cartBtn}
+						style={[styles._cartBtn, {marginTop: 50}]}
 						onPress={handleSubmit(this._submitProfile.bind(this))}>
 						<Text style={[styles._cartText, {textAlign: 'center'}]}>
-							Submit Profile
+							UPDATE ACCOUNT
 						</Text>
 					</TouchableOpacity>
 				</View>
@@ -60,21 +76,11 @@ export default connect(mapStateToProps, {})(profileForm);
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: 15
+		backgroundColor:'#f3f3f3'
 	},
 
 	_formGroup: {
-		marginBottom: 25,
-	},
-
-	_flexEnd: {
-		width: '94%',
-		position: 'absolute',
-		bottom: 0,
-		left: 10,
-		right: 10, 
-		borderColor: '#eee',
-		borderRadius: 3,
+		marginBottom: 15,
 	},
 
 	_cartBtn: {
@@ -91,5 +97,4 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: '#fff',
 	},
-
 });

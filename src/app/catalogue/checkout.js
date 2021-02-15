@@ -65,7 +65,7 @@ class Checkout extends React.Component {
                   </Text>
                 </View>
                 <View style={{flex: 1}}>
-                  <TouchableOpacity style={styles._flexRow}>
+                  <TouchableOpacity style={styles._flexRow} onPress={() => this.props.navigation.navigate("Aaddress")}>
                     <Text style={styles._onChangeText}>Change</Text>
                     <Entypo
                       name="chevron-small-right"
@@ -137,7 +137,7 @@ class Checkout extends React.Component {
                     Continue Shopping
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate("Signin")}>
                   <Text style={[styles._goOrdes, {textAlign: 'center'}]}>
                     Go To Orders
                   </Text>

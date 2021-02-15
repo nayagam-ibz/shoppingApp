@@ -5,6 +5,7 @@ import store from './app/store/reducers/index';
 import Layout from './app/layout';
 
 console.disableYellowBox = true;
+YellowBox.ignoreWarnings(['VirtualizedLists should never be nested', 'Warning: Cannot update a component from inside the function body of a different component.']);
 
 export default class App extends Component {
   render() {

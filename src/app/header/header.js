@@ -79,10 +79,10 @@ export class CustomHeader extends Component {
 							<View style={{flex: 1}}>
 								<TouchableOpacity
 									onPress={() => this.props.navigation.navigate(name)}>
-									<Entypo name="chevron-small-left" size={35} color="#fff" />
+									<Entypo name="chevron-small-left" size={35} color="#fff" style={{marginLeft: -10}}/>
 								</TouchableOpacity>
 							</View>
-							<View style={{flex: 1}}>
+							<View style={{flex: 5}}>
 								<Text
 									style={[
 										styles._subTitleApp,

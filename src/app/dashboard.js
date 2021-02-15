@@ -20,6 +20,7 @@ import SearchProdcut from './shared/search';
 import {getProduct} from '../app/store/actions/products';
 import {connect} from 'react-redux';
 import Loader from './shared/loader';
+import Carousel from './shared/carousel/Carousel'
 
 class Dashboard extends Component {
 	constructor(props) {
@@ -29,7 +30,7 @@ class Dashboard extends Component {
 	}
 
 	componentDidMount() {
-		// this.setState({loading})
+		this.setState({loading: false})
 		this.props.getProduct();
 	}
 
@@ -46,6 +47,9 @@ class Dashboard extends Component {
 				<CustomHeader navigation={this.props.navigation} isHeader="home" notificationIcon={true}/>
 				<SearchProdcut />
 				<ScrollView>
+				  <View style={{paddingVertical: 10, paddingHorizontal: 10, borderRadius: 3, height: 105}}>
+				   <Carousel />
+				  </View>
 					<CatalogList navigation_toggle={this.navigation_toggle} />
 					<View style={styles._itemWrapper}>
 						<Text
@@ -194,14 +198,14 @@ const styles = StyleSheet.create({
 	},
 
 	_itemName: {
-		color: '#000',
+		color: '#7B5996',
 		fontFamily: 'Montserrat-Medium',
-		fontSize: 11,
+		fontSize: 12.5,
 		paddingVertical: 5,
 	},
 
 	_itemPrice: {
-		fontSize: 13,
+		fontSize: 14,
 		fontFamily: 'Montserrat-SemiBold',
 	},
 

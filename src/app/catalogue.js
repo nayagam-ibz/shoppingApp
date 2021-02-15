@@ -40,12 +40,12 @@ class Catalogue extends Component {
 		const {catalogueList, catalogueMenu} = this.props;
 		return (
 			<SafeAreaView>
-				<CustomHeader navigation={this.props.navigation} isHeader="home" isBack="isBack" headertitle = "Catalogue" />
+				<CustomHeader navigation={this.props.navigation} isHeader="home" isBack="isBack" headertitle="Catalogue" name="Home" />
 				<SearchProdcut />
 				<View style={styles._catalogueList}>
 					<FlatList
 						data={catalogueList && catalogueList}
-						keyExtractor={(item, index) => item.id}
+						keyExtractor={(item, index) => item.name}
 						contentContainerStyle={styles.container}
 						renderItem={({item}) => (
 							<TouchableOpacity

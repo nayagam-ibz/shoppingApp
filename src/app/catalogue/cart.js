@@ -29,7 +29,7 @@ class Cart extends React.Component {
   }
 
   _navigate = () => {
-    this.props.navigation.navigate('checkout');
+    this.props.navigation.navigate('Checkout');
   };
 
   render() {
@@ -43,7 +43,7 @@ class Cart extends React.Component {
           isBack="isBack"
           name="ProductDetail"
         />
-        <ScrollView>
+        <ScrollView style={{paddingHorizontal: 10}}>
           <View style={styles._productList}>
             <FlatList
               data={cartList && cartList}
@@ -68,7 +68,7 @@ class Cart extends React.Component {
                     />
                   </View>
                   <View style={{flex: 2}}>
-                    <View style={{paddingHorizontal: 4}}>
+                    <View style={{paddingHorizontal: 15}}>
                       <Text style={styles._productName}>
                         A Stylish Women Open Front Long Sleeve Chunky Knit
                         Cardigant

@@ -5,7 +5,9 @@ const textInput = ({
   placeholder,
   style,
   keyboardType,
+  secureTextEntry,
   label,
+  underlineColorAndroid,
   meta: {error, touched},
   input,
 }) => {
@@ -13,12 +15,14 @@ const textInput = ({
     <View>
       <Text style={styles._textLable}>{label}</Text>
       <TextInput
+        secureTextEntry={secureTextEntry}
         style={styles._textInput}
+        underlineColorAndroid={underlineColorAndroid}
         placeholder={placeholder}
         keyboardType={keyboardType}
         {...input}
       />
-      {touched && error && <Text style={styles._error_text}>{error}</Text>}
+      {touched && error && <Text style={styles._errorText}>{error}</Text>}
     </View>
   );
 };
@@ -31,17 +35,27 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Medium',
     fontSize: 12,
     color: '#7a7a7a',
-    marginBottom: 5,
+    marginBottom: 3,
   },
 
   _textInput: {
     width: '100%',
     paddingHorizontal: 10,
-    paddingVertical: 8,
     backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#ddd',
+    height: 38,
     borderRadius: 3,
     alignItems: 'center',
+    fontFamily: 'Montserrat-Medium',
   },
+
+  _errorText: {
+    color:'red',
+    fontSize: 9,
+    fontFamily: 'Montserrat-Medium',
+    position: 'absolute',
+    bottom: -12,
+    right: 0
+  }
 });

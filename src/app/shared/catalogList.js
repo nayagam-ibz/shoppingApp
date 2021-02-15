@@ -24,7 +24,9 @@ class CatalogList extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles._spaceBetween}>
-          <View style={styles._catalogWidget}>
+          <TouchableOpacity
+            style={styles._catalogWidget}
+            onPress={() => this.props.navigation_toggle()}>
             <ImageBackground
               source={require('../../../assets/images/ca.jpeg')}
               style={styles._bg_image}
@@ -34,8 +36,10 @@ class CatalogList extends Component {
                 <Text style={styles._catalogText}>Womans's Fashion</Text>
               </View>
             </ImageBackground>
-          </View>
-          <View style={styles._catalogWidget}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles._catalogWidget}
+            onPress={() => this.props.navigation_toggle()}>
             <ImageBackground
               source={require('../../../assets/images/img2.png')}
               style={styles._bg_image}
@@ -45,8 +49,10 @@ class CatalogList extends Component {
                 <Text style={styles._catalogText}>Mens's Fashion</Text>
               </View>
             </ImageBackground>
-          </View>
-          <View style={styles._catalogWidget}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles._catalogWidget}
+            onPress={() => this.props.navigation_toggle()}>
             <ImageBackground
               source={require('../../../assets/images/kids.png')}
               style={styles._bg_image}
@@ -56,8 +62,10 @@ class CatalogList extends Component {
                 <Text style={styles._catalogText}>Kid’s fashion</Text>
               </View>
             </ImageBackground>
-          </View>
-          <View style={styles._catalogWidget}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles._catalogWidget}
+            onPress={() => this.props.navigation_toggle()}>
             <ImageBackground
               source={require('../../../assets/images/ca.jpeg')}
               style={styles._bg_image}
@@ -67,7 +75,7 @@ class CatalogList extends Component {
                 <Text style={styles._catalogText}>Cosmetics</Text>
               </View>
             </ImageBackground>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );

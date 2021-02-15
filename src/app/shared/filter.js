@@ -28,14 +28,16 @@ const sortby = [
 	{id: 5, name: 'Price: Low To High'},
 ];
 
-const Size = ['XXS', 'XS', 'S', 'M', 'L', 'XL'];
+const Length = [{"id":1, "name": "MINI"}, {"id": 2, "name": "MIDI"}, {"id": 3, "name": "MAXI"}]
+
+const Size = [{"id": 1, "name":'XXS'}, {"id":2, "name": 'XS'}, {"id": 3, "name": 'S'}, {"id": 4, "name": 'M'}, {"id": 5, "name": 'L'}, {"id": 6, "name": 'XL'}];
 const Colors = [
-	'#34283E',
-	'#E29F99',
-	'#76B55A',
-	'#5D71E2',
-	'#B768B9',
-	'#E5D426',
+	{"id": 1, "name": '#34283E'},
+	{"id": 2, "name": '#E29F99'},
+	{"id": 3, "name": '#76B55A'},
+	{"id": 3, "name": '#5D71E2'},
+	{"id": 4, "name": '#B768B9'},
+	{"id": 5, "name": '#E5D426'},
 ];
 
 class Form extends React.Component {
@@ -56,22 +58,6 @@ class Form extends React.Component {
 				</View>
 				<View style={styles._formGroup}>
 					<Field
-						name="categories"
-						component={selectPicker}
-						label="Categories"
-						optionValue={categories}
-					/>
-				</View>
-				<View style={styles._formGroup}>
-					<Field
-						name="brand"
-						component={selectPicker}
-						label="Brand"
-						optionValue={brand}
-					/>
-				</View>
-				<View style={styles._formGroup}>
-					<Field
 						name="color"
 						component={selectOptions}
 						label="Colors"
@@ -87,14 +73,17 @@ class Form extends React.Component {
 						optionType="size"
 					/>
 				</View>
+
 				<View style={styles._formGroup}>
 					<Field
-						name="sortby"
-						component={selectPicker}
-						label="Sort by"
-						optionValue={sortby}
+						name="length"
+						component={selectOptions}
+						label="Length"
+						optionValue={Length}
+						optionType="size"
 					/>
 				</View>
+
 				<View style={styles._flexEnd}>
 					<TouchableOpacity
 						style={styles._cartBtn}
@@ -128,7 +117,7 @@ const styles = StyleSheet.create({
 	},
 
 	_formGroup: {
-		marginBottom: 25,
+		marginBottom: 40,
 	},
 
 	_flexEnd: {

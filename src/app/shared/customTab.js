@@ -1,10 +1,14 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {View, Text, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 function MyTabBar({state, descriptors, navigation}) {
+  const focusedOptions = descriptors[state.routes[state.index].key].options;
+  if (focusedOptions.tabBarVisible === false) {
+    return null;
+  }
   return (
     <View
       style={{
@@ -12,7 +16,7 @@ function MyTabBar({state, descriptors, navigation}) {
         backgroundColor: '#fff',
         height: 55,
         borderWidth: 1,
-        borderColor:'#eee',
+        borderColor: '#eee',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         justifyContent: 'center',

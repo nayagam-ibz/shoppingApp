@@ -1,24 +1,17 @@
 import React, {useRef, useState} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 const selectPicker = (props) => {
-  const [value, setValue] = useState('Please Select value ');
   const {
     meta: {touched, error},
     label,
     optionValue,
-    onPress,
     input: {onChange},
   } = props;
-
   onChange(value);
+  const [value, setValue] = useState();
   const refRBSheet = useRef();
   const onNavigation = (res) => {
     setValue(res);
@@ -27,18 +20,23 @@ const selectPicker = (props) => {
   return (
     <View>
       <Text style={styles._textLabel}>{label}</Text>
-      <View style={{flexDirection:'row'}}>
+      <View style={{flexDirection: 'row'}}>
         <TouchableOpacity
           style={styles._selectOption}
           onPress={() => refRBSheet.current.open()}>
-          <Text style={styles._selectValue}>
-            {value}
+          <Text
+            style={[
+              styles._selectValue,
+              {color: value ? '#3B2D46' : '#989898'},
+            ]}>
+            {value ? value : 'Select value'}
           </Text>
         </TouchableOpacity>
         <View style={styles._positionIcons}>
-          <Entypo name="chevron-small-right" size={20} color="#7a7a7a"/>
+          <Entypo name="chevron-small-right" size={20} color="#7a7a7a" />
         </View>
-      </View> 
+      </View>
+      { !value && touched && error && <Text style={styles._errorText}>{error}</Text>}
       <RBSheet
         ref={refRBSheet}
         height={380}
@@ -79,7 +77,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Medium',
     fontSize: 12,
     color: '#7a7a7a',
-    marginBottom: 5,
+    marginBottom: 3,
   },
 
   _optionValue: {
@@ -89,35 +87,44 @@ const styles = StyleSheet.create({
   },
 
   _selectOption: {
-    height: 40,
+    height: 38,
     backgroundColor: '#fff',
     justifyContent: 'center',
     paddingHorizontal: 10,
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 3,
-    width: '100%'
+    width: '100%',
   },
 
   _selectValue: {
-    fontFamily: 'Montserrat-Medium', 
-    fontSize: 13
+    fontFamily: 'Montserrat-Medium',
+    fontSize: 13,
   },
 
   _selectRow: {
     paddingHorizontal: 10,
-    paddingVertical: 8
+    paddingVertical: 8,
   },
 
   _positionIcons: {
-    position: "absolute",
+    position: 'absolute',
     right: 5,
-    top: 10
+    top: 10,
   },
 
   _optionTitle: {
     paddingHorizontal: 10,
     paddingVertical: 5,
-    fontFamily: 'Montserrat-Medium', 
-  }
+    fontFamily: 'Montserrat-Medium',
+  },
+
+  _errorText: {
+    color: 'red',
+    fontSize: 9,
+    fontFamily: 'Montserrat-Medium',
+    position: 'absolute',
+    bottom: -12,
+    right: 0
+  },
 });

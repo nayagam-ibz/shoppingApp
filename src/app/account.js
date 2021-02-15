@@ -12,6 +12,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class Account extends Component {
 	render() {
@@ -41,12 +42,12 @@ class Account extends Component {
 							<Text style={styles._userCaption}>+38 (099) 123 45 67</Text>
 						</View>
 					</View>
-					<TouchableOpacity style={styles._editProfile} onPress={() => this.props.navigation.navigate("profile")}>
+					<TouchableOpacity style={styles._editProfile} onPress={() => this.props.navigation.navigate("Profile")}>
 						<Feather name="edit-2" size={18} color="#3B2D46" />
 					</TouchableOpacity>
 				</LinearGradient>
 				<View style={styles._menuView}>
-					<TouchableOpacity style={styles._accountMenu}>
+					<TouchableOpacity style={styles._accountMenu} onPress={() => this.props.navigation.navigate("Aaddress")}>
 						<Feather
 							name="map-pin"
 							size={18}
@@ -64,14 +65,14 @@ class Account extends Component {
 						/>
 						<Text style={styles._menuTitle}>Payment Methods</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles._accountMenu}>
-						<FontAwesome5
-							name="clipboard-list"
+					<TouchableOpacity style={styles._accountMenu} onPress={() => this.props.navigation.navigate('Myorders')}>
+						<MaterialCommunityIcons
+							name="truck-fast-outline"
 							size={18}
 							color="#3B2D46"
 							style={styles._menuIcon}
 						/>
-						<Text style={styles._menuTitle}>Orders</Text>
+						<Text style={styles._menuTitle}>My Orders</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles._accountMenu} onPress={() => this.props.navigation.navigate("Favourite")}>
 						<Entypo
@@ -81,15 +82,6 @@ class Account extends Component {
 							style={[styles._menuIcon, {marginLeft: -2}]}
 						/>
 						<Text style={styles._menuTitle}>Favorite</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles._accountMenu}>
-						<Feather
-							name="settings"
-							size={18}
-							color="#3B2D46"
-							style={styles._menuIcon}
-						/>
-						<Text style={styles._menuTitle}>Settings</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles._accountMenu}>
 						<Feather

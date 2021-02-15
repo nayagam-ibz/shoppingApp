@@ -2,18 +2,22 @@
   "catalogue": [
     {
       "id": 1,
-      "name": "Women's Fashion",
+      "name": "Women's Fashion"
     },
 
     {
       "id": 2,
-      "name": "Men's Fashion",
+      "name": "Men's Fashion"
     },
 
     {
       "id": 3,
-      "name": "Kid's Fashion",
+      "name": "Kid's Fashion"
     },
-   
+
+    {
+      "id": 4,
+      "name": "Sportswear"
+    }
   ]
 }

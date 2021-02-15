@@ -152,8 +152,8 @@ class CataloguMenuDetail extends Component {
 						this.RBSheet = ref;
 					}}
 					height={220}
-					openDuration={500}
-					closeDuration={500}
+					openDuration={200}
+					closeDuration={200}
 					closeOnPressMask={true}
 					closeOnDragDown={true}
 					customStyles={{
@@ -177,7 +177,6 @@ class CataloguMenuDetail extends Component {
 						/>
 					</View>
 				</RBSheet>
-
 				<Modal
 					animationType="fade"
 					transparent={true}
@@ -303,13 +302,15 @@ const styles = StyleSheet.create({
 	_itemName: {
 		color: '#000',
 		fontFamily: 'Montserrat-Medium',
-		fontSize: 11,
+		fontSize: 12,
 		paddingVertical: 5,
 	},
 
 	_itemPrice: {
-		fontSize: 13,
-		fontFamily: 'Montserrat-SemiBold',
+		color: '#7B5996',
+		fontFamily: 'Montserrat-Medium',
+		fontSize: 12.5,
+		paddingVertical: 5,
 	},
 
 	_ratingView: {

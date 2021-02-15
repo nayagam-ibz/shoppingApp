@@ -1,9 +1,10 @@
-import React, { useState} from 'react';
-import { View,StyleSheet, Text } from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, Text} from 'react-native';
 import Slider from 'react-native-custom-slider';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const rangeSlider = (props) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(100);
   const {
     meta: {touched, error},
     label,
@@ -27,8 +28,8 @@ const rangeSlider = (props) => {
         thumbStyle={{
           justifyContent: 'center',
           alignItems: 'center',
-          height: 20,
-          width: 20,
+          height: 35,
+          width: 15,
           backgroundColor: '#fff',
           borderWidth: 1,
           borderColor: '#ddd',
@@ -36,7 +37,10 @@ const rangeSlider = (props) => {
         }}
       />
       <View style={styles._sliderInput}>
-        <Text>${value} </Text>
+        <Text style={{fontSize: 16, fontFamily: 'Montserrat-Medium'}}>
+          <FontAwesome name="rupee" size={15} color="#3f2950" />{' '}
+          {Math.round(value * 100) / 100}{' '}
+        </Text>
       </View>
     </View>
   );
@@ -54,6 +58,7 @@ const styles = StyleSheet.create({
 
   _sliderInput: {
     width: '100%',
+    marginTop: 10,
     paddingHorizontal: 10,
     paddingVertical: 8,
     backgroundColor: '#fff',
