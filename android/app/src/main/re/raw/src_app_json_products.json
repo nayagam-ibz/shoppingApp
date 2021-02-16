@@ -1,0 +1,39 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "A Stylish Women opent Fron Long Sleeve",
+      "price": 49,
+      "favourite": false,
+      "rating_count": 3,
+      "url": "require('../../assets/images/kids.png')"
+    },
+
+    {
+      "id": 2,
+      "name": "A Stylish Men opent Fron Long Sleeve",
+      "price": 100.99,
+      "favourite": true,
+      "rating_count": 4,
+      "url": "img1.png"
+    },
+
+    {
+      "id": 1,
+      "name": "A Stylish Women opent Fron Long Sleeve",
+      "price": 49,
+      "favourite": false,
+      "rating_count": 3,
+      "url": "img2.png"
+    },
+
+    {
+      "id": 2,
+      "name": "A Stylish Men opent Fron Long Sleeve",
+      "price": 100.99,
+      "favourite": true,
+      "rating_count": 4,
+      "url": "kids.png"
+    }
+  ]
+}
