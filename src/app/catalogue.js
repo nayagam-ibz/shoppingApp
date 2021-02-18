@@ -68,7 +68,7 @@ class Catalogue extends Component {
 					ref={(ref) => {
 						this.RBSheet = ref;
 					}}
-					height={380}
+					height={400}
 					openDuration={500}
 					closeOnPressMask={true}
 					closeOnDragDown={true}

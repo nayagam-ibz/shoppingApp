@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
 	},
 
 	_headerAuthText: {
-		fontSize: 18,
+		fontSize: 22,
 		fontFamily: 'Montserrat-Medium',
 		color: '#3B2D46',
 		textAlign: 'center',

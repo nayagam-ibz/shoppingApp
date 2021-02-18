@@ -1,20 +1,26 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {
-	selectPicker,
-	selectOptions,
-	rangeSlider,
-} from '../shared/form-elements';
+import {selectOptions, rangeSlider} from '../shared/form-elements';
 import {Field, reduxForm, SubmissionError} from 'redux-form';
 import {connect} from 'react-redux';
 import Entypo from 'react-native-vector-icons/Entypo';
 import LinearGradient from 'react-native-linear-gradient';
-import Styles from '../../../assets/style'
+import Styles from '../../../assets/style';
 
-class Form extends React.Component {
-	_submitProfile(values) {
-		console.log(values);
+class Filter extends React.Component {
+	initialValue() {
+		return {color: [], size: [], length: [], price: 0};
 	}
+	onSubmit(values) {
+		const {color, size, length, price} = values;
+		this.props.applyFilter(values);
+		this.props.handleClose();
+	}
+	onReset = () => {
+		this.props.reset(this.props.form);
+		this.props.applyFilter(this.initialValue());
+		this.props.handleClose();
+	};
 
 	render() {
 		const {handleSubmit, initialData} = this.props;
@@ -38,14 +44,21 @@ class Form extends React.Component {
 							/>
 						</TouchableOpacity>
 						<Text style={[Styles._subTitleApp, {color: '#fff'}]}>Filter</Text>
-						<TouchableOpacity>
+						<TouchableOpacity onPress={this.onReset.bind(this)}>
 							<Text style={Styles._clearText}>CLEAR</Text>
 						</TouchableOpacity>
 					</View>
 				</LinearGradient>
 				<View style={{paddingHorizontal: 12, paddingVertical: 15}}>
 					<View style={Styles._formGroup}>
-						<Field name="price" component={rangeSlider} label="Price" />
+						<Field
+							name="price"
+							component={rangeSlider}
+							label="Price"
+							min={10}
+							max={1000}
+							initialValue={200}
+						/>
 					</View>
 					<View style={Styles._formGroup}>
 						<Field
@@ -76,7 +89,7 @@ class Form extends React.Component {
 					</View>
 					<TouchableOpacity
 						style={[Styles._cartBtn, {marginTop: 40}]}
-						onPress={handleSubmit(this._submitProfile.bind(this))}>
+						onPress={handleSubmit(this.onSubmit.bind(this))}>
 						<Text style={[Styles._cartText, {textAlign: 'center'}]}>
 							APPLY FILTER
 						</Text>
@@ -87,12 +100,12 @@ class Form extends React.Component {
 	}
 }
 
-const filterForm = reduxForm({
-	form: 'filterform',
-})(Form);
+const FilterForm = reduxForm({
+	enableReinitialize: true,
+})(Filter);
 
 const mapStateToProps = (state) => {
-	return {initialData: state.products.initialData}
+	return {initialData: state.products.initialData};
 };
 
-export default connect(mapStateToProps, {})(filterForm);
+export default connect(mapStateToProps, {})(FilterForm);

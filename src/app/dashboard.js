@@ -34,8 +34,10 @@ class Dashboard extends Component {
 	}
 
 	onNavigation = (res) => {
-		console.log(res)
-		this.props.navigation.navigate('Checkout', {id: res, navigation: "Home"});
+		this.props.navigation.navigate('Catalogue', {
+			screen: 'ProductDetail',
+			params: {id: res, navigation: 'Home'},
+		});
 	};
 
 	render() {
@@ -67,14 +69,16 @@ class Dashboard extends Component {
 								contentContainerStyle={Styles.container}
 								numColumns={2}
 								renderItem={({item}) => (
-									<TouchableOpacity style={{flex: 1}} onPress={() => this.onNavigation(item.id)}>
+									<TouchableOpacity
+										style={{flex: 1}}
+										onPress={() => this.onNavigation(item.id)}>
 										<View style={Styles._listItem}>
 											<View style={Styles._itemWidget}>
 												<Image
 													source={require('../../assets/images/img1.png')}
 													style={{
 														width: '100%',
-														height: 180,
+														height: 200,
 														borderRadius: 3,
 														resizeMode: 'contain',
 													}}
@@ -108,8 +112,8 @@ class Dashboard extends Component {
 													})}
 												</View>
 												<Text style={Styles._itemName}>{item.name}</Text>
-												<Text style={Styles._itemPrice}>
-													<FontAwesome name="rupee" size={15} color="#7B5996"/>
+												<Text style={Styles._itemPrice}> 
+													<FontAwesome name="rupee" size={15} color="#3B2D46" /> {''}
 													{item.price}
 												</Text>
 											</View>

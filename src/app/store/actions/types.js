@@ -1,3 +1,5 @@
+// import { API_TOKEN } from 'react-native-dotenv'
+// export const APP_TOKEN = API_TOKEN
 export const All_PRODUCTS = 'All_PRODUCTS';
 export const ALL_CATALOGUE = 'ALL_CATALOGUE';
 export const CATALOGUE_MENU = 'CATALOGUE_MENU';

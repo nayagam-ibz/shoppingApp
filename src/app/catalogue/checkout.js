@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomHeader from '../header/header';
 import {getCart} from '../../app/store/actions/products';
@@ -63,7 +64,7 @@ class Checkout extends React.Component {
                 color="#3B2D46"
                 style={styles._menuIcon}
               />
-              <Text style={styles._addressTitle}>Shipping Address</Text>
+              <Text style={styles._addressTitle}>SHIPPING ADDRESS</Text>
             </View>
             <View style={styles._addressView}>
               <View
@@ -80,8 +81,8 @@ class Checkout extends React.Component {
                 <View style={{flex: 1}}>
                   <TouchableOpacity
                     style={styles._flexRow}
-                    onPress={() => this.props.navigation.navigate('Aaddress')}>
-                    <Text style={styles._onChangeText}>Change</Text>
+                    onPress={() => this.props.navigation.navigate('Account',{screen: 'Address',})}>
+                    <Text style={styles._onChangeText}>CHANGE</Text>
                     <Entypo
                       name="chevron-small-right"
                       size={20}
@@ -96,15 +97,15 @@ class Checkout extends React.Component {
         <View style={styles._flexEnd}>
           <View style={styles._spaceBetween}>
             <Text style={styles._itemText}>Items</Text>
-            <Text style={styles._itemText}>$239.98</Text>
+            <Text style={styles._itemText}> <FontAwesome name="rupee" size={14} color="#7a7a7a" /> 239.98</Text>
           </View>
-          <View style={[styles._spaceBetween, {paddingVertical: 8}]}>
+          <View style={[styles._spaceBetween, {paddingVertical: 2}]}>
             <Text style={styles._itemText}>Delivery</Text>
-            <Text style={styles._itemText}>$18</Text>
+            <Text style={styles._itemText}><FontAwesome name="rupee" size={14} color="#7a7a7a" /> 18</Text>
           </View>
-          <View style={[styles._spaceBetween, {marginBottom: 10}]}>
-            <Text style={styles._pricText}>Total Price</Text>
-            <Text style={styles._pricText}>$239.98</Text>
+          <View style={[styles._spaceBetween, {marginBottom: 10, marginTop: 10}]}>
+            <Text style={styles._pricText}>TOTAL PRICE</Text>
+            <Text style={styles._pricText}><FontAwesome name="rupee" size={15} color="#3B2D46" /> 239.98</Text>
           </View>
           <TouchableOpacity
             style={styles._cartBtn}
@@ -148,10 +149,10 @@ class Checkout extends React.Component {
                   "Orders" section
                 </Text>
                 <TouchableOpacity
-                  style={styles._cartBtn}
+                  style={[styles._cartBtn, {paddingHorizontal: 30}]}
                   onPress={this.goProductDetail}>
                   <Text style={[styles._cartText, {textAlign: 'center'}]}>
-                    Continue Shopping
+                    CONTINUE SHOPPING
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.goOrders}>
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
   _addressTitle: {
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 14,
-    color: '#3B2D46',
+    color: '#333',
     paddingHorizontal: 10,
   },
 
@@ -253,13 +254,13 @@ const styles = StyleSheet.create({
 
   _addressName: {
     fontFamily: 'Montserrat-SemiBold',
-    fontSize: 14,
+    fontSize: 15,
     color: '#3B2D46',
     marginBottom: 10,
   },
 
   _addressText: {
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'Montserrat-Medium',
     fontSize: 13,
     color: '#7a7a7a',
     lineHeight: 20,
@@ -267,13 +268,13 @@ const styles = StyleSheet.create({
 
   _onChangeText: {
     fontFamily: 'Montserrat-SemiBold',
-    fontSize: 13,
-    color: '#3B2D46',
+    fontSize: 12,
+    color: '#7a7a7a',
   },
 
   _itemText: {
     fontFamily: 'Montserrat-Medium',
-    fontSize: 12,
+    fontSize: 14,
     color: '#7a7a7a',
   },
 
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
 
   _sucessSubTitle: {
     fontFamily: 'Montserrat-Medium',
-    fontSize: 13,
+    fontSize: 14,
     color: '#7a7a7a',
     textAlign: 'center',
     paddingVertical: 15,
@@ -311,7 +312,7 @@ const styles = StyleSheet.create({
 
   _goOrdes: {
     fontFamily: 'Montserrat-SemiBold',
-    fontSize: 14,
+    fontSize: 17,
     color: '#3B2D46',
     marginTop: 10,
   },

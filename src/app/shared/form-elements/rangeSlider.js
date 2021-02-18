@@ -1,30 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import Slider from 'react-native-custom-slider';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const rangeSlider = (props) => {
-  const [value, setValue] = useState(100);
-  const {
-    meta: {touched, error},
-    label,
-    optionValue,
-    onPress,
-    optionType,
-    input: {onChange},
-  } = props;
+const soSlider = ({ label, min, max, interval, initialValue, input: { onChange, } }) => {
+  const [value, setValue] = useState(initialValue);
   onChange(value);
-
   return (
     <View>
       <Text style={styles._textLable}>{label}</Text>
       <Slider
         value={value}
-        minimumValue={0}
-        maximumValue={1000}
+        minimumValue={min}
+        maximumValue={max}
+        onValueChange={(value) => setValue(value)}
         minimumTrackTintColor="orange"
         maximumTrackTintColor="#ddd"
-        onValueChange={(value) => setValue(value)}
         thumbStyle={{
           justifyContent: 'center',
           alignItems: 'center',
@@ -37,16 +28,16 @@ const rangeSlider = (props) => {
         }}
       />
       <View style={styles._sliderInput}>
-        <Text style={{fontSize: 16, fontFamily: 'Montserrat-Medium'}}>
-          <FontAwesome name="rupee" size={15} color="#3f2950" />{' '}
+        <Text style={{fontSize: 18, fontFamily: 'Montserrat-Medium', color:'#3f2950'}}>
+          <FontAwesome name="rupee" size={16} color="#3f2950" />{' '}
           {Math.round(value * 100) / 100}{' '}
         </Text>
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default rangeSlider;
+export default soSlider;
 
 const styles = StyleSheet.create({
   _textLable: {
@@ -60,6 +51,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10,
     paddingHorizontal: 10,
+    height: 40,
     paddingVertical: 8,
     backgroundColor: '#fff',
     borderWidth: 1,

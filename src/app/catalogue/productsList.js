@@ -30,6 +30,7 @@ class CataloguMenuDetail extends Component {
 			sortyBy: 'Featured',
 			modalVisible: false,
 		};
+		this.applyFilter = this.applyFilter.bind(this)
 	}
 
 	componentDidMount() {
@@ -53,6 +54,11 @@ class CataloguMenuDetail extends Component {
 	handleClose = () => {
 		this.setState({modalVisible: false});
 	};
+
+	 applyFilter(filter, filterApplied='') {
+    console.log(filter)
+    console.log(filterApplied)
+  }
 
 	render() {
 		const {maxRating} = this.state;
@@ -139,7 +145,7 @@ class CataloguMenuDetail extends Component {
 													})}
 												</View>
 												<Text style={Styles._itemName}>{item.name}</Text>
-												<Text style={Styles._itemPrice}><FontAwesome name="rupee" size={15} color="#7B5996" />{' '}{item.price}</Text>
+												<Text style={Styles._itemPrice}><FontAwesome name="rupee" size={15} color="#3B2D46" />{' '}{item.price}</Text>
 											</View>
 										</TouchableOpacity>
 									</View>
@@ -184,7 +190,7 @@ class CataloguMenuDetail extends Component {
 					visible={this.state.modalVisible}>
 					<View style={Styles._centeredView}>
 						<View style={Styles._fullView}>
-							<Filter handleClose={this.handleClose} />
+							<Filter form="salesMenuListFilter" handleClose={this.handleClose} applyFilter={this.applyFilter} />
 						</View>
 					</View>
 				</Modal>

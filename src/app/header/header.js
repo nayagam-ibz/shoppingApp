@@ -17,13 +17,13 @@ export class CustomHeader extends Component {
 		return (
 			<View>
 				{isHeader === 'home' ? (
-					<View style={{height: 65}}>
+					<View style={{height: 60}}>
 						<LinearGradient
 							start={{x: 0, y: 0.9}}
 							end={{x: 1, y: 0.1}}
 							colors={['#3B2D46', '#7B5996']}
-							style={[styles._headerGradient, {height: 65}]}>
-							<View style={[styles._innerHeader, {height: 25}]}>
+							style={[styles._headerGradient, {height: 60}]}>
+							<View style={[styles._innerHeader, {height: 20}]}>
 								<Text style={{flex: 1}}>
 									<TouchableOpacity
 										onPress={
@@ -74,7 +74,7 @@ export class CustomHeader extends Component {
 						start={{x: 0, y: 0.9}}
 						end={{x: 1, y: 0.1}}
 						colors={['#3B2D46', '#7B5996']}
-						style={[styles._headerGradient, {height: 50}]}>
+						style={[styles._headerGradient, {height: 45}]}>
 						<View style={[styles._innerHeader, {flex: 1}]}>
 							<View style={{flex: 1}}>
 								<TouchableOpacity
@@ -110,14 +110,15 @@ const styles = StyleSheet.create({
 	},
 
 	_titleApp: {
-		fontSize: 18,
+		fontSize: 20,
 		letterSpacing: 1,
 		fontFamily: 'Montserrat-ExtraBold',
 	},
 
 	_subTitleApp: {
-		fontSize: 18,
+		fontSize: 15,
 		fontFamily: 'Montserrat-Medium',
+		textTransform: 'uppercase'
 	},
 
 	_innerHeader: {

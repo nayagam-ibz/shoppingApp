@@ -62,18 +62,19 @@ const styles = StyleSheet.create({
     height: 25,
     position: 'absolute',
     right: 10,
-    bottom: 80,
+    bottom: 60,
     borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#fff',
-    elevation: 2,
+    borderColor: '#ddd',
+    elevation: 0,
   },
 
   _itemTitle: {
-    fontSize: 15,
+    fontSize: 13,
     fontFamily: 'Montserrat-SemiBold',
+    textTransform: 'uppercase'
   },
 
   _seeAllText: {
@@ -84,21 +85,19 @@ const styles = StyleSheet.create({
 
   _itemName: {
     color: '#333',
-    fontFamily: 'Montserrat-Medium',
-    paddingVertical: 2,
     fontSize: 14,
-    lineHeight: 18,
+    fontFamily: 'Montserrat-Medium',
   },
 
   _itemPrice: {
     fontSize: 16,
-    color: '#7B5996',
+    color: '#3B2D46',
     fontFamily: 'Montserrat-SemiBold',
   },
 
   _ratingView: {
     flexDirection: 'row',
-    marginTop: 5,
+    paddingVertical: 8
   },
 
   _ratingStyle: {
@@ -139,13 +138,14 @@ const styles = StyleSheet.create({
 
   _cataloguRow: {
     backgroundColor: '#fff',
-    paddingLeft: 10,
+    paddingLeft: 15,
     borderRadius: 3,
     justifyContent: 'space-between',
     height: 75,
     flexDirection: 'row',
     marginBottom: 15,
     elevation: 2,
+    alignItems:'center'
   },
 
   _catImage: {
@@ -166,9 +166,10 @@ const styles = StyleSheet.create({
   },
 
   _catalogueText: {
-    paddingTop: 28,
-    fontFamily: 'Montserrat-Medium',
+    fontFamily: 'Montserrat-SemiBold',
     color: '#3B2D46',
+    fontSize: 14,
+    textTransform: 'uppercase'
   },
 
   _catList: {
@@ -182,6 +183,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     paddingTop: 5,
+    textTransform: 'uppercase'
   },
 
   _menuPadding: {
@@ -191,7 +193,7 @@ const styles = StyleSheet.create({
 
   _catSubTitle: {
     fontFamily: 'Montserrat-Medium',
-    fontSize: 13,
+    fontSize: 15,
     color: '#7a7a7a',
   },
 
@@ -243,6 +245,7 @@ const styles = StyleSheet.create({
   _subTitleApp: {
     fontSize: 18,
     fontFamily: 'Montserrat-Medium',
+    textTransform: 'uppercase'
   },
 
   _clearText: {
@@ -287,15 +290,15 @@ const styles = StyleSheet.create({
   _detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: 8,
   },
 
   _detTitle: {
-    fontSize: 13,
-    fontFamily: 'Montserrat-Medium',
-    marginRight: 10,
-    color: '#3B2D46',
-    width: 100,
+    fontFamily: 'Montserrat-SemiBold',
+    color: '#333',
+    fontSize: 12,
+    width: 130,
+    textTransform: 'uppercase',
   },
 
   _detName: {
@@ -305,7 +308,7 @@ const styles = StyleSheet.create({
   },
 
   _detDes: {
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: 'Montserrat-Medium',
     color: '#7a7a7a',
     lineHeight: 20,
@@ -352,14 +355,15 @@ const styles = StyleSheet.create({
 
   _styleTitle: {
     fontFamily: 'Montserrat-Medium',
-    fontSize: 14,
-    color: '#3B2D46',
+    color: '#7a7a7a',
+    fontSize: 11,
+    textTransform: 'uppercase',
     marginBottom: 5,
   },
 
   _productTitle: {
     fontFamily: 'Montserrat-SemiBold',
-    fontSize: 15,
+    fontSize: 14,
     color: '#3B2D46',
     paddingVertical: 10,
   },
@@ -414,7 +418,7 @@ const styles = StyleSheet.create({
   _cartAttirubute: {
     fontSize: 11,
     fontFamily: 'Montserrat-Medium',
-    marginBottom: 2
+    marginBottom: 5,
   },
   _cartView: {
     flexDirection: 'row',
@@ -427,9 +431,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     flexShrink: 1,
-    marginTop: -12,
+    marginTop: -5,
     fontFamily: 'Montserrat-Medium',
-    paddingVertical: 5,
+    marginBottom: 10
   }
 });
 

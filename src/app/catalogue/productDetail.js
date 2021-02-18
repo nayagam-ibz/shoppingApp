@@ -45,8 +45,9 @@ class ProductDetail extends React.Component {
 
   render() {
     const {size, color} = this.state;
-    const {productDetail} = this.props;
+    const {productDetail, route} = this.props;
     const item = productDetail && productDetail;
+    // const { navigation, id } = route.params;
     return (
       <SafeAreaView style={Styles._container}>
         <Loader loading={this.state.loading} />
@@ -63,9 +64,9 @@ class ProductDetail extends React.Component {
               <View style={{paddingHorizontal: 10}}>
                 <View style={[Styles._spaceBetween, {paddingVertical: 8}]}>
                   <View style={Styles._ratingCart}>
-                    {this.state.maxRating.map((rating, key) => {
+                    {this.state.maxRating.map((rating, index) => {
                       return (
-                        <View activeOpacity={0.7} key={rating}>
+                        <View activeOpacity={0.7} key={index}>
                           <Image
                             source={
                               rating <= 4
@@ -81,9 +82,9 @@ class ProductDetail extends React.Component {
                   </View>
                   <Text style={Styles._inStock}>{item.availability}</Text>
                 </View>
-                <Text style={Styles._itemName}>{item.name}</Text>
-                <Text style={Styles._itemPrice}><FontAwesome name="rupee" size={16} color="#7B5996" /> {item.price}</Text>
-                <View style={{marginTop: 10}}>
+                <Text style={[Styles._itemName, {paddingVertical: 5, fontSize: 16}]}>{item.name}</Text>
+                <Text style={Styles._itemPrice}><FontAwesome name="rupee" size={15} color="#3B2D46" /> {item.price}</Text>
+                <View style={{marginTop: 15}}>
                   <Text style={Styles._styleTitle}>Colors</Text>
                   <View
                     style={[
@@ -114,7 +115,7 @@ class ProductDetail extends React.Component {
                       })}
                   </View>
                 </View>
-                <View style={{marginTop: 10}}>
+                <View style={{marginTop: 15}}>
                   <Text style={Styles._styleTitle}>Sizes</Text>
                   <View style={[Styles._sizeView, Styles._spaceBetween]}>
                     {item &&
@@ -142,7 +143,7 @@ class ProductDetail extends React.Component {
               <View style={Styles._vrLine} />
               <View style={{paddingHorizontal: 10, paddingVertical: 10}}>
                 <View style={Styles._productDetails}>
-                  <Text style={Styles._productTitle}>Product Details</Text>
+                  <Text style={Styles._productTitle}>PRODUCT DETAILS</Text>
                   <View style={Styles._detailRow}>
                     <Text style={Styles._detTitle}>Type</Text>
                     <Text style={Styles._detName}>{item.type}</Text>
@@ -185,7 +186,7 @@ class ProductDetail extends React.Component {
                   paddingVertical: 10,
                 }}>
                 <View style={Styles._productDetails}>
-                  <Text style={Styles._productTitle}>Product Description</Text>
+                  <Text style={Styles._productTitle}>PRODUCT DESCRIPTION</Text>
                   <Text style={Styles._detDes}>{item.description}</Text>
                 </View>
               </View>

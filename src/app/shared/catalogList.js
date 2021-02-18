@@ -20,7 +20,7 @@ class CatalogList extends Component {
             style={styles._flexRow}
             onPress={() => this.props.navigation_toggle()}>
             <Text style={styles._seeAllText}>See All</Text>
-            <Entypo name="chevron-small-right" size={20} color="#7a7a7a" />
+            <Entypo name="chevron-small-right" size={22} color="#7a7a7a" />
           </TouchableOpacity>
         </View>
         <View style={styles._spaceBetween}>
@@ -99,13 +99,14 @@ const styles = StyleSheet.create({
 
   _seeAllText: {
     fontFamily: 'Montserrat-Medium',
-    fontSize: 12,
+    fontSize: 14,
     color: '#7a7a7a',
   },
 
   _itemTitle: {
-    fontSize: 15,
+    fontSize: 13,
     fontFamily: 'Montserrat-SemiBold',
+    textTransform: 'uppercase'
   },
 
   _catalogue: {
@@ -119,12 +120,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     backgroundColor: '#3C2E48',
-    opacity: 0.5,
+    opacity: 0.7,
     borderRadius: 5,
   },
 
   _catalogWidget: {
-    width: 75,
+    width: 80,
     height: 70,
   },
 
@@ -137,8 +138,8 @@ const styles = StyleSheet.create({
 
   _catalogText: {
     color: '#fff',
-    fontSize: 12,
-    fontFamily: 'Montserrat-Medium',
+    fontSize: 13,
+    fontFamily: 'Montserrat-SemiBold',
     textAlign: 'center',
   },
 });

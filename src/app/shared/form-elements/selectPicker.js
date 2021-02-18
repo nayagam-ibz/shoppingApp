@@ -75,9 +75,10 @@ export default selectPicker;
 const styles = StyleSheet.create({
   _textLabel: {
     fontFamily: 'Montserrat-Medium',
-    fontSize: 12,
     color: '#7a7a7a',
-    marginBottom: 3,
+    fontSize: 11,
+    textTransform: 'uppercase',
+    marginBottom: 5,
   },
 
   _optionValue: {

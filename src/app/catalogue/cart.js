@@ -50,7 +50,7 @@ class Cart extends React.Component {
           <View style={Styles._productList}>
             <FlatList
               data={cartList && cartList}
-              keyExtractor={(item, index) => item.id}
+              keyExtractor={(item, index) => index}
               contentContainerStyle={Styles.container}
               renderItem={({item}) => (
                 <View style={Styles._cartView}>
@@ -71,13 +71,12 @@ class Cart extends React.Component {
                       <Text style={{color: '#7a7a7a'}}>SIZE :</Text>{' '}
                       {item.color}{' '}
                     </Text>
-                    <View style={[Styles._spaceBetween, {paddingVertical: 2}]}>
-                      <Text style={[Styles._itemPrice, {fontSize: 14}]}>
-                        {' '}
+                    <View style={[Styles._spaceBetween, {paddingVertical: 10}]}>
+                      <Text style={[Styles._itemPrice, {fontSize: 15}]}>
                         <FontAwesome
                           name="rupee"
-                          size={13}
-                          color="#7B5996"
+                          size={15}
+                          color="#3B2D46"
                         />{' '}
                         {item.price}
                       </Text>
@@ -98,7 +97,7 @@ class Cart extends React.Component {
         </ScrollView>
         <View style={[Styles._checkEnd, {height: 100}]}>
           <View style={[Styles._spaceBetween, {paddingVertical: 12}]}>
-            <Text style={Styles._pricText}>Total Price</Text>
+            <Text style={Styles._pricText}>TOTAL PRICE</Text>
             <Text style={[Styles._pricText, {fontSize: 16}]}>
               {' '}
               <FontAwesome name="rupee" size={15} color="#3B2D46" /> 239.98

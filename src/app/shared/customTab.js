@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -92,14 +93,18 @@ class DrawerContent extends Component {
                 testID={options.tabBarTestID}
                 onPress={onPress}
                 onLongPress={onLongPress}
-                style={{flex: 0.5, alignItems: 'center', paddingHorizontal: label === "Favourite" ? 10 : null }}>
+                style={{
+                  flex: 0.7,
+                  alignItems: 'center',
+                  paddingHorizontal: label === 'Favourite' ? 10 : null,
+                }}>
                 <Icons />
                 <Text
                   style={{
                     color: isFocused ? '#7B5996' : '#7a7a7a',
                     fontFamily: 'Montserrat-Medium',
-                    fontSize: 11,
-                    marginTop: 2
+                    fontSize: 12,
+                    marginTop: 2,
                   }}>
                   {label}
                 </Text>
@@ -107,25 +112,28 @@ class DrawerContent extends Component {
             );
           })}
           <LinearGradient
-              start={{x: 0, y: 0.9}}
-              end={{x: 1, y: 0.1}}
-              colors={['#3B2D46', '#7B5996']}
-               style={styles._cartItems}>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Cart')}
-                style={{flexDirection:'row', alignItems:'center'}}>
-                 <MaterialCommunityIcons
-                    name="cart-outline"
-                    size={25}
-                    style={{marginRight: 5, color:'#fff'}}
-                  /> 
-                <View>
-                  <Text style={styles._totalCartPrice}>$230.99</Text>
-                  <Text style={styles._totalCartPrice}>2 Items</Text>
-                </View>
-              </TouchableOpacity>
-              
-            </LinearGradient>
+            start={{x: 0, y: 0.9}}
+            end={{x: 1, y: 0.1}}
+            colors={['#3B2D46', '#7B5996']}
+            style={styles._cartItems}>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('Catalogue', {
+                  screen: 'Cart',
+                })
+              }
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <MaterialCommunityIcons
+                name="cart-outline"
+                size={20}
+                style={{marginRight: 5, color: '#fff'}}
+              />
+              <View>
+                <Text style={styles._totalCartPrice}><FontAwesome name="rupee" size={12} color="#fff" /> {''}230.99</Text>
+                <Text style={styles._totalCartPrice}>2 Items</Text>
+              </View>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
       </View>
     );
@@ -143,14 +151,15 @@ export default connect(mapStateToProps, {})(DrawerContent);
 const styles = StyleSheet.create({
   _cartItems: {
     backgroundColor: 'red',
-    width: 100,
-    paddingVertical: 6,
+    width: 85,
+    paddingVertical: 5,
     marginTop: -30,
+    height: 45,
     borderTopLeftRadius: 50,
     borderBottomLeftRadius: 50,
-    flexDirection:'row',
-    alignItems:'center',
-    paddingHorizontal: 10
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 7,
   },
 
   _flexRow: {
@@ -160,8 +169,8 @@ const styles = StyleSheet.create({
 
   _totalCartPrice: {
     fontFamily: 'Montserrat-Medium',
-    color:'#fff',
-    fontSize: 12
+    color: '#fff',
+    fontSize: 12,
   },
 
   _bottomHeader: {

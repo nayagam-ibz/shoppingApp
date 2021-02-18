@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 const selectPicker = (props) => {
-  const [value, setValue] = useState('Please Select value ');
+  const [value, setValue] = useState();
   const {
     meta: {touched, error},
     label,
@@ -77,9 +77,10 @@ const styles = StyleSheet.create({
 
   _textLable: {
     fontFamily: 'Montserrat-Medium',
-    fontSize: 12,
-    color: '#7a7a7a',
     marginBottom: 10,
+    color: '#7a7a7a',
+    fontSize: 11,
+    textTransform: 'uppercase',
   }
 
 });

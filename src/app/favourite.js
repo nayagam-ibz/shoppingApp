@@ -91,7 +91,7 @@ class Favourite extends Component {
 													})}
 												</View>
 												<Text style={Styles._itemName}>{item.name}</Text>
-												<Text style={Styles._itemPrice}><FontAwesome name="rupee" size={15} color="#7B5996" />{' '}{item.price}</Text>
+												<Text style={Styles._itemPrice}><FontAwesome name="rupee" size={15} color="#3B2D46" />{' '}{item.price}</Text>
 											</View>
 										</View>
 									</TouchableOpacity>

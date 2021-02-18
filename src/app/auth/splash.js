@@ -39,7 +39,7 @@ class Splash extends Component {
 							<TouchableOpacity
 								style={styles._getStarted_btn}
 								onPress={() => this.props.navigation.navigate('HomeApp')}>
-								<Text style={styles._btn_text}>Get Started</Text>
+								<Text style={styles._btn_text}>GET STARTED</Text>
 							</TouchableOpacity>
 						</LinearGradient>
 					</Animatable.View>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#41314E',
 		borderTopLeftRadius: 50,
 		borderTopRightRadius: 50,
-		paddingVertical: 120,
+		paddingVertical: 110,
 		paddingHorizontal: 50,
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -81,8 +81,9 @@ const styles = StyleSheet.create({
 	},
 
 	_titleApp: {
-		fontSize: 25,
-		marginBottom: 15,
+		fontSize: 30,
+		marginBottom: 25,
+		marginTop: 10,
 		fontFamily: 'Montserrat-ExtraBold',
 	},
 
@@ -90,13 +91,14 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		color: '#fff',
 		lineHeight: 20,
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'Montserrat-Medium',
 		paddingVertical: 5,
+		fontSize: 15
 	},
 
 	_btn_text: {
 		color: '#fff',
-		fontSize: 15,
+		fontSize: 14,
 		fontFamily: 'Montserrat-Medium',
 	},
 
@@ -108,6 +110,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginTop: 20,
-		marginBottom: 20,
+		marginBottom: 10,
 	},
 });

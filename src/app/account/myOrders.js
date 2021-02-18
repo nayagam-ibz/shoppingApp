@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
 	},
 
 	_itemName: {
-		fontSize: 13,
+		color: '#333',
+		fontSize: 14,
 		fontFamily: 'Montserrat-Medium',
 		flex: 1,
 	},
@@ -119,9 +120,10 @@ const styles = StyleSheet.create({
 	},
 
 	_itemProcess: {
-		fontSize: 13,
-		fontFamily: 'Montserrat-Medium',
+		fontSize: 12,
+		fontFamily: 'Montserrat-SemiBold',
 		flex: 0.3,
 		paddingLeft: 20,
+		textTransform: 'uppercase'
 	},
 });

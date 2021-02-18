@@ -39,7 +39,7 @@ class Categories extends React.Component {
                     <Text
                       style={[
                         styles._information_text,
-                        {color: catValue === item.name ? '#fff' : '#7B5996'},
+                        {color: catValue === item.name ? '#fff' : '#3B2D46'},
                       ]}>
                       {item.name}
                     </Text>
@@ -57,19 +57,19 @@ export default Categories;
 
 const styles = StyleSheet.create({
   _information_widget: {
-    paddingVertical: 3,
+    paddingVertical: 1,
     paddingHorizontal: 10,
     backgroundColor: '#fff',
     borderRadius: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 12,
-    marginRight: 8,
+    borderRadius: 10,
+    marginRight: 5,
     elevation: 0.6,
   },
 
   _information_text: {
-    fontSize: 11,
+    fontSize: 13,
     fontFamily: 'Montserrat-Medium',
   },
 });
