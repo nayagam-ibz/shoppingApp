@@ -1,0 +1,108 @@
+{
+  "product": {
+    "id": 1,
+    "name": "Oleh Chabanov",
+    "email": "tesing@yopmail.com",
+    "url": "https://www.shareicon.net/data/2016/07/26/802001_man_512x512.png",
+    "colors": [
+      {
+        "id": 1,
+        "name": "#34283E"
+      },
+      {
+        "id": 2,
+        "name": "#E29F99"
+      },
+      {
+        "id": 3,
+        "name": "#76B55A"
+      },
+      {
+        "id": 4,
+        "name": "#5D71E2"
+      },
+      {
+        "id": 5,
+        "name": "#B768B9"
+      },
+      {
+        "id": 6,
+        "name": "#E5D426"
+      }
+    ],
+
+    "length": [
+      {
+        "id": 1,
+        "name": "MINI"
+      },
+      {
+        "id": 2,
+        "name": "MIDI"
+      },
+      {"id": 3, "name": "MAXI"}
+    ],
+
+    "size": [
+      {
+        "id": 1,
+        "name": "XXS"
+      },
+      {
+        "id": 2,
+        "name": "XS"
+      },
+      {
+        "id": 3,
+        "name": "S"
+      },
+      {
+        "id": 4,
+        "name": "M"
+      },
+      {
+        "id": 5,
+        "name": "L"
+      },
+      {
+        "id": 6,
+        "name": "XL"
+      }
+    ],
+
+    "sortby": [
+      {
+        "id": 1,
+        "name": "What's New"
+      },
+      {
+        "id": 2,
+        "name": "Popularity"
+      },
+      {
+        "id": 3,
+        "name": "Better Discount"
+      },
+      {
+        "id": 4,
+        "name": "Price: High to low"
+      },
+      {
+        "id": 5,
+        "name": "Price: Low To High"
+      }
+    ],
+
+    "categories": [
+      {"id": 1, "name": "All"},
+      {"id": 2, "name": "Dress"},
+      {"id": 3, "name": "Tops"},
+      {"id": 4, "name": "Sweaters"},
+      {"id": 5, "name": "Jeans"},
+      {"id": 6, "name": "Kurtas"},
+      {"id": 7, "name": "Tshirts"},
+      {"id": 8, "name": "Track Pants"}
+    ]
+  },
+  "status": "ok"
+}

@@ -27,17 +27,17 @@ class AddItems extends React.Component {
       <View>
         <View style={styles._counterView}>
           <TouchableOpacity
-            style={styles._addItems}
-            onPress={() => this._plusQty()}>
-            <AntDesign name="plus" size={12} color="#333" />
+            onPress={() => this._minusQty()}
+            style={styles._addItems}>
+            <AntDesign name="minus" size={12} color="#333" />
           </TouchableOpacity>
           <View style={styles._addCounter}>
             <Text>{this.state.qty}</Text>
           </View>
           <TouchableOpacity
-            onPress={() => this._minusQty()}
-            style={styles._addItems}>
-            <AntDesign name="minus" size={12} color="#333" />
+            style={styles._addItems}
+            onPress={() => this._plusQty()}>
+            <AntDesign name="plus" size={12} color="#333" />
           </TouchableOpacity>
         </View>
       </View>
@@ -48,21 +48,27 @@ class AddItems extends React.Component {
 export default AddItems;
 
 const styles = StyleSheet.create({
+  _counterView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
   _addItems: {
-    width: 22,
-    height: 22,
+    width: 25,
+    height: 18,
     borderWidth: 1,
     borderColor: '#ddd',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
+    borderRadius: 2,
   },
 
   _addCounter: {
-    width: 25,
+    width: 30,
     textAlign: 'center',
     alignItems: 'center',
-    height: 25,
+    height: 18,
     justifyContent: 'center',
+    fontFamily: 'Montserrat-Medium',
   },
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
 	View,
 	Text,
@@ -8,43 +8,48 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
+import store from '../store/reducers';
+import {setInitialData} from '../../app/store/actions/products';
+import InitialData from '../../app/json/initialData.json';
 
-const SplashScreen = ({navigation}) => {
-	return (
-		<View style={styles.container}>
-			<ImageBackground
-				style={{flex: 1}}
-				source={{
-					uri:
-						'https://www.nicepng.com/png/full/8-88585_women-fashion-png-example-of-magazine-cover.png',
-				}}>
-				<View style={styles._headerSection}></View>
-				<Animatable.View animation="fadeInUpBig">
-					<LinearGradient
-						start={{x: 0, y: 0.85}}
-						end={{x: 1, y: 0.15}}
-						colors={['#3B2D46', '#7B5996']}
-						style={styles._footerSection}>
-						<View style={[styles._flexRow, {paddingBottom: 20}]}>
-							<Text style={[styles._titleApp, {color: '#E7B844'}]}>My</Text>
-							<Text style={[styles._titleApp, {color: '#fff'}]}>Shop</Text>
-						</View>
-						<Text style={styles._subTitleApp}>
-							Lorazepam, sold under the brand name Ativan among others
-						</Text>
-						<TouchableOpacity
-							style={styles._getStarted_btn}
-							onPress={() => navigation.navigate('HomeApp')}>
-							<Text style={styles._btn_text}>Get Started</Text>
-						</TouchableOpacity>
-					</LinearGradient>
-				</Animatable.View>
-			</ImageBackground>
-		</View>
-	);
-};
+class Splash extends Component {
+	componentDidMount() {
+		store.dispatch(setInitialData(InitialData));
+	}
+	render() {
+		return (
+			<View style={styles.container}>
+				<ImageBackground
+					source={require('../../../assets/images/cover.png')}
+					style={{flex: 1}}>
+					<View style={styles._headerSection}></View>
+					<Animatable.View animation="fadeInUpBig">
+						<LinearGradient
+							start={{x: 0, y: 0.85}}
+							end={{x: 1, y: 0.15}}
+							colors={['#3B2D46', '#7B5996']}
+							style={styles._footerSection}>
+							<View style={[styles._flexRow, {paddingBottom: 20}]}>
+								<Text style={[styles._titleApp, {color: '#E7B844'}]}>My</Text>
+								<Text style={[styles._titleApp, {color: '#fff'}]}>Shop</Text>
+							</View>
+							<Text style={styles._subTitleApp}>
+								Lorazepam, sold under the brand name Ativan among others
+							</Text>
+							<TouchableOpacity
+								style={styles._getStarted_btn}
+								onPress={() => this.props.navigation.navigate('HomeApp')}>
+								<Text style={styles._btn_text}>Get Started</Text>
+							</TouchableOpacity>
+						</LinearGradient>
+					</Animatable.View>
+				</ImageBackground>
+			</View>
+		);
+	}
+}
 
-export default SplashScreen;
+export default Splash;
 
 const styles = StyleSheet.create({
 	container: {

@@ -14,6 +14,7 @@ const selectPicker = (props) => {
     optionValue,
     onPress,
     optionType,
+    type,
     input: {onChange},
   } = props;
   onChange(value);
@@ -28,18 +29,18 @@ const selectPicker = (props) => {
         style={styles._textLable}>
         {label}
       </Text>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={{flexDirection: 'row', justifyContent: type === "length" ? null : 'space-between'}}>
         {optionValue &&
           optionValue.map((item, index) => {
             return (
               <TouchableOpacity
                 key={index}
                 onPress={() => onNavigation(item.name)}
-                style={{flexDirection: 'row'}}>
+                style={{flexDirection: 'row', marginRight: type ==="length" ? 15 : null}}>
                 {optionType && optionType === "size" ? (
                   <View
                     style={{
-                      width: 40,
+                      width: 45,
                       height: 32,
                       backgroundColor: value === item.name ? "orange" : '#fff',
                       borderRadius:2,

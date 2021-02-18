@@ -12,7 +12,7 @@ class Loader extends React.Component {
             visible={loading}
             color="#fff"
             overlayColor="rgba(0, 0, 0, 0.30)"
-            animation="slide"
+            animation="fade"
             textContent={textContent ? textContent : 'Loading...'}
             textStyle={{color: '#fff', fontSize: 14, fontFamily: 'Montserrat-Medium', marginTop: -50}}
           />

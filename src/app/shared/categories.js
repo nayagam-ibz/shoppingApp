@@ -7,18 +7,6 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-
-const categories = [
-  {id: 1, name: 'All'},
-  {id: 2, name: 'Dress'},
-  {id: 3, name: 'Tops'},
-  {id: 4, name: 'Sweaters'},
-  {id: 5, name: 'Jeans'},
-  {id: 6, name: 'Kurtas'},
-  {id: 7, name: 'Tshirts'},
-  {id: 8, name: 'Track Pants'},
-];
-
 class Categories extends React.Component {
   constructor(props) {
     super(props);
@@ -30,12 +18,13 @@ class Categories extends React.Component {
   };
   render() {
     const {catValue} = this.state;
+    const {initialData} = this.props;
     return (
       <View style={{paddingLeft: 10}}>
-        <View style={{paddingVertical: 12}}>
+        <View style={{marginTop: 20, marginBottom: 10}}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {categories &&
-              categories.map((item, index) => {
+            {initialData &&
+              initialData.map((item, index) => {
                 return (
                   <TouchableOpacity
                     key={index}
@@ -76,11 +65,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 12,
     marginRight: 8,
-    elevation: 0.5,
+    elevation: 0.6,
   },
 
   _information_text: {
-    fontSize: 11.5,
+    fontSize: 11,
     fontFamily: 'Montserrat-Medium',
   },
 });

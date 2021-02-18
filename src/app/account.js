@@ -13,9 +13,11 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {connect} from 'react-redux';
 
 class Account extends Component {
 	render() {
+		const {initialData} = this.props 
 		return (
 			<SafeAreaView style={styles._accountContainer}>
 				<LinearGradient
@@ -25,10 +27,7 @@ class Account extends Component {
 					style={styles._accountHeader}>
 					<View style={{flexDirection: 'row', alignItems: 'center'}}>
 						<Image
-							source={{
-								uri:
-									'https://www.shareicon.net/data/2016/07/26/802001_man_512x512.png',
-							}}
+							source={{uri: initialData && initialData.url}}
 							style={{
 								width: 70,
 								height: 70,
@@ -38,8 +37,8 @@ class Account extends Component {
 							}}
 						/>
 						<View style={{marginLeft: 15, flexDirection: 'column'}}>
-							<Text style={styles._userName}>Oleh Chabanov</Text>
-							<Text style={styles._userCaption}>+38 (099) 123 45 67</Text>
+							<Text style={styles._userName}>{initialData && initialData.name}</Text>
+							<Text style={styles._userCaption}>{initialData && initialData.email}</Text>
 						</View>
 					</View>
 					<TouchableOpacity style={styles._editProfile} onPress={() => this.props.navigation.navigate("Profile")}>
@@ -74,15 +73,6 @@ class Account extends Component {
 						/>
 						<Text style={styles._menuTitle}>My Orders</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles._accountMenu} onPress={() => this.props.navigation.navigate("Favourite")}>
-						<Entypo
-							name="heart-outlined"
-							size={20}
-							color="#3B2D46"
-							style={[styles._menuIcon, {marginLeft: -2}]}
-						/>
-						<Text style={styles._menuTitle}>Favorite</Text>
-					</TouchableOpacity>
 					<TouchableOpacity style={styles._accountMenu}>
 						<Feather
 							name="log-out"
@@ -98,7 +88,12 @@ class Account extends Component {
 	}
 }
 
-export default Account;
+
+const mapStateToProps = (state) => {
+	return {initialData: state.products.initialData};
+};
+
+export default connect(mapStateToProps, {})(Account);
 
 const styles = StyleSheet.create({
 	_accountContainer: {
@@ -107,7 +102,7 @@ const styles = StyleSheet.create({
 	},
 
 	_accountHeader: {
-		height: 100,
+		height: 120,
 		backgroundColor: '#3B2D46',
 		borderBottomRightRadius: 100,
 		paddingHorizontal: 10,
@@ -136,7 +131,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		position: 'absolute',
 		right: 10,
-		top: 40,
+		top: 60,
 		elevation: 2,
 	},
 

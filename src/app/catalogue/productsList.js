@@ -4,15 +4,14 @@ import {
 	View,
 	Image,
 	TouchableOpacity,
-	StyleSheet,
 	ScrollView,
-	ImageBackground,
 	FlatList,
 	Dimensions,
 	Modal,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomHeader from '../header/header';
 import SearchProdcut from '../shared/search';
 import Categories from '../shared/categories';
@@ -20,22 +19,14 @@ import {getProduct} from '../../app/store/actions/products';
 import {connect} from 'react-redux';
 import Loader from '../shared/loader';
 import Filter from '../shared/filter';
-import LinearGradient from 'react-native-linear-gradient';
-
-const sortby = [
-	{id: 1, name: "What's New"},
-	{id: 2, name: 'Popularity'},
-	{id: 3, name: 'Better Discount'},
-	{id: 4, name: 'Price: High to low'},
-	{id: 5, name: 'Price: Low To High'},
-];
+import Styles from '../../../assets/style';
 
 class CataloguMenuDetail extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			maxRating: [1, 2, 3, 4, 5],
-			loading: false,
+			loading: true,
 			sortyBy: 'Featured',
 			modalVisible: false,
 		};
@@ -43,6 +34,7 @@ class CataloguMenuDetail extends Component {
 
 	componentDidMount() {
 		this.props.getProduct();
+		setTimeout(() => this.setState({loading: false}), 2000);
 	}
 
 	openSheet = () => {
@@ -58,12 +50,16 @@ class CataloguMenuDetail extends Component {
 		this.setState({modalVisible: visible});
 	};
 
+	handleClose = () => {
+		this.setState({modalVisible: false});
+	};
+
 	render() {
 		const {maxRating} = this.state;
-		const {productsList} = this.props;
-		const headertitle = this.props.route.params.user;
+		const {productsList, initialData} = this.props;
+		const headertitle = this.props.route.params && this.props.route.params.user;
 		return (
-			<View style={styles._container}>
+			<View style={Styles._container}>
 				<Loader loading={this.state.loading} />
 				<CustomHeader
 					navigation={this.props.navigation}
@@ -72,22 +68,22 @@ class CataloguMenuDetail extends Component {
 					name="Catalogue"
 					headertitle={headertitle}
 					filterIcon={true}
-					filterOption={() => this.setModalVisible(true)}
+					filterModal={() => this.setModalVisible(true)}
 				/>
 				<SearchProdcut />
 				<ScrollView>
-					<Categories />
-					<View style={styles._itemWrapper}>
-						<View style={[styles._spaceBetween, {paddingVertical: 15}]}>
-							<Text style={[styles._itemTitle, {paddingLeft: 10}]}>
+					<Categories initialData={initialData && initialData.categories}/>
+					<View style={Styles._itemWrapper}>
+						<View style={[Styles._spaceBetween, {marginBottom:10}]}>
+							<Text style={[Styles._itemTitle, {paddingLeft: 10}]}>
 								{productsList && productsList.length} Items
 							</Text>
 							<TouchableOpacity
 								onPress={this.openSheet}
-								style={styles._flexRow}>
-								<Text style={styles._sortText}>Sort by</Text>
+								style={Styles._flexRow}>
+								<Text style={Styles._sortText}>Sort by</Text>
 								<Text>:</Text>
-								<Text style={styles._sortValue}>{this.state.sortyBy}</Text>
+								<Text style={Styles._sortValue}>{this.state.sortyBy}</Text>
 							</TouchableOpacity>
 						</View>
 
@@ -95,22 +91,27 @@ class CataloguMenuDetail extends Component {
 							<FlatList
 								data={productsList && productsList}
 								keyExtractor={(item, index) => index}
-								contentContainerStyle={styles.container}
+								contentContainerStyle={Styles.container}
 								numColumns={2}
 								renderItem={({item}) => (
 									<View style={{flex: 1}}>
 										<TouchableOpacity
-											style={styles._listItem}
+											style={Styles._listItem}
 											onPress={() =>
 												this.props.navigation.navigate('ProductDetail')
 											}>
-											<View style={styles._itemWidget}>
+											<View style={Styles._itemWidget}>
 												<Image
 													source={require('../../../assets/images/img1.png')}
-													style={{width: '100%', height: 180, borderRadius: 3}}
+													style={{
+														width: '100%',
+														height: 180,
+														borderRadius: 3,
+														resizeMode: 'contain',
+													}}
 												/>
 											</View>
-											<TouchableOpacity style={styles._itemFavourite}>
+											<TouchableOpacity style={Styles._itemFavourite}>
 												<Entypo
 													name={
 														item.favourite === true ? 'heart' : 'heart-outlined'
@@ -121,24 +122,24 @@ class CataloguMenuDetail extends Component {
 												/>
 											</TouchableOpacity>
 											<View style={{paddingHorizontal: 5}}>
-												<View style={styles._ratingView}>
+												<View style={Styles._ratingView}>
 													{this.state.maxRating.map((rating, key) => {
 														return (
 															<View activeOpacity={0.7} key={rating}>
 																<Image
 																	source={
-																		rating <= item.rating_count
+																		rating <= item.ratingCount
 																			? require('../../../assets/images/star_filled.png')
 																			: require('../../../assets/images/star_corner.png')
 																	}
-																	style={styles._ratingStyle}
+																	style={Styles._ratingStyle}
 																/>
 															</View>
 														);
 													})}
 												</View>
-												<Text style={styles._itemName}>{item.name}</Text>
-												<Text style={styles._itemPrice}>${item.price}</Text>
+												<Text style={Styles._itemName}>{item.name}</Text>
+												<Text style={Styles._itemPrice}><FontAwesome name="rupee" size={15} color="#7B5996" />{' '}{item.price}</Text>
 											</View>
 										</TouchableOpacity>
 									</View>
@@ -162,16 +163,16 @@ class CataloguMenuDetail extends Component {
 							borderTopRightRadius: 15,
 						},
 					}}>
-					<View style={styles._catList}>
+					<View style={Styles._catList}>
 						<FlatList
-							data={sortby}
+							data={initialData && initialData.sortby}
 							keyExtractor={(item, index) => index}
-							contentContainerStyle={styles.container}
+							contentContainerStyle={Styles.container}
 							renderItem={({item}) => (
 								<TouchableOpacity
-									style={styles._selectItem}
+									style={Styles._selectItem}
 									onPress={() => this.selctItem(item.name)}>
-									<Text style={styles._selectText}>{item.name}</Text>
+									<Text style={Styles._selectText}>{item.name}</Text>
 								</TouchableOpacity>
 							)}
 						/>
@@ -181,37 +182,9 @@ class CataloguMenuDetail extends Component {
 					animationType="fade"
 					transparent={true}
 					visible={this.state.modalVisible}>
-					<View style={styles._centeredView}>
-						<View style={styles._fullView}>
-							<LinearGradient
-								start={{x: 0, y: 0.9}}
-								end={{x: 1, y: 0.1}}
-								colors={['#3B2D46', '#7B5996']}
-								style={[
-									styles._headerGradient,
-									{height: 50, justifyContent: 'center', paddingHorizontal: 10},
-								]}>
-								<View style={styles._spaceBetween}>
-									<TouchableOpacity onPress={() => this.setModalVisible(false)}>
-										<Entypo
-											name="chevron-small-left"
-											size={35}
-											color="#fff"
-											style={{marginLeft: -10}}
-										/>
-									</TouchableOpacity>
-									<Text style={[styles._subTitleApp, {color: '#fff'}]}>
-										Filter
-									</Text>
-									<TouchableOpacity>
-										<Text style={styles._clearText}>Clear</Text>
-									</TouchableOpacity>
-								</View>
-							</LinearGradient>
-							<View
-								style={{paddingHorizontal: 10, paddingVertical: 10, flex: 1}}>
-								<Filter />
-							</View>
+					<View style={Styles._centeredView}>
+						<View style={Styles._fullView}>
+							<Filter handleClose={this.handleClose} />
 						</View>
 					</View>
 				</Modal>
@@ -221,163 +194,10 @@ class CataloguMenuDetail extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return {productsList: state.products.productsList};
+	return {
+		productsList: state.products.productsList,
+		initialData: state.products.initialData,
+	};
 };
 
 export default connect(mapStateToProps, {getProduct})(CataloguMenuDetail);
-
-const styles = StyleSheet.create({
-	_container: {
-		flex: 1,
-		backgroundColor: '#F3F3F3',
-	},
-
-	_listItem: {
-		maxWidth: Dimensions.get('window').width / 2,
-		flex: 0.3,
-		marginBottom: 20,
-		borderRadius: 4,
-		marginRight: 0,
-		paddingLeft: 10,
-	},
-
-	_itemWrapper: {
-		flex: 1,
-		paddingLeft: 0,
-		paddingRight: 10,
-	},
-
-	_itemsRow: {
-		marginBottom: 20,
-		flexDirection: 'row',
-		color: '#fff',
-		alignItems: 'center',
-		justifyContent: 'space-evenly',
-	},
-
-	_flexRow: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-
-	_spaceBetween: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-	},
-
-	_itemWidget: {
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-		borderRadius: 5,
-	},
-
-	_itemFavourite: {
-		backgroundColor: '#fff',
-		width: 25,
-		height: 25,
-		position: 'absolute',
-		right: 10,
-		bottom: 62,
-		borderRadius: 50,
-		alignItems: 'center',
-		justifyContent: 'center',
-		borderWidth: 1,
-		borderColor: '#eee',
-	},
-
-	_itemTitle: {
-		fontSize: 15,
-		fontFamily: 'Montserrat-SemiBold',
-	},
-
-	_seeAllText: {
-		fontFamily: 'Montserrat-Medium',
-		fontSize: 12,
-		color: '#7a7a7a',
-	},
-
-	_itemName: {
-		color: '#000',
-		fontFamily: 'Montserrat-Medium',
-		fontSize: 12,
-		paddingVertical: 5,
-	},
-
-	_itemPrice: {
-		color: '#7B5996',
-		fontFamily: 'Montserrat-Medium',
-		fontSize: 12.5,
-		paddingVertical: 5,
-	},
-
-	_ratingView: {
-		flexDirection: 'row',
-		marginTop: 5,
-	},
-
-	_ratingStyle: {
-		width: 12,
-		height: 12,
-		marginRight: 5,
-		resizeMode: 'cover',
-	},
-
-	_selectItem: {
-		paddingVertical: 10,
-		textAlign: 'center',
-		alignItems: 'center',
-	},
-
-	_selectText: {
-		fontSize: 12,
-		fontFamily: 'Montserrat-Medium',
-		color: '#7a7a7a',
-	},
-
-	_sortText: {
-		color: '#7a7a7a',
-		fontFamily: 'Montserrat-Medium',
-		fontSize: 12,
-		marginRight: 5,
-	},
-
-	_sortValue: {
-		color: '#3B2D46',
-		fontFamily: 'Montserrat-SemiBold',
-		fontSize: 12,
-		marginLeft: 5,
-	},
-
-	_modalView: {
-		margin: 0,
-		backgroundColor: 'white',
-		borderRadius: 0,
-		padding: 10,
-		height: '90%',
-	},
-
-	_centeredView: {
-		flex: 1,
-		backgroundColor: 'rgba(0,0,0,0.5)',
-	},
-
-	_fullView: {
-		height: '100%',
-		marginTop: 'auto',
-		backgroundColor: '#F3F3F3',
-	},
-
-	_subTitleApp: {
-		fontSize: 18,
-		fontFamily: 'Montserrat-Medium',
-	},
-
-	_clearText: {
-		fontSize: 12,
-		fontFamily: 'Montserrat-Medium',
-		color: '#fff',
-	},
-});

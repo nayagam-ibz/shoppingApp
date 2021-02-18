@@ -29,16 +29,30 @@ class Checkout extends React.Component {
     this.props.getCart();
   }
 
+  goOrders = () => {
+    this.setState({modalVisible: false});
+    this.props.navigation.navigate('Signin');
+  };
+
+  goProductDetail = () => {
+     this.setState({modalVisible: false});
+    this.props.navigation.navigate('ProductDetail');
+  }
+
   render() {
     const {cartList} = this.props;
     const {modalVisible} = this.state;
+    const id =  this.props.route.params && this.props.route.params.id;
+    const navigation =  this.props.route.params && this.props.route.params.navigation
+    console.log(navigation)
+    console.log(id)
     return (
       <View style={styles._container}>
         <CustomHeader
           navigation={this.props.navigation}
           isHeader="Checkout"
           isBack="isBack"
-          name="ProductDetail"
+          name={navigation && navigation ? "Home" : "ProductDetail"}
         />
         <SafeAreaView>
           <View style={styles._paymentView}>
@@ -51,7 +65,6 @@ class Checkout extends React.Component {
               />
               <Text style={styles._addressTitle}>Shipping Address</Text>
             </View>
-
             <View style={styles._addressView}>
               <View
                 style={[
@@ -65,7 +78,9 @@ class Checkout extends React.Component {
                   </Text>
                 </View>
                 <View style={{flex: 1}}>
-                  <TouchableOpacity style={styles._flexRow} onPress={() => this.props.navigation.navigate("Aaddress")}>
+                  <TouchableOpacity
+                    style={styles._flexRow}
+                    onPress={() => this.props.navigation.navigate('Aaddress')}>
                     <Text style={styles._onChangeText}>Change</Text>
                     <Entypo
                       name="chevron-small-right"
@@ -94,7 +109,7 @@ class Checkout extends React.Component {
           <TouchableOpacity
             style={styles._cartBtn}
             onPress={() => this.setModalVisible(true)}>
-            <Text style={[styles._cartText, {textAlign: 'center'}]}>Pay</Text>
+            <Text style={[styles._cartText, {textAlign: 'center'}]}>PAY</Text>
           </TouchableOpacity>
         </View>
 
@@ -132,12 +147,14 @@ class Checkout extends React.Component {
                   Your order will be delivered soon. It can be tracked in thie
                   "Orders" section
                 </Text>
-                <TouchableOpacity style={styles._cartBtn} onPress={() => this.props.navigation.navigate("ProductDetail")}>
+                <TouchableOpacity
+                  style={styles._cartBtn}
+                  onPress={this.goProductDetail}>
                   <Text style={[styles._cartText, {textAlign: 'center'}]}>
                     Continue Shopping
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=> this.props.navigation.navigate("Signin")}>
+                <TouchableOpacity onPress={this.goOrders}>
                   <Text style={[styles._goOrdes, {textAlign: 'center'}]}>
                     Go To Orders
                   </Text>

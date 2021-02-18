@@ -5,8 +5,6 @@ import {
 	SafeAreaView,
 	TouchableOpacity,
 	Image,
-	Dimensions,
-	StyleSheet,
 	FlatList,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -14,15 +12,18 @@ import CustomHeader from './header/header';
 import SearchProdcut from './shared/search';
 import {getCatalogue, getCatalogueMenu} from '../app/store/actions/products';
 import {connect} from 'react-redux';
+import Loader from './shared/loader';
+import Styles from '../../assets/style';
 
 class Catalogue extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {getTitle: ''};
+		this.state = {getTitle: '', loading: true};
 	}
 
 	componentDidMount() {
 		this.props.getCatalogue();
+		setTimeout(() => this.setState({loading: false}), 2000);
 	}
 
 	openSheet = (name, id) => {
@@ -40,21 +41,22 @@ class Catalogue extends Component {
 		const {catalogueList, catalogueMenu} = this.props;
 		return (
 			<SafeAreaView>
+			  <Loader loading={this.state.loading} />
 				<CustomHeader navigation={this.props.navigation} isHeader="home" isBack="isBack" headertitle="Catalogue" name="Home" />
 				<SearchProdcut />
-				<View style={styles._catalogueList}>
+				<View style={Styles._catalogueList}>
 					<FlatList
 						data={catalogueList && catalogueList}
 						keyExtractor={(item, index) => item.name}
-						contentContainerStyle={styles.container}
+						contentContainerStyle={Styles.container}
 						renderItem={({item}) => (
 							<TouchableOpacity
-								style={styles._cataloguRow}
+								style={Styles._cataloguRow}
 								onPress={() => this.openSheet(item.name, item.id)}>
-								<Text style={styles._catalogueText}>{item.name}</Text>
-								<View style={styles._catImage}>
+								<Text style={Styles._catalogueText}>{item.name}</Text>
+								<View style={Styles._catImage}>
 									<Image
-										style={styles._imageStyle}
+										style={Styles._imageStyle}
 										source={require('../../assets/images/women.jpg')}
 									/>
 								</View>
@@ -76,17 +78,17 @@ class Catalogue extends Component {
 							borderTopRightRadius: 15,
 						},
 					}}>
-					<View style={styles._catList}>
-						<Text style={styles._catTitle}>{this.state.getTitle}</Text>
+					<View style={Styles._catList}>
+						<Text style={Styles._catTitle}>{this.state.getTitle}</Text>
 						<View style={{marginTop: 10}}>
 							{catalogueMenu &&
 								catalogueMenu.map((item) => {
 									return (
 										<TouchableOpacity
 											key={item.id}
-											style={styles._menuPadding}
+											style={Styles._menuPadding}
 											onPress={() => this.onNavigation(item.name)}>
-											<Text style={styles._catSubTitle}>{item.name}</Text>
+											<Text style={Styles._catSubTitle}>{item.name}</Text>
 										</TouchableOpacity>
 									);
 								})}
@@ -109,66 +111,3 @@ export default connect(mapStateToProps, {getCatalogue, getCatalogueMenu})(
 	Catalogue,
 );
 
-const styles = StyleSheet.create({
-	_catalogueList: {
-		marginTop: 10,
-		paddingHorizontal: 10,
-	},
-
-	_cataloguRow: {
-		backgroundColor: '#fff',
-		paddingLeft: 10,
-		borderRadius: 3,
-		justifyContent: 'space-between',
-		height: 75,
-		flexDirection: 'row',
-		marginBottom: 15,
-		elevation: 2,
-	},
-
-	_catImage: {
-		backgroundColor: '#f3f3f3',
-		width: 110,
-		height: 75,
-		borderTopRightRadius: 5,
-		borderBottomRightRadius: 5,
-	},
-
-	_imageStyle: {
-		width: 110,
-		height: 75,
-		resizeMode: 'contain',
-		borderTopRightRadius: 5,
-		borderBottomRightRadius: 5,
-	},
-
-	_catalogueText: {
-		paddingTop: 28,
-		fontFamily: 'Montserrat-Medium',
-		color: '#3B2D46',
-	},
-
-	_catList: {
-		paddingHorizontal: 20,
-		paddingVertical: 10,
-	},
-
-	_catTitle: {
-		fontFamily: 'Montserrat-SemiBold',
-		color: '#7B5996',
-		fontSize: 14,
-		textAlign: 'center',
-		paddingTop: 10,
-	},
-
-	_menuPadding: {
-		paddingVertical: 5,
-		marginBottom: 8,
-	},
-
-	_catSubTitle: {
-		fontFamily: 'Montserrat-Medium',
-		fontSize: 13,
-		color: '#7a7a7a',
-	},
-});

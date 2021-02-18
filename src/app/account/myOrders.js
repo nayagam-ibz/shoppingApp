@@ -2,18 +2,28 @@ import React from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomHeader from '../header/header';
-import { getMyOrders } from '../../app/store/actions/products';
-import { connect } from 'react-redux';
+import {getMyOrders} from '../../app/store/actions/products';
+import {connect} from 'react-redux';
+import Loader from '../shared/loader';
 
 class MyOrders extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			loading: true,
+		};
+	}
+
 	componentDidMount() {
 		this.props.getMyOrders();
+		setTimeout(() => this.setState({loading: false}), 2000);
 	}
 
 	render() {
 		const {Myorders} = this.props;
 		return (
 			<View style={styles.container}>
+				<Loader loading={this.state.loading} />
 				<CustomHeader
 					navigation={this.props.navigation}
 					isHeader="My Orders"

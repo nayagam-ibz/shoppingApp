@@ -5,27 +5,30 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  StyleSheet,
   ScrollView,
   FlatList,
 } from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomHeader from '../header/header';
 import AddItem from '../shared/addItem';
 import {getCart} from '../../app/store/actions/products';
 import {connect} from 'react-redux';
+import Styles from '../../../assets/style';
+import Loader from '../shared/loader';
 
 class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       maxRating: [1, 2, 3, 4, 5],
+      loading: false,
     };
   }
 
   componentDidMount() {
     this.props.getCart();
+    setTimeout(() => this.setState({loading: false}), 2000);
   }
 
   _navigate = () => {
@@ -34,51 +37,58 @@ class Cart extends React.Component {
 
   render() {
     const {cartList} = this.props;
-    console.log(cartList);
     return (
-      <View style={styles._container}>
+      <SafeAreaView style={Styles._container}>
+        <Loader loading={this.state.loading} />
         <CustomHeader
           navigation={this.props.navigation}
           isHeader="Cart"
           isBack="isBack"
           name="ProductDetail"
         />
-        <ScrollView style={{paddingHorizontal: 10}}>
-          <View style={styles._productList}>
+        <ScrollView>
+          <View style={Styles._productList}>
             <FlatList
               data={cartList && cartList}
               keyExtractor={(item, index) => item.id}
-              contentContainerStyle={styles.container}
+              contentContainerStyle={Styles.container}
               renderItem={({item}) => (
-                <View
-                  style={[
-                    styles._spaceBetween,
-                    {
-                      backgroundColor: '#fff',
-                      marginBottom: 2,
-                      alignItems: 'center',
-                      paddingHorizontal: 10,
-                    },
-                  ]}>
-                  <View style={[styles._imageView, {flex: 0.5}]}>
-                    <Image
-                      source={require('../../../assets/images/women.jpg')}
-                      resizeMode="stretch"
-                      style={styles._productImage}
-                    />
-                  </View>
-                  <View style={{flex: 2}}>
-                    <View style={{paddingHorizontal: 15}}>
-                      <Text style={styles._productName}>
-                        A Stylish Women Open Front Long Sleeve Chunky Knit
-                        Cardigant
-                      </Text>
-                      <Text style={styles._itemPrice}>$89.99</Text>
+                <View style={Styles._cartView}>
+                  <Image
+                    source={require('../../../assets/images/women.jpg')}
+                    resizeMode="stretch"
+                    style={Styles._productImage}
+                  />
+                  <View style={{marginLeft:8, flex: 1}}>
+                    <View style={Styles._cartRow}>
+                      <Text style={Styles._itemName}>{item.name} </Text>
                     </View>
-                  </View>
-                  <View style={{flex: 0.2}}>
-                    <View style={{paddingHorizontal: 5}}>
+                    <Text style={Styles._cartAttirubute}>
+                      <Text style={{color: '#7a7a7a'}}>COLOR : </Text>{' '}
+                      {item.size}{' '}
+                    </Text>
+                    <Text style={Styles._cartAttirubute}>
+                      <Text style={{color: '#7a7a7a'}}>SIZE :</Text>{' '}
+                      {item.color}{' '}
+                    </Text>
+                    <View style={[Styles._spaceBetween, {paddingVertical: 2}]}>
+                      <Text style={[Styles._itemPrice, {fontSize: 14}]}>
+                        {' '}
+                        <FontAwesome
+                          name="rupee"
+                          size={13}
+                          color="#7B5996"
+                        />{' '}
+                        {item.price}
+                      </Text>
                       <AddItem />
+                      <TouchableOpacity>
+                        <MaterialCommunityIcons
+                          name="delete-variant"
+                          size={22}
+                          color="red"
+                        />
+                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
@@ -86,18 +96,21 @@ class Cart extends React.Component {
             />
           </View>
         </ScrollView>
-        <View style={styles._flexEnd}>
-          <View style={[styles._spaceBetween, {paddingVertical: 12}]}>
-            <Text style={styles._pricText}>Total Price</Text>
-            <Text style={styles._pricText}>$239.98</Text>
+        <View style={[Styles._checkEnd, {height: 100}]}>
+          <View style={[Styles._spaceBetween, {paddingVertical: 12}]}>
+            <Text style={Styles._pricText}>Total Price</Text>
+            <Text style={[Styles._pricText, {fontSize: 16}]}>
+              {' '}
+              <FontAwesome name="rupee" size={15} color="#3B2D46" /> 239.98
+            </Text>
           </View>
-          <TouchableOpacity style={styles._cartBtn} onPress={this._navigate}>
-            <Text style={[styles._cartText, {textAlign: 'center'}]}>
-              Check Out
+          <TouchableOpacity style={Styles._cartBtn} onPress={this._navigate}>
+            <Text style={[Styles._cartText, {textAlign: 'center'}]}>
+              CHECK OUT
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -107,83 +120,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {getCart})(Cart);
-
-const styles = StyleSheet.create({
-  _container: {
-    flex: 1,
-    backgroundColor: '#F3F3F3',
-  },
-
-  _spaceBetween: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-
-  _productList: {
-    paddingVertical: 2,
-  },
-
-  _flexEnd: {
-    width: '100%',
-    backgroundColor: '#fff',
-    position: 'absolute',
-    bottom: 0,
-    height: 100,
-    borderWidth: 1,
-    borderColor: '#eee',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingHorizontal: 15,
-    justifyContent: 'center',
-  },
-
-  _cartBtn: {
-    backgroundColor: 'orange',
-    paddingHorizontal: 70,
-    paddingVertical: 10,
-    borderRadius: 3,
-    marginBottom: 15,
-  },
-
-  _itemPrice: {
-    fontSize: 15,
-    fontFamily: 'Montserrat-SemiBold',
-    marginTop: 5,
-  },
-
-  _pricText: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 14,
-    color: '#3B2D46',
-  },
-
-  _cartText: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 14,
-    color: '#fff',
-  },
-
-  _productName: {
-    fontFamily: 'Montserrat-Medium',
-    fontSize: 11,
-    lineHeight: 20,
-    marginBottom: 3,
-  },
-
-  _imageView: {
-    width: 100,
-    height: 100,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  _productImage: {
-    height: 70,
-    width: 70,
-    borderWidth: 1,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

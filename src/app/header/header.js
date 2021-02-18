@@ -61,7 +61,7 @@ export class CustomHeader extends Component {
 								</Text>
 								<Text style={{flex: 1, textAlign: 'right'}}>
 									<TouchableOpacity
-										onPress={isBack && isBack ? this.props.filterOption : null}>
+										onPress={isBack && isBack ? this.props.filterModal : null}>
 										{filterIcon && filterIcon ? <Entypo name="sound-mix" size={22} color="#fff" /> : null} 
 										{notificationIcon && notificationIcon ? <MaterialIcons name="md-notifications-outline" size={25} color="#fff" /> : null} 
 									</TouchableOpacity>

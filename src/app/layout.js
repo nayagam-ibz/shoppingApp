@@ -25,11 +25,8 @@ import SignUp from './catalogue/signup';
 import MyOrders from './account/myOrders';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-
 const Tab = createBottomTabNavigator();
-
 const HomeStack = createStackNavigator();
-
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator
@@ -37,19 +34,11 @@ function HomeStackScreen() {
       screenOptions={{
         headerShown: false,
       }}>
-      <HomeStack.Screen
-        name="Home"
-        component={Dashboard}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
+      <HomeStack.Screen name="Home" component={Dashboard} />
     </HomeStack.Navigator>
   );
 }
-
 const CatalogueStack = createStackNavigator();
-
 function CatalogueStackScreen({navigation, route}) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? '';
   if (
@@ -65,76 +54,24 @@ function CatalogueStackScreen({navigation, route}) {
   } else {
     navigation.setOptions({tabBarVisible: true});
   }
-
   return (
     <CatalogueStack.Navigator
       initialRouteName="Setting"
       screenOptions={{
         headerShown: false,
       }}>
-      <CatalogueStack.Screen
-        name="Catalogue"
-        component={Catalogue}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
-      <CatalogueStack.Screen
-        name="Categories"
-        component={ProductsList}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
-      <CatalogueStack.Screen
-        name="ProductDetail"
-        component={ProductDetail}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
-      <CatalogueStack.Screen
-        name="Cart"
-        component={Cart}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
-      <CatalogueStack.Screen
-        name="Checkout"
-        component={Checkout}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
-      <CatalogueStack.Screen
-        name="Signin"
-        component={SignIn}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
-      <CatalogueStack.Screen
-        name="Signup"
-        component={SignUp}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
-
-      <CatalogueStack.Screen
-        name="Myorders"
-        component={MyOrders}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
-      
+      <CatalogueStack.Screen name="Catalogue" component={Catalogue} />
+      <CatalogueStack.Screen name="Categories" component={ProductsList} />
+      <CatalogueStack.Screen name="ProductDetail" component={ProductDetail} />
+      <CatalogueStack.Screen name="Cart" component={Cart} />
+      <CatalogueStack.Screen name="Checkout" component={Checkout} />
+      <CatalogueStack.Screen name="Signin" component={SignIn} />
+      <CatalogueStack.Screen name="Signup" component={SignUp} />
+      <CatalogueStack.Screen name="Myorders" component={MyOrders} />
     </CatalogueStack.Navigator>
   );
 }
 const FavouriteStack = createStackNavigator();
-
 function FavouriteStackScreen() {
   return (
     <FavouriteStack.Navigator
@@ -146,9 +83,7 @@ function FavouriteStackScreen() {
     </FavouriteStack.Navigator>
   );
 }
-
 const AccountStack = createStackNavigator();
-
 function AccountStackScreen({navigation, route}) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? '';
   if (routeName === 'Profile' || routeName === 'Aaddress') {
@@ -165,14 +100,10 @@ function AccountStackScreen({navigation, route}) {
       <AccountStack.Screen name="Account" component={Account} />
       <AccountStack.Screen name="Profile" component={UserProfile} />
       <AccountStack.Screen name="Aaddress" component={NewAddress} />
-      <AccountStack.Screen
-        name="Myorders"
-        component={MyOrders}
-      />
+      <AccountStack.Screen name="Myorders" component={MyOrders} />
     </AccountStack.Navigator>
   );
 }
-
 function TabNavigator() {
   return (
     <SafeAreaProvider>
@@ -185,21 +116,17 @@ function TabNavigator() {
     </SafeAreaProvider>
   );
 }
-
 const Drawer = createDrawerNavigator();
-
 function DrawerNavigation() {
   return (
     <Drawer.Navigator
       initialRouteName="MenuTab"
-      drawerContent={(props) => CustomDrawer(props)}>
+      drawerContent={(props) => <CustomDrawer {...props} />}>
       <Drawer.Screen name="MenuTab" component={TabNavigator} />
     </Drawer.Navigator>
   );
 }
-
 const StackApp = createStackNavigator();
-
 export default function App() {
   return (
     <SafeAreaProvider>

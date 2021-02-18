@@ -5,28 +5,36 @@ import {
 	GET_CART,
 	MY_ORDERS,
 	GET_PRODUCT_DETAIL,
+	INITIAL_DATA,
+	GET_FAVOURITE
 } from '../actions/types';
 import {handleResponse} from '../../utils/Axios';
 
 export default function handleUsers(state = {}, action) {
 	switch (action.type) {
 		case All_PRODUCTS:
-			return {...state, productsList: action.payload.data.Products.products};
-
+			return {...state, productsList: handleResponse(action.payload).products};
+		case GET_FAVOURITE:
+			return {...state, allFavourite: handleResponse(action.payload).products};
 		case ALL_CATALOGUE:
-			return {...state, catalogueList: action.payload.data.Catalogue.catalogue};
-
+			return {
+				...state,
+				catalogueList: handleResponse(action.payload).catalogue,
+			};
 		case CATALOGUE_MENU:
 			return {
 				...state,
-				catalogueMenu: action.payload.data.CatalogueMenu.catalogue,
+				catalogueMenu: handleResponse(action.payload).catalogue,
 			};
 		case GET_CART:
-			return {...state, cartList: action.payload.data.Cart.cart};
+			return {...state, cartList: handleResponse(action.payload).cart};
 		case MY_ORDERS:
-			return {...state, myorders: action.payload.data.Orders.orders};
+			return {...state, myorders: handleResponse(action.payload).orders};
 		case GET_PRODUCT_DETAIL:
-			return {...state, productDetail: action.payload.data.Detail.product};
+		  console.log(action.payload.data)
+			return {...state, productDetail: handleResponse(action.payload).product};
+		case INITIAL_DATA:
+			return {...state, initialData: handleResponse(action.payload).product};
 		default:
 			return state;
 	}

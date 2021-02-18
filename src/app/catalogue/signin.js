@@ -67,7 +67,7 @@ class Form extends React.Component {
 }
 
 const signinForm = reduxForm({
-	form: 'form',
+	form: 'signform',
 	validate: validation,
 })(Form);
 
