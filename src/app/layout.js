@@ -16,6 +16,7 @@ import ProductsList from './catalogue/productsList';
 import ProductDetail from './catalogue/productDetail';
 import UserProfile from './account/profile';
 import NewAddress from './account/newAddress';
+import ManageAddress from './account/manageAddress';
 import Cart from './catalogue/cart';
 import Checkout from './catalogue/checkout';
 import CustomDrawer from './shared/customDrawer';
@@ -90,7 +91,7 @@ function FavouriteStackScreen() {
 const AccountStack = createStackNavigator();
 function AccountStackScreen({navigation, route}) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-  if (routeName === 'Profile' || routeName === 'Aaddress') {
+  if (routeName === 'Profile' || routeName === 'NewAddress' || routeName ==='ManageAddress' ) {
     navigation.setOptions({tabBarVisible: false});
   } else {
     navigation.setOptions({tabBarVisible: true});
@@ -104,8 +105,9 @@ function AccountStackScreen({navigation, route}) {
       }}>
       <AccountStack.Screen name="Account" component={Account} />
       <AccountStack.Screen name="Profile" component={UserProfile} />
-      <AccountStack.Screen name="Aaddress" component={NewAddress} />
       <AccountStack.Screen name="Myorders" component={MyOrders} />
+      <AccountStack.Screen name="ManageAddress" component={ManageAddress} />
+      <AccountStack.Screen name="NewAddress" component={NewAddress} />
     </AccountStack.Navigator>
   );
 }

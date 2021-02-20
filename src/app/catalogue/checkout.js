@@ -81,7 +81,7 @@ class Checkout extends React.Component {
                 <View style={{flex: 1}}>
                   <TouchableOpacity
                     style={styles._flexRow}
-                    onPress={() => this.props.navigation.navigate('Account',{screen: 'Address',})}>
+                    onPress={() => this.props.navigation.navigate('Account',{screen: 'ManageAddress',})}>
                     <Text style={styles._onChangeText}>CHANGE</Text>
                     <Entypo
                       name="chevron-small-right"

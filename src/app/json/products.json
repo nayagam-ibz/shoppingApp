@@ -2,7 +2,7 @@
   "products": [
     {
       "id": 1,
-      "name": "Oversize Sweatshirt",
+      "name": "Long Wool Blend Coat With Belt",
       "price": 11.99,
       "favourite": false,
       "rating_count": 3,
@@ -10,7 +10,7 @@
 
     {
       "id": 2,
-      "name": "Running Sweatshirt",
+      "name": "Long Wool Blend Coat With Belt",
       "price": 80.99,
       "favourite": true,
       "rating_count": 4,

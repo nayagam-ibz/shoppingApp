@@ -6,7 +6,9 @@ import {
   MY_ORDERS,
   GET_PRODUCT_DETAIL,
   INITIAL_DATA,
-  GET_FAVOURITE
+  GET_FAVOURITE,
+  GET_ALL_ADDRESS,
+  DELETE_ADDRESS
 } from '../actions/types';
 import {
   makeGETRequest,
@@ -22,12 +24,14 @@ import catalogueMenu from '../../../app/json/catalogueMenu.json';
 import cart from '../../../app/json/cart.json';
 import orders from '../../../app/json/orders.json';
 import detail from '../../../app/json/details.json';
+import address from '../../../app/json/address.json';
+import axios from "axios";
 
 export function getProduct() {
-  // const response = makeGETRequest('/products');
+  const response = makeGETRequest('/products');
   return {
     type: All_PRODUCTS,
-    payload: {data: products},
+    payload: response
   };
 }
 
@@ -85,5 +89,22 @@ export function setInitialData(data) {
   return {
     type: INITIAL_DATA,
     payload: {data: data},
+  }
+}
+
+export function getAllAddress() {
+  // const response = makeGETRequest(`/users/common_details`)
+  return {
+    type: GET_ALL_ADDRESS,
+    payload: {data: address}
+  }
+}
+
+
+export function deleteAddress() {
+  // const response = makeGETRequest(`/users/common_details`)
+  return {
+    type: DELETE_ADDRESS,
+    // payload: {data: address}
   }
 }

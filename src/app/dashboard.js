@@ -25,8 +25,11 @@ class Dashboard extends Component {
 	}
 
 	componentDidMount() {
-		this.props.getProduct();
-		setTimeout(() => this.setState({loading: false}), 2000);
+		this.props.getProduct().then((data) => {
+			if (data.payload.data) {
+				this.setState({loading: false});
+			}
+		});
 	}
 
 	navigation_toggle(res) {
@@ -112,9 +115,8 @@ class Dashboard extends Component {
 													})}
 												</View>
 												<Text style={Styles._itemName}>{item.name}</Text>
-												<Text style={Styles._itemPrice}> 
-													<FontAwesome name="rupee" size={15} color="#3B2D46" /> {''}
-													{item.price}
+												<Text style={Styles._itemPrice}>
+													{item.displayPrice}
 												</Text>
 											</View>
 										</View>

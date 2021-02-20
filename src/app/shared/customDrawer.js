@@ -51,9 +51,7 @@ class DrawerContent extends Component {
                 <Text style={styles._drwerTitle}>Home</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate('Myorders');
-                }}
+                onPress={() => this.props.navigation.navigate('Account',{screen: 'Myorders',})}
                 style={styles._drawerRow}>
                 <MaterialCommunityIcons
                   name="truck-fast-outline"

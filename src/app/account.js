@@ -46,14 +46,14 @@ class Account extends Component {
 					</TouchableOpacity>
 				</LinearGradient>
 				<View style={styles._menuView}>
-					<TouchableOpacity style={styles._accountMenu} onPress={() => this.props.navigation.navigate("Aaddress")}>
+					<TouchableOpacity style={styles._accountMenu} onPress={() => this.props.navigation.navigate("ManageAddress")}>
 						<Feather
 							name="map-pin"
 							size={18}
 							color="#3B2D46"
 							style={styles._menuIcon}
 						/>
-						<Text style={styles._menuTitle}>Shipping Address </Text>
+						<Text style={styles._menuTitle}>Manage Address </Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles._accountMenu}>
 						<Feather
