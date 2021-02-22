@@ -13,7 +13,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 export class CustomHeader extends Component {
 	render() {
-		const {isHeader, name, isBack, headertitle, filterIcon, notificationIcon} = this.props;
+		const {isHeader, name, isBack, headertitle, filterIcon, notificationIcon, openModal} = this.props;
 		return (
 			<View>
 				{isHeader === 'home' ? (
@@ -61,7 +61,7 @@ export class CustomHeader extends Component {
 								</Text>
 								<Text style={{flex: 1, textAlign: 'right'}}>
 									<TouchableOpacity
-										onPress={isBack && isBack ? this.props.filterModal : null}>
+										onPress={openModal && openModal ? this.props.headerModal : null}>
 										{filterIcon && filterIcon ? <Entypo name="sound-mix" size={22} color="#fff" /> : null} 
 										{notificationIcon && notificationIcon ? <MaterialIcons name="md-notifications-outline" size={25} color="#fff" /> : null} 
 									</TouchableOpacity>

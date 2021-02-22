@@ -64,14 +64,14 @@ class Favourite extends Component {
 													source={require('../../assets/images/img1.png')}
 													style={{width: '100%', height: 180, borderRadius: 3}}
 												/>
-											</View>
-											<View style={Styles._itemFavourite}>
-												<Entypo
-													name="heart"
-													size={18}
-													color="orange"
-													style={{paddingTop: 2}}
-												/>
+												<View style={Styles._itemFavourite}>
+													<Entypo
+														name="heart"
+														size={18}
+														color="orange"
+														style={{paddingTop: 2}}
+													/>
+												</View>
 											</View>
 											<View style={{paddingHorizontal: 5}}>
 												<View style={Styles._ratingView}>

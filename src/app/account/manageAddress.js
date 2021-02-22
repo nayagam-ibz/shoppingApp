@@ -25,8 +25,12 @@ class ManageAddress extends Component {
 	}
 
 	componentDidMount() {
-		this.props.getAllAddress();
-		setTimeout(() => this.setState({loading: false}), 2000);
+		return this.props.getAllAddress().then((data) => {
+      this.setState({loading: false})
+    }).catch(error => {
+      console.log(error)
+      this.setState({loading: false})
+    })
 	}
 
 	setModalVisible = (visible, id) => {
@@ -34,8 +38,14 @@ class ManageAddress extends Component {
 	};
 
 	delteAddress = (id) => {
-   this.props.deleteAddress()
-   this.setState({modalVisible: false});
+   this.props.deleteAddress(id).then((data)=> {
+   	  this.props.getAllAddress()
+      this.setState({modalVisible: false});
+   })
+	}
+
+	onNavigation = (id) => {
+		this.props.navigation.navigate('NewAddress',{ id })   
 	}
 
 	render() {
@@ -51,26 +61,24 @@ class ManageAddress extends Component {
 					name="Account"
 				/>
 				<ScrollView style={{flex: 1}}>
-					<View style={{paddingHorizontal: 10, paddingVertical: 10, flex: 1}}>
+					<View style={{paddingHorizontal: 10, paddingVertical: 10, flex: 1, paddingBottom: 100}}>
 						<FlatList
 							data={allAddress && allAddress}
 							keyExtractor={(item, index) => index}
 							renderItem={({item}) => (
-								<View style={styles._addressRow}>
-									<Text style={styles._addressName}>{item.addressname}</Text>
-									<Text style={styles._addressGray}>{item.address}</Text>
+								<View style={styles._addressRow} key={item.id}>
+									<Text style={styles._addressName}>{item.attributes.address1}</Text>
+									<Text style={styles._addressGray}>{item.attributes.address2}</Text>
 									<Text
 										style={
 											styles._addressGray
-										}>{`${item.city} - ${item.zipcode}`}</Text>
-									<Text style={styles._addressGray}>{item.country}</Text>
+										}>{`${item.attributes.city} - ${item.attributes.zipcode}`}</Text>
+									<Text style={styles._addressGray}>{item.attributes.countryName}</Text>
 									<View style={styles._actionRow}>
 										<TouchableOpacity
-											onPress={() =>
-												this.props.navigation.navigate('NewAddress')
-											}
+											onPress={() => this.onNavigation(item.id)}
 											style={[styles._actionBtn, {marginRight: 10}]}>
-											<Text style={styles._actionText}>EDIT</Text>
+											<Text style={styles._actionText}>EDIT {item.id}</Text>
 										</TouchableOpacity>
 										<TouchableOpacity
 											style={styles._actionBtn}

@@ -8,7 +8,11 @@ import {
   INITIAL_DATA,
   GET_FAVOURITE,
   GET_ALL_ADDRESS,
-  DELETE_ADDRESS
+  DELETE_ADDRESS,
+  GET_COUNTRIES,
+  GET_STATES,
+  NEW_ADDRESS,
+  EDIT_ADDRESS
 } from '../actions/types';
 import {
   makeGETRequest,
@@ -93,19 +97,28 @@ export function setInitialData(data) {
 }
 
 export function getAllAddress() {
-  // const response = makeGETRequest(`/users/common_details`)
+  const response = makeGETRequest(`/storefront/account/addresses`)
   return {
     type: GET_ALL_ADDRESS,
-    payload: {data: address}
+    payload: response
   }
 }
 
 
-export function deleteAddress() {
-  // const response = makeGETRequest(`/users/common_details`)
+export function editAddress(id) {
+  const response = makeGETRequest(`/storefront/account/addresses/${id}`)
+  return {
+    type: EDIT_ADDRESS,
+    payload: response
+  }
+}
+
+
+export function deleteAddress(id) {
+  const response = makeDELETERequest(`/storefront/account/addresses/${id}`)
   return {
     type: DELETE_ADDRESS,
-    // payload: {data: address}
+    payload: response
   }
 }
 
@@ -125,9 +138,13 @@ export function getStates(id) {
   }
 }
 
-export function createAddress(reqParam) {
-  console.log(reqParam)
-  const response = makePOSTRequest(`/storefront/account/addresses`,reqParam);
+export function createAddress(reqParam, id) {
+  let response = ''
+  if(id===""){
+    response = makePOSTRequest(`/storefront/account/addresses`,reqParam);
+  }else{
+    response = makePOSTRequest(`/storefront/account/addresses/${id}`,reqParam);
+  }
   return {
     type: NEW_ADDRESS,
     payload: response

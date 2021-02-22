@@ -13,3 +13,4 @@ export const DELETE_ADDRESS = 'DELETE_ADDRESS';
 export const GET_COUNTRIES = 'GET_COUNTRIES';
 export const GET_STATES = 'GET_STATES';
 export const NEW_ADDRESS = 'NEW_ADDRESS';
+export const EDIT_ADDRESS = 'EDIT_ADDRESS';

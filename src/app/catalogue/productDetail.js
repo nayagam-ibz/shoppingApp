@@ -47,7 +47,8 @@ class ProductDetail extends React.Component {
     const {size, color} = this.state;
     const {productDetail, route} = this.props;
     const item = productDetail && productDetail;
-    // const { navigation, id } = route.params;
+    const { id } = route.params;
+    const { navigation } = route.params;
     return (
       <SafeAreaView style={Styles._container}>
         <Loader loading={this.state.loading} />
@@ -196,7 +197,7 @@ class ProductDetail extends React.Component {
         <View style={Styles._checkEnd}>
           <View style={Styles._spaceBetween}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('Categories')}>
+              onPress={() => this.props.navigation.navigate(navigation)}>
               <AntDesign name="arrowleft" size={22} color="#3B2D46" />
             </TouchableOpacity>
             <TouchableOpacity style={Styles._addToBtn} onPress={this._navigate}>

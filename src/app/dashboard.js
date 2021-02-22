@@ -6,9 +6,9 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	FlatList,
+	Modal
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CatalogList from './shared/catalogList';
 import CustomHeader from './header/header';
 import SearchProdcut from './shared/search';
@@ -16,24 +16,24 @@ import {getProduct} from '../app/store/actions/products';
 import {connect} from 'react-redux';
 import Loader from './shared/loader';
 import Styles from '../../assets/style';
+import Notification from './shared/notification'
 
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {maxRating: [1, 2, 3, 4, 5], loading: true};
+		this.state = {maxRating: [1, 2, 3, 4, 5], loading: true, modalVisible: false};
 		this.navigation_toggle = this.navigation_toggle.bind(this);
 	}
 
 	componentDidMount() {
-		this.props.getProduct().then((data) => {
-			if (data.payload.data) {
-				this.setState({loading: false});
-			}
-		});
+		this.props.getProduct()
+		setTimeout(() => this.setState({loading: false}), 2000);
 	}
 
-	navigation_toggle(res) {
-		this.props.navigation.navigate('Catalogue');
+	navigation_toggle() {
+		this.props.navigation.navigate('Catalogue', {
+			screen: 'Catalogue',
+		});
 	}
 
 	onNavigation = (res) => {
@@ -43,16 +43,23 @@ class Dashboard extends Component {
 		});
 	};
 
+	setModalVisible = (visible) => {
+		this.setState({modalVisible: visible});
+	};
+
+
 	render() {
 		const {maxRating} = this.state;
-		const {productsList} = this.props;
+		const {productsList, initialData} = this.props;
 		return (
 			<View style={Styles._container}>
 				<Loader loading={this.state.loading} />
 				<CustomHeader
 					navigation={this.props.navigation}
 					isHeader="home"
+					openModal="openModal"
 					notificationIcon={true}
+					headerModal={() => this.setModalVisible(true)}
 				/>
 				<SearchProdcut />
 				<ScrollView>
@@ -86,16 +93,16 @@ class Dashboard extends Component {
 														resizeMode: 'contain',
 													}}
 												/>
-											</View>
-											<View style={Styles._itemFavourite}>
-												<Entypo
-													name={
-														item.favourite === true ? 'heart' : 'heart-outlined'
-													}
-													size={18}
-													color={item.favourite === true ? 'orange' : '#3B2D46'}
-													style={{paddingTop: 2}}
-												/>
+												<View style={Styles._itemFavourite}>
+													<Entypo
+														name={
+															item.favourite === true ? 'heart' : 'heart-outlined'
+														}
+														size={18}
+														color={item.favourite === true ? 'orange' : '#3B2D46'}
+														style={{paddingTop: 2}}
+													/>
+												</View>
 											</View>
 											<View>
 												<View style={Styles._ratingView}>
@@ -126,13 +133,26 @@ class Dashboard extends Component {
 						</View>
 					</View>
 				</ScrollView>
+				<Modal
+					animationType="fade"
+					transparent={true}
+					visible={this.state.modalVisible}>
+					<View style={Styles._centeredView}>
+						<View style={Styles._fullView}>
+							<Notification handleClose={() => this.setModalVisible(false)} notification ={initialData && initialData.notification}/>
+						</View>
+					</View>
+				</Modal>
 			</View>
 		);
 	}
 }
 
 const mapStateToProps = (state) => {
-	return {productsList: state.products.productsList};
+	return {
+		productsList: state.products.productsList,
+		initialData: state.products.initialData
+	};
 };
 
 export default connect(mapStateToProps, {getProduct})(Dashboard);

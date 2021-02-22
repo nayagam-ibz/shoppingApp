@@ -1,40 +1,47 @@
 import React, {useRef, useState} from 'react';
-import {View, TouchableOpacity, StyleSheet, Text, FlatList} from 'react-native';
-import RBSheet from 'react-native-raw-bottom-sheet';
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  FlatList,
+  Modal,
+} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {getStates} from '../../../app/store/actions/products';
+import {connect} from 'react-redux';
 const selectPicker = (props) => {
   const {
     meta: {touched, error},
     label,
     optionValue,
+    picker,
     input: {onChange},
   } = props;
-
   const [value, setValue] = useState();
   const [name, setName] = useState();
-
+  const [modalVisible, setModalVisible] = useState(false);
   onChange(value);
-  const refRBSheet = useRef();
   const onNavigation = (id, name) => {
-    console.log(id)
     setValue(id);
-    setName(name)
-    refRBSheet.current.close();
+    setName(name);
+    setModalVisible(false);
+    if (picker === 'country') {
+      props.getStates(id);
+    }
   };
-    
   return (
     <View>
       <Text style={styles._textLabel}>{label}</Text>
       <View style={{flexDirection: 'row'}}>
         <TouchableOpacity
           style={styles._selectOption}
-          onPress={() => refRBSheet.current.open()}>
+          onPress={() => {
+            setModalVisible(true);
+          }}>
           <Text
-            style={[
-              styles._selectValue,
-              {color: name ? '#7a7a7a' : '#989898'},
-            ]}>
+            style={[styles._selectValue,{color: name ? '#7a7a7a' : '#989898'},]}>
             {name ? name : 'Select value'}
           </Text>
         </TouchableOpacity>
@@ -42,22 +49,18 @@ const selectPicker = (props) => {
           <Entypo name="chevron-small-right" size={20} color="#7a7a7a" />
         </View>
       </View>
-      { !name && touched && error && <Text style={styles._errorText}>{error}</Text>}
-      <RBSheet
-        ref={refRBSheet}
-        height={400}
-        openDuration={500}
-        closeOnPressMask={true}
-        closeOnDragDown={true}
-        customStyles={{
-          container: {
-            borderTopLeftRadius: 15,
-            borderTopRightRadius: 15,
-          },
-        }}>
-        <View>
-          <View style={{marginTop: 10}}>
-            <Text style={styles._optionTitle}>Select {label}</Text>
+      {!name && touched && error && (
+        <Text style={styles._errorText}>{error}</Text>
+      )}
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
+        <View style={styles._centeredView}>
+          <View style={styles._modalView}>
+            <View style={styles._spaceBetween}>
+              <Text style={styles._optionTitle}>Select {label}</Text>
+              <TouchableOpacity onPress={() =>{setModalVisible(false)}} style={styles._modalClose}>
+                <EvilIcons name="close-o" size={30} color="#7a7a7a" />
+              </TouchableOpacity>
+            </View>
             <FlatList
               data={optionValue && optionValue}
               keyExtractor={(item, index) => index}
@@ -65,21 +68,48 @@ const selectPicker = (props) => {
                 <TouchableOpacity
                   key={item.id}
                   style={styles._selectRow}
-                  onPress={() => onNavigation(item.id, item.attributes.name)}>
-                  <Text style={styles._optionValue}>{item.attributes.name}</Text>
+                  onPress={() => onNavigation(item.id, item.name)}>
+                  <Text style={styles._optionValue}>
+                    {item.name}
+                  </Text>
                 </TouchableOpacity>
               )}
             />
           </View>
         </View>
-      </RBSheet>
+      </Modal>
     </View>
   );
 };
 
-export default selectPicker;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+export default connect(mapStateToProps, {getStates})(selectPicker);
 
 const styles = StyleSheet.create({
+  _modalView: {
+    margin: 15,
+    backgroundColor: 'white',
+    borderRadius: 0,
+    padding: 10,
+    height: '80%',
+    borderRadius: 3
+  },
+
+  _centeredView: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent:'center',
+  },
+
+  _spaceBetween: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
   _textLabel: {
     fontFamily: 'Montserrat-Medium',
     color: '#7a7a7a',
@@ -100,7 +130,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
     borderWidth: 1,
-    color:'#7a7a7a',
+    color: '#7a7a7a',
     fontSize: 13,
     borderColor: '#ddd',
     borderRadius: 3,
@@ -135,6 +165,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Medium',
     position: 'absolute',
     bottom: -12,
-    right: 0
+    right: 0,
   },
 });

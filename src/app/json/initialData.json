@@ -102,7 +102,21 @@
       {"id": 6, "name": "Kurtas"},
       {"id": 7, "name": "Tshirts"},
       {"id": 8, "name": "Track Pants"}
-    ]
+    ],
+
+    "notification": [
+    {
+      "id": 1,
+      "name": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, illum..",
+      "date": "Just now"
+    },
+
+    {
+      "id": 2,
+      "name": "Dolores, illum. amet consectetur adipisicing elit. Dolores, illum.",
+      "date": "2 minutes ago"
+    },
+  ]
   },
   "status": "ok"
 }

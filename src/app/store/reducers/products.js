@@ -9,7 +9,10 @@ import {
 	GET_FAVOURITE,
 	GET_ALL_ADDRESS,
 	GET_COUNTRIES,
-	GET_STATES
+	GET_STATES,
+	NEW_ADDRESS,
+	ALL_CATEGORIES,
+	EDIT_ADDRESS
 } from '../actions/types';
 import {handleResponse} from '../../utils/Axios';
 
@@ -39,10 +42,14 @@ export default function handleUsers(state = {}, action) {
 			return {...state, initialData: handleResponse(action.payload).product};
 		case GET_ALL_ADDRESS:
 		  return {...state, allAddress: handleResponse(action.payload).data}	
+		case EDIT_ADDRESS:
+		  return { ...state, getEditAddress: handleResponse(action.payload).data}    
 		case GET_COUNTRIES:
-		  return {...state, countries: handleResponse(action.payload).data } 
+		  return {...state, countries: handleResponse(action.payload).countries } 
 		case GET_STATES:
-		  return {...state, states: handleResponse(action.payload).data } 
+		  return {...state, states: handleResponse(action.payload).states } 
+		case NEW_ADDRESS:
+		  return {...state,  ...action.payload }   
 		default:
 			return state;
 	}

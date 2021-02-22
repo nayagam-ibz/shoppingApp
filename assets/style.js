@@ -36,6 +36,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  _rowView: {
+    flexDirection:'row',
+    alignItems:'center'
+  },
 
   _flexRow: {
     flexDirection: 'row',
@@ -62,7 +66,7 @@ const styles = StyleSheet.create({
     height: 25,
     position: 'absolute',
     right: 10,
-    bottom: 60,
+    bottom: -10,
     borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -85,13 +89,15 @@ const styles = StyleSheet.create({
 
   _itemName: {
     color: '#333',
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: 'Montserrat-Medium',
+    lineHeight: 20
   },
 
   _itemPrice: {
-    fontSize: 16,
+    fontSize: 15,
     color: '#3B2D46',
+    paddingVertical: 5,
     fontFamily: 'Montserrat-SemiBold',
   },
 
@@ -243,7 +249,7 @@ const styles = StyleSheet.create({
   },
 
   _subTitleApp: {
-    fontSize: 18,
+    fontSize: 14,
     fontFamily: 'Montserrat-Medium',
     textTransform: 'uppercase'
   },

@@ -30,7 +30,7 @@ class CataloguMenuDetail extends Component {
 			sortyBy: 'Featured',
 			modalVisible: false,
 		};
-		this.applyFilter = this.applyFilter.bind(this)
+		this.applyFilter = this.applyFilter.bind(this);
 	}
 
 	componentDidMount() {
@@ -51,14 +51,17 @@ class CataloguMenuDetail extends Component {
 		this.setState({modalVisible: visible});
 	};
 
-	handleClose = () => {
-		this.setState({modalVisible: false});
+	onNavigation = (res) => {
+		this.props.navigation.navigate('ProductDetail', {
+			id: res,
+			navigation: 'Categories',
+		});
 	};
 
-	 applyFilter(filter, filterApplied='') {
-    console.log(filter)
-    console.log(filterApplied)
-  }
+	applyFilter(filter, filterApplied = '') {
+		console.log(filter);
+		console.log(filterApplied);
+	}
 
 	render() {
 		const {maxRating} = this.state;
@@ -71,16 +74,17 @@ class CataloguMenuDetail extends Component {
 					navigation={this.props.navigation}
 					isHeader="home"
 					isBack="isBack"
+					openModal="openModal"
 					name="Catalogue"
 					headertitle={headertitle}
 					filterIcon={true}
-					filterModal={() => this.setModalVisible(true)}
+					headerModal={() => this.setModalVisible(true)}
 				/>
 				<SearchProdcut />
 				<ScrollView>
-					<Categories initialData={initialData && initialData.categories}/>
+					<Categories initialData={initialData && initialData.categories} />
 					<View style={Styles._itemWrapper}>
-						<View style={[Styles._spaceBetween, {marginBottom:10}]}>
+						<View style={[Styles._spaceBetween, {marginBottom: 10}]}>
 							<Text style={[Styles._itemTitle, {paddingLeft: 10}]}>
 								{productsList && productsList.length} Items
 							</Text>
@@ -103,9 +107,7 @@ class CataloguMenuDetail extends Component {
 									<View style={{flex: 1}}>
 										<TouchableOpacity
 											style={Styles._listItem}
-											onPress={() =>
-												this.props.navigation.navigate('ProductDetail')
-											}>
+											onPress={() => this.onNavigation(item.id)}>
 											<View style={Styles._itemWidget}>
 												<Image
 													source={require('../../../assets/images/img1.png')}
@@ -116,17 +118,21 @@ class CataloguMenuDetail extends Component {
 														resizeMode: 'contain',
 													}}
 												/>
+												<TouchableOpacity style={Styles._itemFavourite}>
+													<Entypo
+														name={
+															item.favourite === true
+																? 'heart'
+																: 'heart-outlined'
+														}
+														size={18}
+														color={
+															item.favourite === true ? 'orange' : '#3B2D46'
+														}
+														style={{paddingTop: 2}}
+													/>
+												</TouchableOpacity>
 											</View>
-											<TouchableOpacity style={Styles._itemFavourite}>
-												<Entypo
-													name={
-														item.favourite === true ? 'heart' : 'heart-outlined'
-													}
-													size={18}
-													color={item.favourite === true ? 'orange' : '#3B2D46'}
-													style={{paddingTop: 2}}
-												/>
-											</TouchableOpacity>
 											<View style={{paddingHorizontal: 5}}>
 												<View style={Styles._ratingView}>
 													{this.state.maxRating.map((rating, key) => {
@@ -145,7 +151,10 @@ class CataloguMenuDetail extends Component {
 													})}
 												</View>
 												<Text style={Styles._itemName}>{item.name}</Text>
-												<Text style={Styles._itemPrice}><FontAwesome name="rupee" size={15} color="#3B2D46" />{' '}{item.price}</Text>
+												<Text style={Styles._itemPrice}>
+													<FontAwesome name="rupee" size={15} color="#3B2D46" />{' '}
+													{item.price}
+												</Text>
 											</View>
 										</TouchableOpacity>
 									</View>
@@ -190,7 +199,11 @@ class CataloguMenuDetail extends Component {
 					visible={this.state.modalVisible}>
 					<View style={Styles._centeredView}>
 						<View style={Styles._fullView}>
-							<Filter form="salesMenuListFilter" handleClose={this.handleClose} applyFilter={this.applyFilter} />
+							<Filter
+								form="salesMenuListFilter"
+								handleClose={() => this.setModalVisible(false)}
+								applyFilter={this.applyFilter}
+							/>
 						</View>
 					</View>
 				</Modal>
