@@ -46,6 +46,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     height: 38,
+    color:'#7a7a7a',
+    fontSize: 13,
     borderRadius: 3,
     alignItems: 'center',
     fontFamily: 'Montserrat-Medium',

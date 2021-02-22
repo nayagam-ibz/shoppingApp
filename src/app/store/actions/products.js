@@ -28,10 +28,10 @@ import address from '../../../app/json/address.json';
 import axios from "axios";
 
 export function getProduct() {
-  const response = makeGETRequest('/products');
+  // const response = makeGETRequest('/products');
   return {
     type: All_PRODUCTS,
-    payload: response
+    payload: {data: products}
   };
 }
 
@@ -108,3 +108,29 @@ export function deleteAddress() {
     // payload: {data: address}
   }
 }
+
+export function getCountries() {
+  const response = makeGETRequest(`/storefront/countries`);
+  return {
+    type: GET_COUNTRIES,
+    payload: response
+  }
+}
+
+export function getStates(id) {
+  const response = makeGETRequest(`/storefront/states?country_id=${id}`);
+  return {
+    type: GET_STATES,
+    payload: response
+  }
+}
+
+export function createAddress(reqParam) {
+  console.log(reqParam)
+  const response = makePOSTRequest(`/storefront/account/addresses`,reqParam);
+  return {
+    type: NEW_ADDRESS,
+    payload: response
+  }
+}
+

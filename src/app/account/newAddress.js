@@ -9,39 +9,36 @@ import {
 import CustomHeader from '../header/header';
 import {textInput, selectPicker} from '../shared/form-elements';
 import {Field, reduxForm, SubmissionError} from 'redux-form';
+import {getCountries, createAddress, getStates} from '../../app/store/actions/products';
 import {validation} from '../validations';
 import {connect} from 'react-redux';
-
-const country = [
-	{id: 1, name: 'india'},
-	{id: 2, name: 'America'},
-];
-const state = [
-	{id: 1, name: 'Tamil Nade'},
-	{id: 2, name: 'Kerla'},
-];
-const city = [
-	{id: 1, name: 'Chennai'},
-	{id: 2, name: 'villupuram'},
-	{id: 1, name: 'Trichy'},
-];
 
 class Form extends React.Component {
 	_submitAddress(values) {
 		console.log(values);
+		this.props.createAddress(values).then((data) => {
+			this.props.reset()
+		});
+	} 
+
+	componentDidMount() {
+		this.props.getCountries()
+		const id = 99;
+		this.props.getStates(id);
 	}
 
 	render() {
-		const {error, handleSubmit} = this.props;
+		const {error, handleSubmit, countries, getStates} = this.props;
+		console.log(getStates)
 		return (
-			<ScrollView style={styles.container}>
+			<View style={styles.container}>
 				<CustomHeader
 					navigation={this.props.navigation}
 					isHeader="Shipping Address"
 					isBack="isBack"
 					name="Account"
 				/>
-				<View style={{paddingHorizontal: 10, marginTop: 15, paddingBottom: 20}}>
+				<ScrollView style={{paddingHorizontal: 10, marginTop: 15, paddingBottom: 20}}>
 					{error && <Text>{error}</Text>}
 					<View style={styles._formGroup}>
 						<Field
@@ -81,6 +78,8 @@ class Form extends React.Component {
 								name="phone"
 								component={textInput}
 								label="Phone"
+								keyboardType="numeric"
+								maxLength={10}
 								underlineColorAndroid="transparent"
 							/>
 						</View>
@@ -88,6 +87,8 @@ class Form extends React.Component {
 							<Field
 								name="alternative_phone"
 								component={textInput}
+								keyboardType="numeric"
+								maxLength={10}
 								label="Alternative Phone"
 								underlineColorAndroid="transparent"
 							/>
@@ -98,7 +99,7 @@ class Form extends React.Component {
 							name="country_id"
 							component={selectPicker}
 							label="Country"
-							optionValue={country}
+							optionValue={countries && countries}
 						/>
 					</View>
 					<View style={styles._formGroup}>
@@ -106,7 +107,7 @@ class Form extends React.Component {
 							name="state_id"
 							component={selectPicker}
 							label="State"
-							optionValue={state}
+							optionValue={countries && countries}
 						/>
 					</View>
 					<View
@@ -116,15 +117,15 @@ class Form extends React.Component {
 							paddingBottom: 20,
 						}}>
 						<View style={[styles._formGroup, {flex: 1, marginRight: 5}]}>
-							<Field
-								name="city"
-								component={selectPicker}
-								label="City"
-								optionValue={city}
-							/>
+							<Field name="city" component={textInput} label="City" />
 						</View>
 						<View style={[styles._formGroup, {flex: 1, marginLeft: 5}]}>
-							<Field name="zipcode" component={textInput} label="Zip Code" />
+							<Field
+								name="zipcode"
+								component={textInput}
+								label="Zip Code"
+								keyboardType="numeric"
+							/>
 						</View>
 					</View>
 					<TouchableOpacity
@@ -134,22 +135,26 @@ class Form extends React.Component {
 							SUBMIT
 						</Text>
 					</TouchableOpacity>
-				</View>
-			</ScrollView>
+				</ScrollView>
+			</View>
 		);
 	}
 }
 
 const addressForm = reduxForm({
 	form: 'form',
-	validate: validation,
+	// validate: validation,
 })(Form);
 
 const mapStateToProps = (state) => {
-	return {};
+	return {
+		countries: state.products.countries,
+	};
 };
 
-export default connect(mapStateToProps, {})(addressForm);
+export default connect(mapStateToProps, {getCountries, getStates, createAddress})(
+	addressForm,
+);
 
 const styles = StyleSheet.create({
 	container: {

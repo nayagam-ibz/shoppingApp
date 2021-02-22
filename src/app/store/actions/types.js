@@ -10,3 +10,6 @@ export const INITIAL_DATA = 'INITIAL_DATA';
 export const GET_FAVOURITE = 'GET_FAVOURITE';
 export const GET_ALL_ADDRESS = 'GET_ALL_ADDRESS';
 export const DELETE_ADDRESS = 'DELETE_ADDRESS';
+export const GET_COUNTRIES = 'GET_COUNTRIES';
+export const GET_STATES = 'GET_STATES';
+export const NEW_ADDRESS = 'NEW_ADDRESS';

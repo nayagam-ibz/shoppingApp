@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Text, FlatList} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Entypo from 'react-native-vector-icons/Entypo';
 
@@ -10,13 +10,19 @@ const selectPicker = (props) => {
     optionValue,
     input: {onChange},
   } = props;
-  onChange(value);
+
   const [value, setValue] = useState();
+  const [name, setName] = useState();
+
+  onChange(value);
   const refRBSheet = useRef();
-  const onNavigation = (res) => {
-    setValue(res);
+  const onNavigation = (id, name) => {
+    console.log(id)
+    setValue(id);
+    setName(name)
     refRBSheet.current.close();
   };
+    
   return (
     <View>
       <Text style={styles._textLabel}>{label}</Text>
@@ -27,19 +33,19 @@ const selectPicker = (props) => {
           <Text
             style={[
               styles._selectValue,
-              {color: value ? '#3B2D46' : '#989898'},
+              {color: name ? '#7a7a7a' : '#989898'},
             ]}>
-            {value ? value : 'Select value'}
+            {name ? name : 'Select value'}
           </Text>
         </TouchableOpacity>
         <View style={styles._positionIcons}>
           <Entypo name="chevron-small-right" size={20} color="#7a7a7a" />
         </View>
       </View>
-      { !value && touched && error && <Text style={styles._errorText}>{error}</Text>}
+      { !name && touched && error && <Text style={styles._errorText}>{error}</Text>}
       <RBSheet
         ref={refRBSheet}
-        height={380}
+        height={400}
         openDuration={500}
         closeOnPressMask={true}
         closeOnDragDown={true}
@@ -52,17 +58,18 @@ const selectPicker = (props) => {
         <View>
           <View style={{marginTop: 10}}>
             <Text style={styles._optionTitle}>Select {label}</Text>
-            {optionValue &&
-              optionValue.map((item) => {
-                return (
-                  <TouchableOpacity
-                    key={item.id}
-                    style={styles._selectRow}
-                    onPress={() => onNavigation(item.name)}>
-                    <Text style={styles._optionValue}>{item.name}</Text>
-                  </TouchableOpacity>
-                );
-              })}
+            <FlatList
+              data={optionValue && optionValue}
+              keyExtractor={(item, index) => index}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles._selectRow}
+                  onPress={() => onNavigation(item.id, item.attributes.name)}>
+                  <Text style={styles._optionValue}>{item.attributes.name}</Text>
+                </TouchableOpacity>
+              )}
+            />
           </View>
         </View>
       </RBSheet>
@@ -93,6 +100,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
     borderWidth: 1,
+    color:'#7a7a7a',
+    fontSize: 13,
     borderColor: '#ddd',
     borderRadius: 3,
     width: '100%',

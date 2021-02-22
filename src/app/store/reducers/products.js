@@ -7,7 +7,9 @@ import {
 	GET_PRODUCT_DETAIL,
 	INITIAL_DATA,
 	GET_FAVOURITE,
-	GET_ALL_ADDRESS
+	GET_ALL_ADDRESS,
+	GET_COUNTRIES,
+	GET_STATES
 } from '../actions/types';
 import {handleResponse} from '../../utils/Axios';
 
@@ -37,6 +39,10 @@ export default function handleUsers(state = {}, action) {
 			return {...state, initialData: handleResponse(action.payload).product};
 		case GET_ALL_ADDRESS:
 		  return {...state, allAddress: handleResponse(action.payload).data}	
+		case GET_COUNTRIES:
+		  return {...state, countries: handleResponse(action.payload).data } 
+		case GET_STATES:
+		  return {...state, states: handleResponse(action.payload).data } 
 		default:
 			return state;
 	}
