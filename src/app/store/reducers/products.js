@@ -12,11 +12,17 @@ import {
 	GET_STATES,
 	NEW_ADDRESS,
 	ALL_CATEGORIES,
-	EDIT_ADDRESS
+	UPDATE_ADDRESS,
+	UNAUTH_USER
 } from '../actions/types';
 import {handleResponse} from '../../utils/Axios';
+const initialState = {
+  loggedIn: false,
+  unauthReq: false
+};
 
-export default function handleUsers(state = {}, action) {
+export default function handleUsers(state = initialState, action) {
+	if (!(action.payload && action.payload.data)) return state
 	switch (action.type) {
 		case All_PRODUCTS:
 			return {...state, productsList: handleResponse(action.payload).products};
@@ -32,6 +38,8 @@ export default function handleUsers(state = {}, action) {
 				...state,
 				catalogueMenu: handleResponse(action.payload).catalogue,
 			};
+		case UNAUTH_USER:
+      return { ...state, unauthReq: true }	
 		case GET_CART:
 			return {...state, cartList: handleResponse(action.payload).cart};
 		case MY_ORDERS:
@@ -42,8 +50,8 @@ export default function handleUsers(state = {}, action) {
 			return {...state, initialData: handleResponse(action.payload).product};
 		case GET_ALL_ADDRESS:
 		  return {...state, allAddress: handleResponse(action.payload).data}	
-		case EDIT_ADDRESS:
-		  return { ...state, getEditAddress: handleResponse(action.payload).data}    
+		case UPDATE_ADDRESS:
+		  return { ...state, editAddress: handleResponse(action.payload).data}    
 		case GET_COUNTRIES:
 		  return {...state, countries: handleResponse(action.payload).countries } 
 		case GET_STATES:

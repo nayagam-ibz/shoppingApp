@@ -5,12 +5,11 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	StyleSheet,
-	KeyboardAvoidingView
 } from 'react-native';
 import CustomHeader from '../header/header';
 import {textInput, selectPicker} from '../shared/form-elements';
 import {Field, reduxForm, SubmissionError} from 'redux-form';
-import {getCountries, createAddress, editAddress} from '../../app/store/actions/products';
+import {getCountries, createAddress, updateAddress, getAllAddress} from '../../app/store/actions/products';
 import {validation} from '../validations';
 import {connect} from 'react-redux';
 import Loader from '../shared/loader';
@@ -21,15 +20,15 @@ class Form extends React.Component {
 		super(props);
 		this.state = {loading: true };
 	}
-
 	_submitAddress(values) {
 		this.setState({loading: true})
 		const id = this.props.route.params?.id ?? '';
 		return this.props.createAddress(values, id).then((data) => {
-			console.log(data.payload.data)
 			if(data.payload.data){
 				this.setState({loading: false})
 				this.props.navigation.navigate("ManageAddress")
+				this.props.getAllAddress()
+				this.resetForm()
 			} else {
         throw(handleResponse(data.payload).error);
         this.setState({ loading:false })
@@ -40,9 +39,24 @@ class Form extends React.Component {
     })
 	} 
 
+	resetForm = () => {
+		const resetFields = { firstname: '', lastname: '', city: '', address1: '', address2: '', phone:'', alternativePhone:''}
+    this.props.initialize(resetFields, true);
+    this.props.reset()
+    this.setState({selectValue: ''})
+  }
+
 	componentDidMount() {
+		const {editAddress} = this.props 
 		const id = this.props.route.params?.id ?? '';
-		this.props.editAddress(id)
+		console.log(id)
+		if(id){
+		  this.props.updateAddress(id)
+		  this.setState({selectValue: editAddress && editAddress.attributes})
+		}else {
+		  this.setState({selectValue: ''})
+      this.resetForm()   
+		}
 		this.props.getCountries().then((data) => {
       this.setState({loading: false})
 		}).catch(error => {
@@ -52,6 +66,7 @@ class Form extends React.Component {
 	}
 	render() {
 		const {error, handleSubmit, countries, states } = this.props;
+		const { selectValue } = this.state
 		const editParam = this.props.route.params?.id ?? '';
 		return (
 			<View style={styles.container}>
@@ -109,7 +124,7 @@ class Form extends React.Component {
 						</View>
 						<View style={[styles._formGroup, {flex: 1, marginLeft: 5}]}>
 							<Field
-								name="alternative_phone"
+								name="alternativePhone"
 								component={textInput}
 								keyboardType="numeric"
 								maxLength={10}
@@ -125,6 +140,7 @@ class Form extends React.Component {
 							label="Country"
 							optionValue={countries && countries}
 							picker="country"
+							defaultName = {selectValue && selectValue.countryName}
 						/>
 					</View>
 					<View style={styles._formGroup}>
@@ -133,6 +149,7 @@ class Form extends React.Component {
 							component={selectPicker}
 							label="State"
 							optionValue={states && states}
+							defaultName = {selectValue && selectValue.stateName}
 						/>
 					</View>
 					<View
@@ -167,33 +184,35 @@ class Form extends React.Component {
 }
 
 const addressForm = reduxForm({
-	form: 'form',
+	form: 'addressForm',
+	enableReinitialize: true,
 	// validate: validation,
 })(Form);
 
 const mapStateToProps = (state) => {
-	let editAddress = {}
-  if (state.products.getEditAddress) {
-    editAddress.initialValues = {
-      lastname: state.products.getEditAddress.attributes.lastname,
-      firstname: state.products.getEditAddress.attributes.firstname,
-      address1: state.products.getEditAddress.attributes.address1,
-      address2: state.products.getEditAddress.attributes.address2,
-      address2: state.products.getEditAddress.attributes.address2,
-      phone: state.products.getEditAddress.attributes.phone,
-      zipcode: state.products.getEditAddress.attributes.zipcode,
-      city: state.products.getEditAddress.attributes.city,
+	let addressInitial = {}
+  if (state.products.editAddress && state.products.editAddress.attributes ) {
+  	const fieldName = state.products.editAddress.attributes
+    addressInitial.initialValues = {
+      lastname: fieldName.lastname,
+      firstname: fieldName.firstname,
+      address1: fieldName.address1,
+      address2: fieldName.address2,
+      address2: fieldName.address2,
+      phone: fieldName.phone,
+      zipcode: fieldName.zipcode,
+      city: fieldName.city,
     }
   }
 	return {
 		countries: state.products.countries,
 		states: state.products.states,
-		getEditAddress: state.products.getEditAddress,
-		...editAddress
+		editAddress: state.products.editAddress,
+		...addressInitial
 	};
 };
 
-export default connect(mapStateToProps, {getCountries,createAddress, editAddress})(
+export default connect(mapStateToProps, {getCountries,createAddress, updateAddress, getAllAddress})(
 	addressForm,
 );
 

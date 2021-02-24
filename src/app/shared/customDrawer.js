@@ -6,8 +6,24 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import {connect} from 'react-redux';
+import LogoutConfirmaton from '../shared/logoutConfirmation';
 
 class DrawerContent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {modalVisible: false};
+    this.confirmationModal = this.confirmationModal.bind(this);
+  }
+  confirmationModal(res) {
+    if (res == true) {
+      this.setState({modalVisible: true});
+    } else {
+      this.setState({modalVisible: false});
+      setTimeout(() => {
+        this.props.navigation.navigate('Home');
+      }, 200);
+    }
+  }
   render() {
     const {initialData} = this.props;
     return (
@@ -51,7 +67,11 @@ class DrawerContent extends Component {
                 <Text style={styles._drwerTitle}>Home</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Account',{screen: 'Myorders',})}
+                onPress={() =>
+                  this.props.navigation.navigate('Account', {
+                    screen: 'Myorders',
+                  })
+                }
                 style={styles._drawerRow}>
                 <MaterialCommunityIcons
                   name="truck-fast-outline"
@@ -60,6 +80,22 @@ class DrawerContent extends Component {
                   style={styles._drawerIcons}
                 />
                 <Text style={styles._drwerTitle}>My Orders</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate('Catalogue', {
+                    screen: 'Signin',
+                  })
+                }
+                style={styles._drawerRow}>
+                <MaterialCommunityIcons
+                  name="truck-fast-outline"
+                  size={20}
+                  color="#7B5996"
+                  style={styles._drawerIcons}
+                />
+                <Text style={styles._drwerTitle}>Login</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -103,9 +139,7 @@ class DrawerContent extends Component {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate('Home');
-                }}
+                onPress={() => this.confirmationModal(true)}
                 style={styles._drawerRow}>
                 <Feather
                   name="log-out"
@@ -118,6 +152,12 @@ class DrawerContent extends Component {
             </View>
           </View>
         </DrawerContentScrollView>
+        {this.state.modalVisible && (
+          <LogoutConfirmaton
+            visbility={this.state.modalVisible}
+            confirmationModal={() => this.confirmationModal(false)}
+          />
+        )}
       </View>
     );
   }

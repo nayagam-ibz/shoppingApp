@@ -17,7 +17,7 @@ class Notification extends React.Component {
 					colors={['#3B2D46', '#7B5996']}
 					style={[
 						Styles._headerGradient,
-						{height: 45, justifyContent: 'center', paddingHorizontal: 10},
+						{height: 45, justifyContent: 'center'},
 					]}>
 					<View style={Styles._spaceBetween}>
 						<TouchableOpacity onPress={this.props.handleClose}>
@@ -25,7 +25,6 @@ class Notification extends React.Component {
 								name="chevron-small-left"
 								size={35}
 								color="#fff"
-								style={{marginLeft: -10}}
 							/>
 						</TouchableOpacity>
 						<Text style={[Styles._subTitleApp, {color: '#fff'}]}>
@@ -39,10 +38,10 @@ class Notification extends React.Component {
 						return (
 							<View key={index} style={styles._notificationRow}>
 								<Text style={styles._notificationName}>{item.name}</Text>
-								<Text style={styles._notificationDate}>
-								  <Ionicons name="md-notifications-outline" size={14} color="#7a7a7a"  style={{marginRight: 3}}/>
-								  {item.date}
-								</Text>
+								<View style={styles._notSubRow}>
+									<Ionicons name="md-notifications-outline" size={14} color="#7a7a7a" style={{marginRight: 5}}/>
+									<Text style={styles._notificationDate}>{item.date}</Text>
+								</View>
 							</View>
 						);
 					})}
@@ -65,6 +64,11 @@ const styles = StyleSheet.create({
 	_notificationName: {
 		color:'#333',
 		fontFamily: 'Montserrat-Medium',
+	},
+
+	_notSubRow: {
+		flexDirection:'row',
+		alignItems:'center'
 	},
 
 	_notificationDate: {

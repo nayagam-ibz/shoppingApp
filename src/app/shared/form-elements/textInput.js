@@ -8,6 +8,8 @@ const textInput = ({
   secureTextEntry,
   label,
   underlineColorAndroid,
+  styleName,
+  maxLength,
   meta: {error, touched},
   input,
 }) => {
@@ -16,10 +18,11 @@ const textInput = ({
       <Text style={styles._textLable}>{label}</Text>
       <TextInput
         secureTextEntry={secureTextEntry}
-        style={styles._textInput}
+        style={styleName ? styles._textInput : styles._normalInput }
         underlineColorAndroid={underlineColorAndroid}
         placeholder={placeholder}
         keyboardType={keyboardType}
+        maxLength={maxLength}
         {...input}
       />
       {touched && error && <Text style={styles._errorText}>{error}</Text>}
@@ -39,13 +42,27 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 
-  _textInput: {
+  _normalInput: {
     width: '100%',
     paddingHorizontal: 10,
     backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#ddd',
     height: 38,
+    color:'#7a7a7a',
+    fontSize: 13,
+    borderRadius: 3,
+    alignItems: 'center',
+    fontFamily: 'Montserrat-Medium',
+  },
+
+  _textInput: {
+    width: '100%',
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    height: 45,
     color:'#7a7a7a',
     fontSize: 13,
     borderRadius: 3,

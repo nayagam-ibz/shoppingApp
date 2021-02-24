@@ -12,7 +12,9 @@ import {
   GET_COUNTRIES,
   GET_STATES,
   NEW_ADDRESS,
-  EDIT_ADDRESS
+  UPDATE_ADDRESS,
+  USER_LOGIN,
+  USER_REGISTRATION
 } from '../actions/types';
 import {
   makeGETRequest,
@@ -29,13 +31,14 @@ import cart from '../../../app/json/cart.json';
 import orders from '../../../app/json/orders.json';
 import detail from '../../../app/json/details.json';
 import address from '../../../app/json/address.json';
-import axios from "axios";
+import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export function getProduct() {
   // const response = makeGETRequest('/products');
   return {
     type: All_PRODUCTS,
-    payload: {data: products}
+    payload: {data: products},
   };
 }
 
@@ -87,67 +90,100 @@ export function getMyOrders() {
   };
 }
 
-
 export function setInitialData(data) {
   // const response = makeGETRequest(`/users/common_details`)
   return {
     type: INITIAL_DATA,
     payload: {data: data},
-  }
+  };
 }
 
 export function getAllAddress() {
-  const response = makeGETRequest(`/storefront/account/addresses`)
+  const response = makeGETRequest(`/storefront/account/addresses`);
   return {
     type: GET_ALL_ADDRESS,
-    payload: response
-  }
+    payload: response,
+  };
 }
 
-
-export function editAddress(id) {
-  const response = makeGETRequest(`/storefront/account/addresses/${id}`)
+export function updateAddress(id) {
+  const response = makeGETRequest(`/storefront/account/addresses/${id}`);
   return {
-    type: EDIT_ADDRESS,
-    payload: response
-  }
+    type: UPDATE_ADDRESS,
+    payload: response,
+  };
 }
-
 
 export function deleteAddress(id) {
-  const response = makeDELETERequest(`/storefront/account/addresses/${id}`)
+  const response = makeDELETERequest(`/storefront/account/addresses/${id}`);
   return {
     type: DELETE_ADDRESS,
-    payload: response
-  }
+    payload: response,
+  };
 }
 
 export function getCountries() {
   const response = makeGETRequest(`/storefront/countries`);
   return {
     type: GET_COUNTRIES,
-    payload: response
-  }
+    payload: response,
+  };
 }
 
 export function getStates(id) {
   const response = makeGETRequest(`/storefront/states?country_id=${id}`);
   return {
     type: GET_STATES,
-    payload: response
-  }
+    payload: response,
+  };
 }
 
 export function createAddress(reqParam, id) {
-  let response = ''
-  if(id===""){
-    response = makePOSTRequest(`/storefront/account/addresses`,reqParam);
-  }else{
-    response = makePOSTRequest(`/storefront/account/addresses/${id}`,reqParam);
+  console.log("reqParam.........")
+  console.log(reqParam)
+  console.log("reqParam.........")
+  let response = '';
+  if (id === '') {
+    response = makePOSTRequest(`/storefront/account/addresses`, reqParam);
+  } else {
+    response = makePOSTRequest(`/storefront/account/addresses/${id}`, reqParam);
   }
   return {
     type: NEW_ADDRESS,
-    payload: response
-  }
+    payload: response,
+  };
 }
 
+export function userLogin(reqParam) {
+  console.log(reqParam);
+  const response = makePOSTRequest(`/storefront/sign_in`, reqParam);
+  return {
+    type: USER_LOGIN,
+    payload: response,
+  };
+}
+export function userRegistration(reqParam) {
+  console.log(reqParam);
+  const response = makePOSTRequest(`/storefront/sign_up`, reqParam);
+  return {
+    type: USER_REGISTRATION,
+    payload: response,
+  };
+}
+
+export async function CurrentUser() {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    return token;
+  } catch (error) {
+    return error;
+  }
+}
+export function StoreUserToken(authToken) {
+  try {
+    const token = AsyncStorage.setItem('token', authToken);
+    return token;
+  } catch (error) {
+    return error;
+  }
+}

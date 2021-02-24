@@ -1,20 +1,46 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView,  StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {textInput} from '../shared/form-elements';
 import {Field, reduxForm, SubmissionError} from 'redux-form';
 import {connect} from 'react-redux';
 import {validation} from '../validations';
+import {userLogin, StoreUserToken} from '../../app/store/actions/products';
+import { handleResponse } from "../utils/Axios";
+import AsyncStorage from '@react-native-community/async-storage';
+import Loader from '../shared/loader';
 
 class Form extends React.Component {
-	_submitProfile(values) {
-		this.props.navigation.navigate('Checkout');
-	}
+	state = {loading: false};
+
+	_userSignIn(values) {
+		this.setState({loading: true})
+		return this.props.userLogin(values).then((data) => {
+			if(data.payload.data.message === "Logged in Successfully!"){
+				this.setState({loading: false})
+	      const responseObj = handleResponse(data.payload)
+	      StoreUserToken(responseObj.accessToken)
+	      this.props.navigation.navigate('Home')
+			} else {
+        throw(handleResponse(data.payload).errors);
+        this.setState({ loading:false })
+      }
+		}).catch(error => {
+      this.setState({ loading:false })
+      throw new SubmissionError(error);
+    })
+	} 
+
+	componentDidMount() {
+    this.props.change("username", "spree@example.com" )
+    this.props.change("password", "spree123" )
+  }
 
 	render() {
-		const {handleSubmit} = this.props;
+		const {handleSubmit, error} = this.props;
 		return (
-			<View style={{flex: 1}}>
+			<ScrollView style={styles.container}>
+			  <Loader loading={this.state.loading} />
 				<LinearGradient
 					start={{x: 0, y: 0.9}}
 					end={{x: 1, y: 0.1}}
@@ -27,26 +53,29 @@ class Form extends React.Component {
 				</LinearGradient>
 				<View style={{paddingHorizontal: 10}}>
 					<Text style={styles._headerAuthText}>Sign in to My Shop</Text>
+					{error && <Text>{error}</Text>}
 					<View style={styles._formGroup}>
 						<Field
-							name="email"
+							name="username"
 							component={textInput}
 							label="Email Address"
 							underlineColorAndroid="transparent"
+							styleName="signInput"
 						/>
 					</View>
-					<View style={styles._formGroup}>
+										<View style={styles._formGroup}>
 						<Field
 							name="password"
 							component={textInput}
 							label="Password"
 							secureTextEntry={true}
 							underlineColorAndroid="transparent"
+							styleName="signInput"
 						/>
 					</View>
 					<TouchableOpacity
-						style={[styles._cartBtn, {marginTop: 15}]}
-						onPress={handleSubmit(this._submitProfile.bind(this))}>
+						style={[styles._cartBtn, {marginTop: 30}]}
+						onPress={handleSubmit(this._userSignIn.bind(this))}>
 						<Text style={[styles._cartText, {textAlign: 'center'}]}>
 							SIGN IN NOW
 						</Text>
@@ -57,11 +86,11 @@ class Form extends React.Component {
 						<Text style={styles._regiText}>Not Registered Yet? </Text>
 						<TouchableOpacity
 							onPress={() => this.props.navigation.navigate('Signup')}>
-							<Text style={styles._sigText}> REGISTERED NOW </Text>
+							<Text style={styles._sigText}> Registered now </Text>
 						</TouchableOpacity>
 					</View>
 				</View>
-			</View>
+			</ScrollView>
 		);
 	}
 }
@@ -75,18 +104,19 @@ const mapStateToProps = (state) => {
 	return {};
 };
 
-export default connect(mapStateToProps, {})(signinForm);
+export default connect(mapStateToProps, {userLogin, StoreUserToken})(signinForm);
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor:'#F3F3F3'
 	},
 
 	_headerAuth: {
 		width: '100%',
 		height: 150,
 		backgroundColor: 'red',
-		borderBottomRightRadius: 1000,
+		// borderBottomRightRadius: 1000,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -112,17 +142,11 @@ const styles = StyleSheet.create({
 	},
 
 	_formGroup: {
-		marginBottom: 15,
+		marginBottom: 20,
 	},
 
 	_positionEnd: {
-		width: '94%',
-		position: 'absolute',
-		bottom: 20,
-		left: 10,
-		right: 10,
-		borderColor: '#eee',
-		borderRadius: 3,
+		marginTop: 30
 	},
 
 	_cartBtn: {

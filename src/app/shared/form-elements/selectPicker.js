@@ -8,6 +8,7 @@ import {
   Modal,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {getStates} from '../../../app/store/actions/products';
 import {connect} from 'react-redux';
@@ -17,12 +18,14 @@ const selectPicker = (props) => {
     label,
     optionValue,
     picker,
+    defaultName,
     input: {onChange},
   } = props;
   const [value, setValue] = useState();
   const [name, setName] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  onChange(value);
+  onChange(value ? value : 999);
+  
   const onNavigation = (id, name) => {
     setValue(id);
     setName(name);
@@ -40,10 +43,14 @@ const selectPicker = (props) => {
           onPress={() => {
             setModalVisible(true);
           }}>
-          <Text
-            style={[styles._selectValue,{color: name ? '#7a7a7a' : '#989898'},]}>
-            {name ? name : 'Select value'}
-          </Text>
+          {name ? 
+            <Text
+              style={[styles._selectValue,{color: name ? '#7a7a7a' : '#989898'},]}>
+              {name ? name : 'Select value'}
+            </Text>
+            : 
+            <Text style={[styles._selectValue, {color:'#989898'}]}>{defaultName}</Text> 
+          }
         </TouchableOpacity>
         <View style={styles._positionIcons}>
           <Entypo name="chevron-small-right" size={20} color="#7a7a7a" />
@@ -69,9 +76,12 @@ const selectPicker = (props) => {
                   key={item.id}
                   style={styles._selectRow}
                   onPress={() => onNavigation(item.id, item.name)}>
-                  <Text style={styles._optionValue}>
-                    {item.name}
-                  </Text>
+                  <View style={styles._spaceBetween}>
+                    <Text style={styles._optionValue}>
+                      {item.name}
+                    </Text>
+                    <Ionicons name="md-checkmark" size={25} color={item.id !== value ? '#fff' : 'green'} />
+                  </View> 
                 </TouchableOpacity>
               )}
             />
@@ -144,7 +154,8 @@ const styles = StyleSheet.create({
 
   _selectRow: {
     paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingVertical: 10,
+    marginBottom: 2
   },
 
   _positionIcons: {

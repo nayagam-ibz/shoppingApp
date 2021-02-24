@@ -13,11 +13,46 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {CurrentUser} from '../app/store/actions/products';
 import {connect} from 'react-redux';
 
+import LogoutConfirmaton from './shared/logoutConfirmation';
+
 class Account extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {modalVisible: false};
+		this.confirmationModal = this.confirmationModal.bind(this);
+	}
+
+	confirmationModal(res) {
+		console.log(res);
+		if (res == true) {
+			this.setState({modalVisible: true});
+		} else {
+			this.setState({modalVisible: false});
+			setTimeout(() => {
+				this.props.navigation.navigate('Catalogue', {screen: 'Signin'});
+			}, 200);
+		}
+	}
+
+	componentDidMount() {
+		this.unsubscribe = this.props.navigation.addListener('focus', () => {
+			setTimeout(() => {
+				return CurrentUser().then((token) => {
+					console.log(token);
+					if (!token) {
+						this.props.navigation.navigate('Catalogue', {screen: 'Signin'});
+						return;
+					}
+				});
+			}, 800);
+		});
+	}
+
 	render() {
-		const {initialData} = this.props 
+		const {initialData} = this.props;
 		return (
 			<SafeAreaView style={styles._accountContainer}>
 				<LinearGradient
@@ -37,16 +72,24 @@ class Account extends Component {
 							}}
 						/>
 						<View style={{marginLeft: 15, flexDirection: 'column'}}>
-							<Text style={styles._userName}>{initialData && initialData.name}</Text>
-							<Text style={styles._userCaption}>{initialData && initialData.email}</Text>
+							<Text style={styles._userName}>
+								{initialData && initialData.name}
+							</Text>
+							<Text style={styles._userCaption}>
+								{initialData && initialData.email}
+							</Text>
 						</View>
 					</View>
-					<TouchableOpacity style={styles._editProfile} onPress={() => this.props.navigation.navigate("Profile")}>
+					<TouchableOpacity
+						style={styles._editProfile}
+						onPress={() => this.props.navigation.navigate('Profile')}>
 						<Feather name="edit-2" size={18} color="#3B2D46" />
 					</TouchableOpacity>
 				</LinearGradient>
 				<View style={styles._menuView}>
-					<TouchableOpacity style={styles._accountMenu} onPress={() => this.props.navigation.navigate("ManageAddress")}>
+					<TouchableOpacity
+						style={styles._accountMenu}
+						onPress={() => this.props.navigation.navigate('ManageAddress')}>
 						<Feather
 							name="map-pin"
 							size={18}
@@ -64,7 +107,9 @@ class Account extends Component {
 						/>
 						<Text style={styles._menuTitle}>Payment Methods</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles._accountMenu} onPress={() => this.props.navigation.navigate('Myorders')}>
+					<TouchableOpacity
+						style={styles._accountMenu}
+						onPress={() => this.props.navigation.navigate('Myorders')}>
 						<MaterialCommunityIcons
 							name="truck-fast-outline"
 							size={18}
@@ -73,7 +118,9 @@ class Account extends Component {
 						/>
 						<Text style={styles._menuTitle}>My Orders</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles._accountMenu}>
+					<TouchableOpacity
+						style={styles._accountMenu}
+						onPress={() => this.confirmationModal(true)}>
 						<Feather
 							name="log-out"
 							size={18}
@@ -83,17 +130,22 @@ class Account extends Component {
 						<Text style={styles._menuTitle}>Log Out</Text>
 					</TouchableOpacity>
 				</View>
+				{this.state.modalVisible && (
+					<LogoutConfirmaton
+						visbility={this.state.modalVisible}
+						confirmationModal={() => this.confirmationModal(false)}
+					/>
+				)}
 			</SafeAreaView>
 		);
 	}
 }
 
-
 const mapStateToProps = (state) => {
 	return {initialData: state.products.initialData};
 };
 
-export default connect(mapStateToProps, {})(Account);
+export default connect(mapStateToProps, {CurrentUser})(Account);
 
 const styles = StyleSheet.create({
 	_accountContainer: {
