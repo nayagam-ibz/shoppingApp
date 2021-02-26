@@ -24,9 +24,8 @@ const selectPicker = (props) => {
   const [value, setValue] = useState();
   const [name, setName] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  onChange(value ? value : 999);
-  
-  const onNavigation = (id, name) => {
+  onChange(value ? value : 99);
+    const onNavigation = (id, name) => {
     setValue(id);
     setName(name);
     setModalVisible(false);

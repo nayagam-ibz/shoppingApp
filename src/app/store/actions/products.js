@@ -1,7 +1,6 @@
 import {
-  All_PRODUCTS,
-  ALL_CATALOGUE,
-  CATALOGUE_MENU,
+  GET_PRODUCTS,
+  GET_CATEGORIES,
   GET_CART,
   MY_ORDERS,
   GET_PRODUCT_DETAIL,
@@ -14,7 +13,8 @@ import {
   NEW_ADDRESS,
   UPDATE_ADDRESS,
   USER_LOGIN,
-  USER_REGISTRATION
+  USER_REGISTRATION,
+  GET_SUB_PRODUCTS
 } from '../actions/types';
 import {
   makeGETRequest,
@@ -24,9 +24,6 @@ import {
   makeFormDataPOSTRequest,
   makeFormDataPUTRequest,
 } from '../../utils/Axios';
-import products from '../../../app/json/products.json';
-import catalogue from '../../../app/json/catalogue.json';
-import catalogueMenu from '../../../app/json/catalogueMenu.json';
 import cart from '../../../app/json/cart.json';
 import orders from '../../../app/json/orders.json';
 import detail from '../../../app/json/details.json';
@@ -34,11 +31,27 @@ import address from '../../../app/json/address.json';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export function getProduct() {
-  // const response = makeGETRequest('/products');
+export function getCategories() {
+  const response = makeGETRequest('/storefront/taxons');
   return {
-    type: All_PRODUCTS,
-    payload: {data: products},
+    type: GET_CATEGORIES,
+    payload: response,
+  };
+}
+
+export function getProducts(id) {
+  const response = makeGETRequest(`/storefront/taxons/products?id=${id}`);
+  return {
+    type: GET_PRODUCTS,
+    payload: response,
+  };
+}
+
+export function getSubProduct(id) {
+  const response = makeGETRequest(`/storefront/taxons/products?id=${id}`);
+  return {
+    type: GET_SUB_PRODUCTS,
+    payload: response,
   };
 }
 
@@ -50,21 +63,6 @@ export function getFavourite() {
   };
 }
 
-export function getCatalogue() {
-  // const response = makeGETRequest('/products');
-  return {
-    type: ALL_CATALOGUE,
-    payload: {data: catalogue},
-  };
-}
-
-export function getCatalogueMenu() {
-  // const response = makeGETRequest('/products');
-  return {
-    type: CATALOGUE_MENU,
-    payload: {data: catalogueMenu},
-  };
-}
 
 export function getProductDetail() {
   // const response = makeGETRequest('/products');
@@ -139,9 +137,6 @@ export function getStates(id) {
 }
 
 export function createAddress(reqParam, id) {
-  console.log("reqParam.........")
-  console.log(reqParam)
-  console.log("reqParam.........")
   let response = '';
   if (id === '') {
     response = makePOSTRequest(`/storefront/account/addresses`, reqParam);
@@ -155,7 +150,6 @@ export function createAddress(reqParam, id) {
 }
 
 export function userLogin(reqParam) {
-  console.log(reqParam);
   const response = makePOSTRequest(`/storefront/sign_in`, reqParam);
   return {
     type: USER_LOGIN,
@@ -163,7 +157,6 @@ export function userLogin(reqParam) {
   };
 }
 export function userRegistration(reqParam) {
-  console.log(reqParam);
   const response = makePOSTRequest(`/storefront/sign_up`, reqParam);
   return {
     type: USER_REGISTRATION,

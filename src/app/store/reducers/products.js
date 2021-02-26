@@ -1,7 +1,6 @@
 import {
-	All_PRODUCTS,
-	ALL_CATALOGUE,
-	CATALOGUE_MENU,
+	GET_PRODUCTS,
+	GET_CATEGORIES,
 	GET_CART,
 	MY_ORDERS,
 	GET_PRODUCT_DETAIL,
@@ -11,35 +10,35 @@ import {
 	GET_COUNTRIES,
 	GET_STATES,
 	NEW_ADDRESS,
-	ALL_CATEGORIES,
 	UPDATE_ADDRESS,
-	UNAUTH_USER
+	UNAUTH_USER,
+	GET_SUB_PRODUCTS,
 } from '../actions/types';
 import {handleResponse} from '../../utils/Axios';
 const initialState = {
-  loggedIn: false,
-  unauthReq: false
+	loggedIn: false,
+	unauthReq: false,
 };
-
 export default function handleUsers(state = initialState, action) {
-	if (!(action.payload && action.payload.data)) return state
+	if (!(action.payload && action.payload.data)) return state;
 	switch (action.type) {
-		case All_PRODUCTS:
+		case GET_PRODUCTS:
 			return {...state, productsList: handleResponse(action.payload).products};
+		case GET_SUB_PRODUCTS:
+			return {
+				...state,
+				allSubProducts: handleResponse(action.payload).products,
+			};
 		case GET_FAVOURITE:
 			return {...state, allFavourite: handleResponse(action.payload).products};
-		case ALL_CATALOGUE:
+		case GET_CATEGORIES:
 			return {
 				...state,
-				catalogueList: handleResponse(action.payload).catalogue,
+				allCategories: handleResponse(action.payload).taxons,
 			};
-		case CATALOGUE_MENU:
-			return {
-				...state,
-				catalogueMenu: handleResponse(action.payload).catalogue,
-			};
+
 		case UNAUTH_USER:
-      return { ...state, unauthReq: true }	
+			return {...state, unauthReq: true};
 		case GET_CART:
 			return {...state, cartList: handleResponse(action.payload).cart};
 		case MY_ORDERS:
@@ -49,15 +48,15 @@ export default function handleUsers(state = initialState, action) {
 		case INITIAL_DATA:
 			return {...state, initialData: handleResponse(action.payload).product};
 		case GET_ALL_ADDRESS:
-		  return {...state, allAddress: handleResponse(action.payload).data}	
+			return {...state, allAddress: handleResponse(action.payload).data};
 		case UPDATE_ADDRESS:
-		  return { ...state, editAddress: handleResponse(action.payload).data}    
+			return {...state, editAddress: handleResponse(action.payload).data};
 		case GET_COUNTRIES:
-		  return {...state, countries: handleResponse(action.payload).countries } 
+			return {...state, countries: handleResponse(action.payload).countries};
 		case GET_STATES:
-		  return {...state, states: handleResponse(action.payload).states } 
+			return {...state, states: handleResponse(action.payload).states};
 		case NEW_ADDRESS:
-		  return {...state,  ...action.payload }   
+			return {...state, ...action.payload};
 		default:
 			return state;
 	}

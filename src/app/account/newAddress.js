@@ -49,7 +49,6 @@ class Form extends React.Component {
 	componentDidMount() {
 		const {editAddress} = this.props 
 		const id = this.props.route.params?.id ?? '';
-		console.log(id)
 		if(id){
 		  this.props.updateAddress(id)
 		  this.setState({selectValue: editAddress && editAddress.attributes})

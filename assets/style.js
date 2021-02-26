@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   _listItem: {
     maxWidth: Dimensions.get('window').width / 2,
     flex: 0.3,
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 4,
     marginRight: 0,
     paddingLeft: 10,
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  
   _rowView: {
     flexDirection:'row',
     alignItems:'center'
@@ -66,13 +67,20 @@ const styles = StyleSheet.create({
     height: 25,
     position: 'absolute',
     right: 10,
-    bottom: -10,
+    top: 10,
     borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: '#ddd',
     elevation: 0,
+  },
+
+  _dasProductImage: {
+    width: '100%',
+    height: 180,
+    borderRadius: 3,
+    resizeMode: 'contain',
   },
 
   _itemTitle: {
@@ -150,7 +158,6 @@ const styles = StyleSheet.create({
     height: 75,
     flexDirection: 'row',
     marginBottom: 15,
-    elevation: 2,
     alignItems:'center'
   },
 
@@ -168,7 +175,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
-    resizeMode: 'contain',
   },
 
   _catalogueText: {

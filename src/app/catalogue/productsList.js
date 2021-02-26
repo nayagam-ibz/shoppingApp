@@ -14,8 +14,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomHeader from '../header/header';
 import SearchProdcut from '../shared/search';
-import Categories from '../shared/categories';
-import {getProduct} from '../../app/store/actions/products';
+import CategoryMenus from '../shared/categoryMenus';
+import {getSubProduct} from '../../app/store/actions/products';
 import {connect} from 'react-redux';
 import Loader from '../shared/loader';
 import Filter from '../shared/filter';
@@ -25,7 +25,6 @@ class CataloguMenuDetail extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			maxRating: [1, 2, 3, 4, 5],
 			loading: true,
 			sortyBy: 'Featured',
 			modalVisible: false,
@@ -34,8 +33,10 @@ class CataloguMenuDetail extends Component {
 	}
 
 	componentDidMount() {
-		this.props.getProduct();
-		setTimeout(() => this.setState({loading: false}), 2000);
+		const id = this.props.route.params?.id ?? '';
+		this.props.getSubProduct(id).then((data) => {
+      this.setState({loading: false})
+		});
 	}
 
 	openSheet = () => {
@@ -64,9 +65,10 @@ class CataloguMenuDetail extends Component {
 	}
 
 	render() {
-		const {maxRating} = this.state;
-		const {productsList, initialData} = this.props;
-		const headertitle = this.props.route.params && this.props.route.params.user;
+		const {allSubProducts, allCategories, initialData} = this.props;
+		const title = this.props.route.params?.title ?? '';
+		const id = this.props.route.params?.id ?? '';
+		const value = 0
 		return (
 			<View style={Styles._container}>
 				<Loader loading={this.state.loading} />
@@ -76,17 +78,17 @@ class CataloguMenuDetail extends Component {
 					isBack="isBack"
 					openModal="openModal"
 					name="Catalogue"
-					headertitle={headertitle}
+					headertitle={title}
 					filterIcon={true}
 					headerModal={() => this.setModalVisible(true)}
 				/>
 				<SearchProdcut />
 				<ScrollView>
-					<Categories initialData={initialData && initialData.categories} />
+					<CategoryMenus title={title} itemId={id} />
 					<View style={Styles._itemWrapper}>
 						<View style={[Styles._spaceBetween, {marginBottom: 10}]}>
 							<Text style={[Styles._itemTitle, {paddingLeft: 10}]}>
-								{productsList && productsList.length} Items
+								{allSubProducts && allSubProducts.length} Items
 							</Text>
 							<TouchableOpacity
 								onPress={this.openSheet}
@@ -99,7 +101,7 @@ class CataloguMenuDetail extends Component {
 
 						<View style={{paddingLeft: 0}}>
 							<FlatList
-								data={productsList && productsList}
+								data={allSubProducts && allSubProducts}
 								keyExtractor={(item, index) => index}
 								contentContainerStyle={Styles.container}
 								numColumns={2}
@@ -111,12 +113,7 @@ class CataloguMenuDetail extends Component {
 											<View style={Styles._itemWidget}>
 												<Image
 													source={require('../../../assets/images/img1.png')}
-													style={{
-														width: '100%',
-														height: 180,
-														borderRadius: 3,
-														resizeMode: 'contain',
-													}}
+													style={Styles._dasProductImage}
 												/>
 												<TouchableOpacity style={Styles._itemFavourite}>
 													<Entypo
@@ -133,28 +130,19 @@ class CataloguMenuDetail extends Component {
 													/>
 												</TouchableOpacity>
 											</View>
-											<View style={{paddingHorizontal: 5}}>
-												<View style={Styles._ratingView}>
-													{this.state.maxRating.map((rating, key) => {
-														return (
-															<View activeOpacity={0.7} key={rating}>
-																<Image
-																	source={
-																		rating <= item.ratingCount
-																			? require('../../../assets/images/star_filled.png')
-																			: require('../../../assets/images/star_corner.png')
-																	}
-																	style={Styles._ratingStyle}
-																/>
-															</View>
-														);
-													})}
-												</View>
+											<View style={{paddingVertical: 5}}>
 												<Text style={Styles._itemName}>{item.name}</Text>
-												<Text style={Styles._itemPrice}>
-													<FontAwesome name="rupee" size={15} color="#3B2D46" />{' '}
-													{item.price}
-												</Text>
+												<View style={Styles._rowView}>
+												  <FontAwesome
+														name="rupee"
+														size={14}
+														color="#3B2D46"
+														style={{marginTop: 3, marginRight: 2}}
+													/>
+													<Text style={Styles._itemPrice}>
+														{item.master.costPrice ? item.master.costPrice : value.toFixed(2)}
+													</Text>
+												</View>
 											</View>
 										</TouchableOpacity>
 									</View>
@@ -167,9 +155,9 @@ class CataloguMenuDetail extends Component {
 					ref={(ref) => {
 						this.RBSheet = ref;
 					}}
-					height={220}
-					openDuration={200}
-					closeDuration={200}
+					height={250}
+					openDuration={500}
+					closeDuration={500}
 					closeOnPressMask={true}
 					closeOnDragDown={true}
 					customStyles={{
@@ -214,9 +202,10 @@ class CataloguMenuDetail extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		productsList: state.products.productsList,
+		allCategories: state.products.allCategories,
+		allSubProducts: state.products.allSubProducts,
 		initialData: state.products.initialData,
 	};
 };
 
-export default connect(mapStateToProps, {getProduct})(CataloguMenuDetail);
+export default connect(mapStateToProps, {getSubProduct})(CataloguMenuDetail);

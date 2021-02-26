@@ -6,11 +6,11 @@ import {
 	TouchableOpacity,
 	Image,
 	FlatList,
+	ScrollView,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import CustomHeader from './header/header';
 import SearchProdcut from './shared/search';
-import {getCatalogue, getCatalogueMenu} from '../app/store/actions/products';
 import {connect} from 'react-redux';
 import Loader from './shared/loader';
 import Styles from '../../assets/style';
@@ -18,52 +18,64 @@ import Styles from '../../assets/style';
 class Catalogue extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {getTitle: '', loading: true};
+		this.state = {title: '', loading: true};
 	}
 
 	componentDidMount() {
-		this.props.getCatalogue();
 		setTimeout(() => this.setState({loading: false}), 2000);
 	}
 
 	openSheet = (name, id) => {
-		this.setState({getTitle: name});
+		this.setState({title: name});
 		this.RBSheet.open();
-		this.props.getCatalogueMenu();
 	};
 
-	onNavigation = (res) => {
+	onNavigation = (id, title) => {
 		this.RBSheet.close();
-		this.props.navigation.navigate('Categories', {user: res});
+		setTimeout(() => {
+			this.props.navigation.navigate('Categories', {id: id, title: title});
+		}, 200);
 	};
 
 	render() {
-		const {catalogueList, catalogueMenu} = this.props;
+		const {allCategories} = this.props;
+		const {title} = this.state;
 		return (
 			<SafeAreaView>
-			  <Loader loading={this.state.loading} />
-				<CustomHeader navigation={this.props.navigation} isHeader="home" isBack="isBack" headertitle="Catalogue" name="Home" />
+				<Loader loading={this.state.loading} />
+				<CustomHeader
+					navigation={this.props.navigation}
+					isHeader="home"
+					isBack="isBack"
+					title="Catalogue"
+					name="Home"
+				/>
 				<SearchProdcut />
-				<View style={Styles._catalogueList}>
-					<FlatList
-						data={catalogueList && catalogueList}
-						keyExtractor={(item, index) => item.name}
-						contentContainerStyle={Styles.container}
-						renderItem={({item}) => (
-							<TouchableOpacity
-								style={Styles._cataloguRow}
-								onPress={() => this.openSheet(item.name, item.id)}>
-								<Text style={Styles._catalogueText}>{item.name}</Text>
-								<View style={Styles._catImage}>
-									<Image
-										style={Styles._imageStyle}
-										source={require('../../assets/images/women.jpg')}
-									/>
+				<ScrollView style={[Styles._catalogueList, {marginBottom: 80}]}>
+					{allCategories &&
+						allCategories.map((item, index) => {
+							return (
+								<View key={index}>
+									{item.taxons.map((item, index) => {
+										return (
+											<TouchableOpacity
+											  key={index}
+												style={Styles._cataloguRow}
+												onPress={() => this.openSheet(item.name, item.id)}>
+												<Text style={Styles._catalogueText}>{item.name}</Text>
+												<View style={Styles._catImage}>
+													<Image
+														style={Styles._imageStyle}
+														source={require('../../assets/images/women.jpg')}
+													/>
+												</View>
+											</TouchableOpacity>
+										);
+									})}
 								</View>
-							</TouchableOpacity>
-						)}
-					/>
-				</View>
+							);
+						})}
+				</ScrollView>
 				<RBSheet
 					ref={(ref) => {
 						this.RBSheet = ref;
@@ -79,20 +91,37 @@ class Catalogue extends Component {
 						},
 					}}>
 					<View style={Styles._catList}>
-						<Text style={Styles._catTitle}>{this.state.getTitle}</Text>
-						<View style={{marginTop: 10}}>
-							{catalogueMenu &&
-								catalogueMenu.map((item) => {
-									return (
-										<TouchableOpacity
-											key={item.id}
-											style={Styles._menuPadding}
-											onPress={() => this.onNavigation(item.name)}>
-											<Text style={Styles._catSubTitle}>{item.name}</Text>
-										</TouchableOpacity>
-									);
-								})}
-						</View>
+						<Text style={Styles._catTitle}>{title}</Text>
+						{allCategories &&
+							allCategories.map((item, index) => {
+								return (
+									<View key={index}>
+										{item.taxons.map((item, index) => {
+											if (item.name === title) {
+												return (
+													<View key={index}>
+														{item.taxons.map((item, index) => {
+															return (
+																<TouchableOpacity
+																  key={index}
+																	key={item.id}
+																	style={Styles._menuPadding}
+																	onPress={() =>
+																		this.onNavigation(item.id, title)
+																	}>
+																	<Text style={Styles._catSubTitle}>
+																		{item.name}
+																	</Text>
+																</TouchableOpacity>
+															);
+														})}
+													</View>
+												);
+											}
+										})}
+									</View>
+								);
+							})}
 					</View>
 				</RBSheet>
 			</SafeAreaView>
@@ -102,12 +131,8 @@ class Catalogue extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		catalogueList: state.products.catalogueList,
-		catalogueMenu: state.products.catalogueMenu,
+		allCategories: state.products.allCategories,
 	};
 };
 
-export default connect(mapStateToProps, {getCatalogue, getCatalogueMenu})(
-	Catalogue,
-);
-
+export default connect(mapStateToProps, {})(Catalogue);
