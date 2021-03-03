@@ -34,7 +34,7 @@ function HomeStackScreen() {
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
-        cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
+        // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
             
       }}>
       <HomeStack.Screen name="Home" component={Dashboard} />
@@ -62,7 +62,7 @@ function CatalogueStackScreen({navigation, route}) {
       initialRouteName="Catalogue"
       screenOptions={{
         headerShown: false,
-        cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
+        // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
       }}>
       <CatalogueStack.Screen name="Catalogue" component={Catalogue} />
       <CatalogueStack.Screen name="Categories" component={ProductsList} />
@@ -82,7 +82,7 @@ function FavouriteStackScreen() {
       initialRouteName="Setting"
       screenOptions={{
         headerShown: false,
-        cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
+        // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
       }}>
       <FavouriteStack.Screen name="Favourite" component={Favourite} />
     </FavouriteStack.Navigator>
@@ -101,7 +101,7 @@ function AccountStackScreen({navigation, route}) {
       initialRouteName="Setting"
       screenOptions={{
         headerShown: false,
-        cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
+        // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
       }}>
       <AccountStack.Screen name="Account" component={Account} />
       <AccountStack.Screen name="Profile" component={UserProfile} />

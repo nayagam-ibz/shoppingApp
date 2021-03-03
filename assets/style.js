@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
   _listItem: {
     maxWidth: Dimensions.get('window').width / 2,
     flex: 0.3,
-    marginBottom: 10,
     borderRadius: 4,
     marginRight: 0,
     paddingLeft: 10,
@@ -36,10 +35,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  
+
   _rowView: {
-    flexDirection:'row',
-    alignItems:'center'
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   _flexRow: {
@@ -55,10 +54,11 @@ const styles = StyleSheet.create({
   },
 
   _itemWidget: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ddd',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5,
+    borderRadius: 2,
+    height: 200,
   },
 
   _itemFavourite: {
@@ -86,7 +86,9 @@ const styles = StyleSheet.create({
   _itemTitle: {
     fontSize: 13,
     fontFamily: 'Montserrat-SemiBold',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    paddingHorizontal: 10,
+    paddingVertical: 15
   },
 
   _seeAllText: {
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
     color: '#333',
     fontSize: 13,
     fontFamily: 'Montserrat-Medium',
-    lineHeight: 20
+    lineHeight: 20,
   },
 
   _itemPrice: {
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
 
   _ratingView: {
     flexDirection: 'row',
-    paddingVertical: 8
+    paddingVertical: 8,
   },
 
   _ratingStyle: {
@@ -147,7 +149,6 @@ const styles = StyleSheet.create({
 
   _catalogueList: {
     marginTop: 10,
-    paddingHorizontal: 10,
   },
 
   _cataloguRow: {
@@ -155,33 +156,35 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     borderRadius: 3,
     justifyContent: 'space-between',
-    height: 75,
+    height: 110,
     flexDirection: 'row',
-    marginBottom: 15,
-    alignItems:'center'
+    marginBottom: 5,
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+
+  _size10: {
+    fontFamily: 'Montserrat-Regular',
+    fontSize: 10,
+    marginRight: 5
   },
 
   _catImage: {
-    backgroundColor: '#f3f3f3',
-    width: 110,
-    height: 75,
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
+    width: 150,
+    height: 110,
   },
 
   _imageStyle: {
-    width: 110,
-    height: 75,
+    width: 150,
+    height: 110,
     resizeMode: 'contain',
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
   },
 
   _catalogueText: {
     fontFamily: 'Montserrat-SemiBold',
     color: '#3B2D46',
-    fontSize: 14,
-    textTransform: 'uppercase'
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
 
   _catList: {
@@ -195,7 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     paddingTop: 5,
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
 
   _menuPadding: {
@@ -257,7 +260,7 @@ const styles = StyleSheet.create({
   _subTitleApp: {
     fontSize: 14,
     fontFamily: 'Montserrat-Medium',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
 
   _clearText: {
@@ -287,7 +290,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 
-  _cartText: {
+  _btnText: {
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 14,
     color: '#fff',
@@ -343,18 +346,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'absolute',
     bottom: 0,
-    height: 60,
-    borderWidth: 1,
-    borderColor: '#eee',
+    height: 65,
+    borderTopWidth: 1,
+    borderRightWidth: 1,
+    borderLeftWidth: 1,
+    borderColor: '#ddd',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     justifyContent: 'center',
   },
 
   _styleView: {
-    width: 40,
-    height: 25,
+    width: 35,
+    height: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -394,10 +399,18 @@ const styles = StyleSheet.create({
   },
 
   _addToBtn: {
-    backgroundColor: 'orange',
-    paddingHorizontal: 70,
-    paddingVertical: 10,
+    paddingVertical: 12,
     borderRadius: 3,
+    borderWidth: 1,
+    borderColor: '#eee',
+    alignItems: 'center',
+  },
+
+  _bynowBtn: {
+    backgroundColor: 'orange',
+    paddingVertical: 12,
+    borderRadius: 3,
+    alignItems: 'center',
   },
 
   _productList: {
@@ -445,8 +458,22 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     marginTop: -5,
     fontFamily: 'Montserrat-Medium',
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
+
+  _productDetails: {
+    marginTop: 5,
+  },
+
+  shareBtn: {
+    width: 30,
+    height: 30,
+    backgroundColor: '#fff',
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
 });
 
 module.exports = styles;

@@ -49,9 +49,10 @@ class Form extends React.Component {
 	componentDidMount() {
 		const {editAddress} = this.props 
 		const id = this.props.route.params?.id ?? '';
+		console.log(id)
 		if(id){
 		  this.props.updateAddress(id)
-		  this.setState({selectValue: editAddress && editAddress.attributes})
+		  this.setState({selectValue: editAddress && editAddress})
 		}else {
 		  this.setState({selectValue: ''})
       this.resetForm()   
@@ -64,7 +65,7 @@ class Form extends React.Component {
     })
 	}
 	render() {
-		const {error, handleSubmit, countries, states } = this.props;
+		const {error, handleSubmit, countries, states, editAddress } = this.props;
 		const { selectValue } = this.state
 		const editParam = this.props.route.params?.id ?? '';
 		return (
@@ -139,7 +140,8 @@ class Form extends React.Component {
 							label="Country"
 							optionValue={countries && countries}
 							picker="country"
-							defaultName = {selectValue && selectValue.countryName}
+							defaultName={selectValue && selectValue.country.name}
+							defaultId={selectValue && selectValue.country.id}
 						/>
 					</View>
 					<View style={styles._formGroup}>
@@ -148,7 +150,8 @@ class Form extends React.Component {
 							component={selectPicker}
 							label="State"
 							optionValue={states && states}
-							defaultName = {selectValue && selectValue.stateName}
+							defaultName = {selectValue && selectValue.state.name}
+							defaultId={selectValue && selectValue.state.id}
 						/>
 					</View>
 					<View
@@ -190,8 +193,8 @@ const addressForm = reduxForm({
 
 const mapStateToProps = (state) => {
 	let addressInitial = {}
-  if (state.products.editAddress && state.products.editAddress.attributes ) {
-  	const fieldName = state.products.editAddress.attributes
+  if (state.products.editAddress && state.products.editAddress ) {
+  	const fieldName = state.products.editAddress
     addressInitial.initialValues = {
       lastname: fieldName.lastname,
       firstname: fieldName.firstname,
@@ -199,6 +202,7 @@ const mapStateToProps = (state) => {
       address2: fieldName.address2,
       address2: fieldName.address2,
       phone: fieldName.phone,
+      alternativePhone: fieldName.alternativePhone,
       zipcode: fieldName.zipcode,
       city: fieldName.city,
     }

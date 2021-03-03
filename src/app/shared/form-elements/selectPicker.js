@@ -19,12 +19,13 @@ const selectPicker = (props) => {
     optionValue,
     picker,
     defaultName,
+    defaultId,
     input: {onChange},
   } = props;
   const [value, setValue] = useState();
   const [name, setName] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  onChange(value ? value : 99);
+  onChange(value ? value : defaultId);
     const onNavigation = (id, name) => {
     setValue(id);
     setName(name);

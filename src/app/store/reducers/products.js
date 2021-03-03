@@ -44,13 +44,13 @@ export default function handleUsers(state = initialState, action) {
 		case MY_ORDERS:
 			return {...state, myorders: handleResponse(action.payload).orders};
 		case GET_PRODUCT_DETAIL:
-			return {...state, productDetail: handleResponse(action.payload).product};
+			return {...state, productDetail: handleResponse(action.payload).data};
 		case INITIAL_DATA:
 			return {...state, initialData: handleResponse(action.payload).product};
 		case GET_ALL_ADDRESS:
 			return {...state, allAddress: handleResponse(action.payload).data};
 		case UPDATE_ADDRESS:
-			return {...state, editAddress: handleResponse(action.payload).data};
+			return {...state, editAddress: handleResponse(action.payload)};
 		case GET_COUNTRIES:
 			return {...state, countries: handleResponse(action.payload).countries};
 		case GET_STATES:

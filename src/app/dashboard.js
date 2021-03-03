@@ -14,6 +14,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Notification from './shared/notification';
 import SearchProdcut from './shared/search';
+import {SubmissionError} from 'redux-form';
 import CustomHeader from './header/header';
 import Styles from '../../assets/style';
 import Loader from './shared/loader';
@@ -22,7 +23,7 @@ import { connect } from 'react-redux';
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {loading: true, modalVisible: false};
+		this.state = {loading: false, modalVisible: false};
 	}
 
 	componentDidMount() {
@@ -30,7 +31,11 @@ class Dashboard extends Component {
 		  this.props.getProducts(19).then((data) => {
 			  this.setState({loading: false});
 		  })
-		});
+		}).catch(error => {
+      this.setState({ loading:false })
+      console.log(error)
+      throw new SubmissionError(error);
+    })
 	}
 
 	navigationToggle() {
@@ -58,9 +63,7 @@ class Dashboard extends Component {
 				<Loader loading={this.state.loading} />
 				<CustomHeader
 					navigation={this.props.navigation}
-					isHeader="home"
-					openModal="openModal"
-					notificationIcon={true}
+					isHeader="home" openModal="openModal" notificationIcon={true}
 					headerModal={() => this.setModalVisible(true)}
 				/>
 				<SearchProdcut />
@@ -69,15 +72,9 @@ class Dashboard extends Component {
 						<View style={styles._catalogue}>
 							<View style={[styles._spaceBetween, {paddingVertical: 10}]}>
 								<Text style={styles._itemTitle}>Catalogue</Text>
-								<TouchableOpacity
-									style={styles._flexRow}
-									onPress={this.navigationToggle}>
+								<TouchableOpacity style={styles._flexRow} onPress={() => this.navigationToggle()}>
 									<Text style={styles._seeAllText}>See All</Text>
-									<Entypo
-										name="chevron-small-right"
-										size={22}
-										color="#7a7a7a"
-									/>
+									<Entypo name="chevron-small-right" size={22} color="#7a7a7a"/>
 								</TouchableOpacity>
 							</View>
 							<View>
@@ -88,12 +85,19 @@ class Dashboard extends Component {
 												return (
 													<TouchableOpacity
 													  key={index}
-														style={styles._catalogWidget}
-														onPress={this.navigationToggle}>
-														<Image
-															source={require('../../assets/images/Men.jpg')}
-															style={styles._cateImage}
-														/>
+														onPress={() => this.navigationToggle()}>
+														<View style={styles._catalogWidget}>
+															{item.images ? item.images.slice(0,1).map((item, index) => {
+																return(
+															    <View key={index}>
+															      <Image source={{uri: item.url}} style={styles._cateImage} />  
+															     </View>
+																	)
+														  	})
+	                              : 
+	                              <Image source={require('../../assets/images/unknow-image.png')} style={{width: 45, height: 45}} />
+														  }
+														</View>
 														<Text style={styles._catalogText}>{item.name}</Text>
 													</TouchableOpacity>
 												);
@@ -106,49 +110,42 @@ class Dashboard extends Component {
 					)}
 					{productsList && productsList && (
 						<View style={Styles._itemWrapper}>
-							<Text
-								style={[
-									Styles._itemTitle,
-									{paddingVertical: 10, paddingLeft: 10},
-								]}>
+							<Text style={Styles._itemTitle}>
 								Best Sellers
-							</Text>
-							<View style={{paddingLeft: 0}}>
-								<FlatList
-									data={productsList}
-									keyExtractor={(item, index) => index}
-									contentContainerStyle={Styles.container}
-									numColumns={2}
-									renderItem={({item}) => (
-										<TouchableOpacity
-											style={{flex: 1}}
-											onPress={() => this.onNavigation(item.id)}>
-											<View style={Styles._listItem}>
-												<View style={Styles._itemWidget}>
-													<Image
-														source={require('../../assets/images/img1.png')}
-														style={Styles._dasProductImage}
+						  </Text>
+							<FlatList
+								data={productsList}
+								keyExtractor={(item, index) => index}
+								numColumns={2}
+								renderItem={({item}) => (
+									<TouchableOpacity
+										style={{flex: 1}}
+										onPress={() => this.onNavigation(item.id)}>
+										<View style={Styles._listItem}>
+											<View style={Styles._itemWidget}>
+											  {item.images.length > 0 
+											  	?
+											  	item.images.slice(0,1).map((item, index) => {
+												  	return(
+                              <View key={index}>
+                             	  <Image source={{uri: item.url}} style={styles._dasProductImage} />  
+                              </View> 
+											  		)
+												  })
+												  : 
+												  <Image
+														source={require('../../assets/images/unknow-image.png')}
+														style={{width: 80, height: 80}}
 													/>
-												</View>
-												<View style={{paddingVertical: 5}}>
-													<Text style={Styles._itemName}>{item.name}</Text>
-													<View style={Styles._rowView}>
-													  <FontAwesome
-															name="rupee"
-															size={14}
-															color="#3B2D46"
-															style={{marginTop: 3, marginRight: 2}}
-														/>
-														<Text style={Styles._itemPrice}>
-															{item.master.costPrice ? item.master.costPrice : value.toFixed(2)}
-														</Text>
-													</View>
-												</View>
+											  }
 											</View>
-										</TouchableOpacity>
-									)}
-								/>
-							</View>
+											<View style={{height: 55, paddingVertical: 5}}>
+												<Text style={Styles._itemName}>{item.name}</Text>
+											</View>
+										</View>
+									</TouchableOpacity>
+								)}
+							/>
 						</View>
 					)}
 				</ScrollView>
@@ -211,12 +208,19 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 	},
 
-	_cateImage: {
+	_catalogWidget: {
 		width: 70,
 		height: 70,
 		borderRadius: 100,
-		borderWidth: 2,
-		borderColor: '#7a7a7a',
+		borderWidth: 1,
+		borderColor: '#ddd',
+		alignItems:'center',
+		justifyContent:'center'
+	},
+
+	_cateImage: {
+		width: 55,
+		height: 55,
 	},
 
 	_catalogText: {
@@ -226,3 +230,5 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 });
+
+

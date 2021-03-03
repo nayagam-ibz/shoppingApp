@@ -65,8 +65,8 @@ class ManageAddress extends Component {
 						<FlatList
 							data={allAddress && allAddress}
 							keyExtractor={(item, index) => index}
-							renderItem={({item}) => (
-								<View style={styles._addressRow} key={item.id}>
+							renderItem={({item, index}) => (
+								<View style={styles._addressRow}>
 									<Text style={styles._addressName}>{item.attributes.address1}</Text>
 									<Text style={styles._addressGray}>{item.attributes.address2}</Text>
 									<Text

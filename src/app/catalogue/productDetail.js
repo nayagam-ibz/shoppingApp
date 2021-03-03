@@ -14,6 +14,27 @@ import {getProductDetail} from '../../app/store/actions/products';
 import {connect} from 'react-redux';
 import Styles from '../../../assets/style';
 import Loader from '../shared/loader';
+import {FlatListSlider} from 'react-native-flatlist-slider';
+import Preview from '../shared/preview' 
+import ShareOptions from '../shared/shareOptions' 
+
+const images = [
+   {
+    image:'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2414313/2018/3/13/11520926368526-HERENOW-Men-Red--Black-Regular-Fit-Checked-Casual-Shirt-8881520926368447-1.jpg',
+   },
+
+   {
+    image:'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2414313/2018/3/13/11520926368507-HERENOW-Men-Red--Black-Regular-Fit-Checked-Casual-Shirt-8881520926368447-2.jpg',
+   },
+
+   {
+    image:'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2414313/2018/3/13/11520926368495-HERENOW-Men-Red--Black-Regular-Fit-Checked-Casual-Shirt-8881520926368447-3.jpg',
+   },
+  {
+    image:'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2414313/2018/3/13/11520926368483-HERENOW-Men-Red--Black-Regular-Fit-Checked-Casual-Shirt-8881520926368447-4.jpg',
+  },
+  ]
+
 
 class ProductDetail extends React.Component {
   constructor(props) {
@@ -25,8 +46,11 @@ class ProductDetail extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getProductDetail();
-    setTimeout(() => this.setState({loading: false}), 2000);
+    const { id } = this.props.route.params;
+    console.log(id)
+    this.props.getProductDetail(id).then((data) => {
+       this.setState({loading: false})
+    });
   }
 
   _navigate = () => {
@@ -46,165 +70,64 @@ class ProductDetail extends React.Component {
   render() {
     const {size, color} = this.state;
     const {productDetail, route} = this.props;
-    const item = productDetail && productDetail;
-    const { id } = route.params;
     const { navigation } = route.params;
+    const item = productDetail && productDetail.attributes
+    console.log(item)
+    const value = 0
     return (
       <SafeAreaView style={Styles._container}>
         <Loader loading={this.state.loading} />
         <ScrollView>
-          <View style={{flex: 0.8, backgroundColor: '#fff'}}>
-            <Image
-              style={{width: '100%', height: 280, resizeMode: 'contain'}}
-              source={require('../../../assets/images/img1.png')}
+          <View style={{marginBottom: 10}}>
+            <FlatListSlider
+              data={images}
+              component={<Preview />}
+              autoscroll={false}
+              indicatorContainerStyle={{position:'absolute', bottom: 20}}
             />
-          </View>
 
-          {item && item && (
-            <View style={{flex: 1}}>
-              <View style={{paddingHorizontal: 10}}>
-                <View style={[Styles._spaceBetween, {paddingVertical: 8}]}>
-                  <View style={Styles._ratingCart}>
-                    {this.state.maxRating.map((rating, index) => {
-                      return (
-                        <View activeOpacity={0.7} key={index}>
-                          <Image
-                            source={
-                              rating <= 4
-                                ? require('../../../assets/images/star_filled.png')
-                                : require('../../../assets/images/star_corner.png')
-                            }
-                            style={Styles._ratingStyle}
-                          />
-                        </View>
-                      );
-                    })}
-                    <Text style={Styles._reviewText}> 8 reviews</Text>
-                  </View>
-                  <Text style={Styles._inStock}>{item.availability}</Text>
-                </View>
-                <Text style={[Styles._itemName, {paddingVertical: 5, fontSize: 16}]}>{item.name}</Text>
-                <Text style={Styles._itemPrice}><FontAwesome name="rupee" size={15} color="#3B2D46" /> {item.price}</Text>
-                <View style={{marginTop: 15}}>
-                  <Text style={Styles._styleTitle}>Colors</Text>
-                  <View
-                    style={[
-                      Styles._sizeView,
-                      {flexDirection: 'row', alignItems: 'center'},
-                    ]}>
-                    {item &&
-                      item.colors.map((item, index) => {
-                        return (
-                          <TouchableOpacity
-                            onPress={() => this._pickerColor(item.color)}
-                            key={index}
-                            style={{
-                              borderWidth: 2,
-                              marginRight: 8,
-                              borderColor:
-                                color === item.color ? 'orange' : item.color,
-                              borderRadius: 3,
-                            }}>
-                            <View
-                              style={[
-                                Styles._styleView,
-                                {backgroundColor: item.color},
-                              ]}
-                            />
-                          </TouchableOpacity>
-                        );
-                      })}
-                  </View>
-                </View>
-                <View style={{marginTop: 15}}>
-                  <Text style={Styles._styleTitle}>Sizes</Text>
-                  <View style={[Styles._sizeView, Styles._spaceBetween]}>
-                    {item &&
-                      item.sizes.map((item, index) => {
-                        return (
-                          <TouchableOpacity
-                            style={{
-                              borderWidth: 1,
-                              borderRadius: 3,
-                              borderColor:
-                                size === item.size ? 'orange' : '#ddd',
-                              alignItems: 'center',
-                            }}
-                            key={index}
-                            onPress={() => this._pickerSize(item.size)}>
-                            <View style={Styles._styleView}>
-                              <Text style={Styles._styleText}>{item.size}</Text>
-                            </View>
-                          </TouchableOpacity>
-                        );
-                      })}
-                  </View>
-                </View>
-              </View>
-              <View style={Styles._vrLine} />
-              <View style={{paddingHorizontal: 10, paddingVertical: 10}}>
-                <View style={Styles._productDetails}>
-                  <Text style={Styles._productTitle}>PRODUCT DETAILS</Text>
-                  <View style={Styles._detailRow}>
-                    <Text style={Styles._detTitle}>Type</Text>
-                    <Text style={Styles._detName}>{item.type}</Text>
-                  </View>
-                  <View style={Styles._detailRow}>
-                    <Text style={Styles._detTitle}>Collection</Text>
-                    <Text style={Styles._detName}>{item.collection}</Text>
-                  </View>
-                  <View style={Styles._detailRow}>
-                    <Text style={Styles._detTitle}>Manufacturer</Text>
-                    <Text style={Styles._detName}>{item.manufacturer}</Text>
-                  </View>
-                  <View style={Styles._detailRow}>
-                    <Text style={Styles._detTitle}>Brand</Text>
-                    <Text style={Styles._detName}>{item.brand}</Text>
-                  </View>
-                  <View style={Styles._detailRow}>
-                    <Text style={Styles._detTitle}>Material</Text>
-                    <Text style={Styles._detName}>{item.material}</Text>
-                  </View>
-                  <View style={Styles._detailRow}>
-                    <Text style={Styles._detTitle}>Fit</Text>
-                    <Text style={Styles._detName}>{item.fit}</Text>
-                  </View>
-                  <View style={Styles._detailRow}>
-                    <Text style={Styles._detTitle}>Gender</Text>
-                    <Text style={Styles._detName}>{item.gender}</Text>
-                  </View>
-                  <View style={Styles._detailRow}>
-                    <Text style={Styles._detTitle}>Model</Text>
-                    <Text style={Styles._detName}>{item.model}</Text>
-                  </View>
-                </View>
-              </View>
-              <View style={Styles._vrLine} />
-              <View
-                style={{
-                  paddingHorizontal: 10,
-                  marginBottom: 100,
-                  paddingVertical: 10,
-                }}>
-                <View style={Styles._productDetails}>
-                  <Text style={Styles._productTitle}>PRODUCT DESCRIPTION</Text>
-                  <Text style={Styles._detDes}>{item.description}</Text>
-                </View>
+            <View style={{position:'absolute', left: 10, top: 15}}>
+              <TouchableOpacity
+                style={Styles.shareBtn}
+                onPress={() => this.props.navigation.navigate(navigation)}>
+                <AntDesign name="arrowleft" size={22} color="#3B2D46" />
+              </TouchableOpacity>
+            </View> 
+            <View style={{position:'absolute', right: 3, top: 15}}>
+              <ShareOptions itemObject={item && item}/>
+            </View> 
+          </View>
+          <View style={{flex: 1}}>
+            <View style={{paddingHorizontal: 10}}>
+              <Text style={Styles._itemName}>{item && item.name}</Text>
+              <View style={Styles._rowView}>
+                <FontAwesome
+                  name="rupee"
+                  size={14}
+                  color="#333"
+                  style={{marginTop: 3, marginRight: 2}}
+                />
+                <Text style={Styles._itemPrice}>
+                  {item && item.price ? item && item.price : value.toFixed(2)}
+                </Text>
               </View>
             </View>
-          )}
+            <View style={Styles._vrLine} />
+            <View style={{paddingHorizontal: 10,marginBottom: 100,}}>
+              <View style={Styles._productDetails}>
+                <Text style={Styles._productTitle}>PRODUCT DESCRIPTION</Text>
+                <Text style={Styles._detDes}>{item && item.description}</Text>
+              </View>
+            </View>
+          </View>
         </ScrollView>
         <View style={Styles._checkEnd}>
           <View style={Styles._spaceBetween}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate(navigation)}>
-              <AntDesign name="arrowleft" size={22} color="#3B2D46" />
+            <TouchableOpacity style={[Styles._addToBtn,{width: '49%'}]} onPress={this._navigate}>
+              <Text  style={[Styles._btnText, {color:'#333'}]}>ADD TO CART</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={Styles._addToBtn} onPress={this._navigate}>
-              <Text style={Styles._cartText}>ADD TO CART</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Entypo name="heart-outlined" size={22} color="#3B2D46" />
+           <TouchableOpacity style={[Styles._bynowBtn ,{width: '49%'}]} onPress={this._navigate}>
+              <Text style={Styles._btnText}>BUY NOW</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -64,11 +64,11 @@ export function getFavourite() {
 }
 
 
-export function getProductDetail() {
-  // const response = makeGETRequest('/products');
+export function getProductDetail(id) {
+  const response = makeGETRequest(`/storefront/products/${id}`);
   return {
     type: GET_PRODUCT_DETAIL,
-    payload: {data: detail},
+    payload: response
   };
 }
 
