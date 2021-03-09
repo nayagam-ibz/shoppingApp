@@ -74,7 +74,7 @@ class Catalogue extends Component {
 														<View style={{flexDirection:'row', alignItems:'center'}}>
 															{item.taxons.slice(0,3).map((item, index) => {
 																return (
-																	<Text style={Styles._size10}>
+																	<Text style={Styles._size10} key={index}>
 																		{item.name}
 																	</Text>
 																);
@@ -120,7 +120,7 @@ class Catalogue extends Component {
 																		this.onNavigation(item.id, title)
 																	}>
 																	<Text style={Styles._catSubTitle}>
-																		{item.name}{item.id}
+																		{item.name}
 																	</Text>
 																</TouchableOpacity>
 															);

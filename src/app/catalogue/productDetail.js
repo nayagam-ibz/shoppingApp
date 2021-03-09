@@ -9,14 +9,19 @@ import {
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {getProductDetail} from '../../app/store/actions/products';
 import {connect} from 'react-redux';
 import Styles from '../../../assets/style';
 import Loader from '../shared/loader';
 import {FlatListSlider} from 'react-native-flatlist-slider';
-import Preview from '../shared/preview' 
+import PreviewSlider from '../shared/previewSlider' 
 import ShareOptions from '../shared/shareOptions' 
+import SimilarProduct from '../shared/similarProduct'
+import ProductDetailFilter from '../shared/productDetailFilter'
+
+
+const  details = ['Type', 'Collection', 'Manufacturer', 'Brand', 'Material', 'Fit', 'Gender', 'Model'];
 
 const images = [
    {
@@ -37,100 +42,116 @@ const images = [
 
 
 class ProductDetail extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      maxRating: [1, 2, 3, 4, 5],
-      loading: true
-    };
-  }
+  state = {loading: true}
 
   componentDidMount() {
-    const { id } = this.props.route.params;
-    console.log(id)
-    this.props.getProductDetail(id).then((data) => {
-       this.setState({loading: false})
-    });
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('focus', () => {
+      const { id } = this.props.route.params;
+      this.props.getProductDetail(id).then((data) => {
+        this.setState({loading: false})
+      })
+    })
+  }
+
+  componentWillUnmount() {
+    if (this.focusListener != null && this.focusListener.remove) {
+      this.focusListener.remove();
+    }
   }
 
   _navigate = () => {
     this.props.navigation.navigate('Cart');
   };
 
-  _pickerColor = (res) => {
-    console.log(res);
-    this.setState({color: res});
-  };
-
-  _pickerSize = (res) => {
-    console.log(res);
-    this.setState({size: res});
-  };
-
   render() {
-    const {size, color} = this.state;
     const {productDetail, route} = this.props;
     const { navigation } = route.params;
-    const item = productDetail && productDetail.attributes
-    console.log(item)
+    const productFilter = productDetail && productDetail.optionTypes;
     const value = 0
     return (
       <SafeAreaView style={Styles._container}>
         <Loader loading={this.state.loading} />
-        <ScrollView>
-          <View style={{marginBottom: 10}}>
-            <FlatListSlider
-              data={images}
-              component={<Preview />}
-              autoscroll={false}
-              indicatorContainerStyle={{position:'absolute', bottom: 20}}
-            />
-
-            <View style={{position:'absolute', left: 10, top: 15}}>
-              <TouchableOpacity
-                style={Styles.shareBtn}
-                onPress={() => this.props.navigation.navigate(navigation)}>
-                <AntDesign name="arrowleft" size={22} color="#3B2D46" />
-              </TouchableOpacity>
-            </View> 
-            <View style={{position:'absolute', right: 3, top: 15}}>
-              <ShareOptions itemObject={item && item}/>
-            </View> 
-          </View>
-          <View style={{flex: 1}}>
-            <View style={{paddingHorizontal: 10}}>
-              <Text style={Styles._itemName}>{item && item.name}</Text>
-              <View style={Styles._rowView}>
-                <FontAwesome
-                  name="rupee"
-                  size={14}
-                  color="#333"
-                  style={{marginTop: 3, marginRight: 2}}
-                />
-                <Text style={Styles._itemPrice}>
-                  {item && item.price ? item && item.price : value.toFixed(2)}
-                </Text>
+        {productDetail && (
+          <View>
+            <ScrollView>
+              <View>
+                <View style={{marginBottom: 10}}>
+                  <FlatListSlider
+                    data={images}
+                    component={<PreviewSlider />}
+                    autoscroll={false}
+                    indicatorActiveWidth={9}
+                    indicatorActiveColor="orange"
+                    indicatorStyle={{width:9, height:9, borderRadius: 20}}
+                    indicatorContainerStyle={{position:'absolute', bottom: 20}}
+                  />
+                  <View style={{position:'absolute', left: 10, top: 15}}>
+                    <TouchableOpacity
+                      style={Styles.shareBtn}
+                      onPress={() => this.props.navigation.navigate(navigation)}>
+                      <AntDesign name="arrowleft" size={22} color="#3B2D46" />
+                    </TouchableOpacity>
+                  </View> 
+                  <View style={{position:'absolute', right: 3, top: 15}}>
+                    <ShareOptions itemObject={productDetail && productDetail}/>
+                  </View> 
+                </View>
+                <View style={Styles._pdhorizontal10}>
+                  <Text style={[Styles._itemName, {fontSize: 16}]}>{productDetail.name}</Text>
+                  <View style={Styles._spaceBetween}>
+                    <View style={[Styles._rowView, {paddingVertical: 8}]}>
+                      <MaterialCommunityIcons name="currency-inr" size={14} color='#333' style={{marginLeft: -4}}/>
+                      <Text style={[Styles._itemPrice, {fontSize: 16}]}>
+                        {productDetail.price ? productDetail.price : value.toFixed(2)}
+                      </Text>
+                    </View>
+                    <View style={Styles._rowView}>
+                      <Text style={[Styles._inStock, {color: '#7a7a7a'}]}>AVAILABILITY : </Text>
+                      <Text style={Styles._inStock}>{productDetail.availability}</Text>
+                    </View>
+                  </View> 
+                </View>
+                <View style={Styles._vrLine} />
+                  <ProductDetailFilter productFilter={productFilter}/>
+                <View style={Styles._vrLine} />
+                <View style={Styles._pdhorizontal10}>
+                  <Text style={Styles._itemTitle}>Product Details</Text>
+                  {productDetail.productProperties && productDetail.productProperties.map((item, index) => {
+                    let title = details[index] 
+                    return(
+                      <View style={Styles._detailRow} key={index}>
+                        <Text style={Styles._detTitle}>{title}</Text>
+                        <Text style={Styles._detName}>{item.value}</Text>
+                      </View>
+                      )
+                    })
+                  }
+                </View> 
+                <View style={Styles._vrLine} /> 
+                <View style={Styles._pdhorizontal10}>
+                  <Text style={Styles._itemTitle}>PRODUCT DESCRIPTION</Text>
+                  <Text style={Styles._detDes}>{productDetail.description}</Text>
+                </View>
+                <View style={Styles._vrLine} />
+                <View style={{paddingVertical: 10, paddingLeft:10, marginBottom: 50}}>
+                  <Text style={Styles._itemTitle}>YOU MAY ALSO LIKE</Text>
+                  <SimilarProduct />
+                </View>
+              </View>
+            </ScrollView>
+            <View style={Styles._checkEnd}>
+              <View style={Styles._spaceBetween}>
+                <TouchableOpacity style={[Styles._addToBtn,{width: '49%'}]} onPress={this._navigate}>
+                  <Text  style={[Styles._btnText, {color:'#333'}]}>ADD TO CART</Text>
+                </TouchableOpacity>
+               <TouchableOpacity style={[Styles._bynowBtn ,{width: '49%'}]} onPress={this._navigate}>
+                  <Text style={Styles._btnText}>BUY NOW</Text>
+                </TouchableOpacity>
               </View>
             </View>
-            <View style={Styles._vrLine} />
-            <View style={{paddingHorizontal: 10,marginBottom: 100,}}>
-              <View style={Styles._productDetails}>
-                <Text style={Styles._productTitle}>PRODUCT DESCRIPTION</Text>
-                <Text style={Styles._detDes}>{item && item.description}</Text>
-              </View>
-            </View>
-          </View>
-        </ScrollView>
-        <View style={Styles._checkEnd}>
-          <View style={Styles._spaceBetween}>
-            <TouchableOpacity style={[Styles._addToBtn,{width: '49%'}]} onPress={this._navigate}>
-              <Text  style={[Styles._btnText, {color:'#333'}]}>ADD TO CART</Text>
-            </TouchableOpacity>
-           <TouchableOpacity style={[Styles._bynowBtn ,{width: '49%'}]} onPress={this._navigate}>
-              <Text style={Styles._btnText}>BUY NOW</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+          </View>  
+        )}
       </SafeAreaView>
     );
   }

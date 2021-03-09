@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 class ShareOptions extends React.Component {
+  state = {like: false}
   myShare = async () => {
     const {itemsObject} = this.props;
     ImgToBase64.getBase64String(
@@ -25,17 +26,18 @@ class ShareOptions extends React.Component {
   };
 
   _myFavourite = () => {
-    console.log('favourtie..............');
+    this.setState({like: !this.state.like})
   };
 
   render() {
+    const {like} = this.state
     return (
       <View style={styles._socialView}>
         <TouchableOpacity style={styles.shareBtn} onPress={this.myShare}>
           <Ionicons name="share-social" size={20} color="#3B2D46" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.shareBtn} onPress={this._myFavourite}>
-          <Entypo name="heart-outlined" size={22} color="#3B2D46" />
+          <Entypo name={like ? "heart" : "heart-outlined"} size={22} color={like ? 'red': "#7a7a7a" } />
         </TouchableOpacity>
       </View>
     );

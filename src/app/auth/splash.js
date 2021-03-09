@@ -24,15 +24,17 @@ class Splash extends Component {
 	componentDidMount() {
 		store.dispatch(setInitialData(InitialData));
 		AsyncStorage.getItem('hasLaunched').then((value) => {
-			this.setState({showApp: !!value, loading: false});
-			setTimeout(() => {
-				this.props.navigation.navigate('HomeApp');
-			}, 200);
+			if(value === "appLaunched") {
+				this.setState({showApp: !!value, loading: false});
+				setTimeout(() => {
+					this.props.navigation.navigate('HomeApp');
+				}, 200);
+			}
 		});
 	}
 
 	_onDone = () => {
-		AsyncStorage.setItem('hasLaunched', 'true').then(() => {
+		AsyncStorage.setItem('hasLaunched', 'appLaunched').then(() => {
 			this.setState({showApp: true});
 			this.props.navigation.navigate('HomeApp');
 		});

@@ -6,12 +6,32 @@ import {
 	SafeAreaView,
 	TouchableOpacity,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { CurrentUser } from '../../app/store/actions/products';
 import MaterialIcons from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Authentication from '../shared/authentication'; 
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 export class CustomHeader extends Component {
+	onNavigation = () => {
+		return CurrentUser().then((token) => {
+			if (!token) {
+				this.RBSheet.open();
+				return;
+			}else {
+	      this.props.navigation.navigate('Account', {
+					screen: 'Wishlist',
+				});
+			}
+		})
+	}
+
+	sheetClose = () => {
+		this.RBSheet.close();
+	} 
+
 	render() {
 		const {isHeader, name, isBack, headertitle, filterIcon, notificationIcon, openModal} = this.props;
 		return (
@@ -60,11 +80,14 @@ export class CustomHeader extends Component {
 									)}
 								</Text>
 								<Text style={{flex: 1, textAlign: 'right'}}>
-									<TouchableOpacity
-										onPress={openModal && openModal ? this.props.headerModal : null}>
-										{filterIcon && filterIcon ? <Entypo name="sound-mix" size={22} color="#fff" /> : null} 
-										{notificationIcon && notificationIcon ? <MaterialIcons name="md-notifications-outline" size={25} color="#fff" /> : null} 
-									</TouchableOpacity>
+								  <View style={{flexDirection:'row'}}>
+										<TouchableOpacity style={{marginRight: 10}} onPress={this.onNavigation}>
+											{notificationIcon && notificationIcon ? <Entypo name="heart-outlined" size={25} color="#fff" /> : null} 
+										</TouchableOpacity>
+										<TouchableOpacity>
+											{notificationIcon && notificationIcon ? <MaterialIcons name="md-notifications-outline" size={25} color="#fff" /> : null} 
+										</TouchableOpacity>
+									</View>		
 								</Text>
 							</View>
 						</LinearGradient>
@@ -95,12 +118,22 @@ export class CustomHeader extends Component {
 						</View>
 					</LinearGradient>
 				)}
+				<RBSheet ref={(ref) => {this.RBSheet = ref;}}
+					height={400}
+					openDuration={300} closeOnPressMask={true} closeOnDragDown={true}
+					customStyles={{
+				    wrapper: {backgroundColor: 'rgba(0,0,0,.7)'},
+				    draggableIcon: {backgroundColor: '#fff'},
+				  }}>
+					<Authentication sheetClose={this.sheetClose}/>
+				</RBSheet>
 			</View>
 		);
 	}
 }
 
 export default CustomHeader;
+
 
 const styles = StyleSheet.create({
 	_flexRow: {

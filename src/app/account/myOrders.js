@@ -28,7 +28,7 @@ class MyOrders extends React.Component {
 					navigation={this.props.navigation}
 					isHeader="My Orders"
 					isBack="isBack"
-					name="Account"
+					name="Profile"
 				/>
 				<View style={{flex: 1}}>
 					<FlatList

@@ -9,7 +9,7 @@ import {
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Dashboard from './dashboard';
 import Catalogue from './catalogue';
-import Favourite from './favourite';
+import Wishlist from './account/wishlist';
 import Account from './account';
 import Splash from './auth/splash';
 import ProductsList from './catalogue/productsList';
@@ -34,7 +34,7 @@ function HomeStackScreen() {
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
-        // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
+         cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
             
       }}>
       <HomeStack.Screen name="Home" component={Dashboard} />
@@ -62,7 +62,7 @@ function CatalogueStackScreen({navigation, route}) {
       initialRouteName="Catalogue"
       screenOptions={{
         headerShown: false,
-        // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
+         cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
       }}>
       <CatalogueStack.Screen name="Catalogue" component={Catalogue} />
       <CatalogueStack.Screen name="Categories" component={ProductsList} />
@@ -75,17 +75,17 @@ function CatalogueStackScreen({navigation, route}) {
     </CatalogueStack.Navigator>
   );
 }
-const FavouriteStack = createStackNavigator();
-function FavouriteStackScreen() {
+const WishlistStack = createStackNavigator();
+function WishlistStackScreen() {
   return (
-    <FavouriteStack.Navigator
+    <WishlistStack.Navigator
       initialRouteName="Setting"
       screenOptions={{
         headerShown: false,
-        // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
+         cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
       }}>
-      <FavouriteStack.Screen name="Favourite" component={Favourite} />
-    </FavouriteStack.Navigator>
+      <WishlistStack.Screen name="Wishlist" component={Wishlist} />
+    </WishlistStack.Navigator>
   );
 }
 const AccountStack = createStackNavigator();
@@ -101,13 +101,14 @@ function AccountStackScreen({navigation, route}) {
       initialRouteName="Setting"
       screenOptions={{
         headerShown: false,
-        // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS,
+         cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
       }}>
       <AccountStack.Screen name="Account" component={Account} />
-      <AccountStack.Screen name="Profile" component={UserProfile} />
+      <AccountStack.Screen name="UserProfile" component={UserProfile} />
       <AccountStack.Screen name="Myorders" component={MyOrders} />
       <AccountStack.Screen name="ManageAddress" component={ManageAddress} />
       <AccountStack.Screen name="NewAddress" component={NewAddress} />
+      <AccountStack.Screen name="Wishlist" component={Wishlist} />
     </AccountStack.Navigator>
   );
 }
@@ -116,8 +117,7 @@ function TabNavigator() {
     <SafeAreaProvider>
       <Tab.Navigator tabBar={(props) => <CustomTab {...props} />}>
         <Tab.Screen name="Home" component={HomeStackScreen} item="testing" />
-        <Tab.Screen name="Catalogue" component={CatalogueStackScreen} />
-        <Tab.Screen name="Favourite" component={FavouriteStackScreen} />
+        <Tab.Screen name="Categories" component={CatalogueStackScreen} />
         <Tab.Screen name="Account" component={AccountStackScreen} />
       </Tab.Navigator>
     </SafeAreaProvider>

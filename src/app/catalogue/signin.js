@@ -27,6 +27,7 @@ class Form extends React.Component {
       }
 		}).catch(error => {
       this.setState({ loading:false })
+      console.log(error)
       throw new SubmissionError(error);
     })
 	} 

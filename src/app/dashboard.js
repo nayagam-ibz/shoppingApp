@@ -18,12 +18,13 @@ import {SubmissionError} from 'redux-form';
 import CustomHeader from './header/header';
 import Styles from '../../assets/style';
 import Loader from './shared/loader';
+import ProductView from './shared/productView'
 import { connect } from 'react-redux';
 
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {loading: false, modalVisible: false};
+		this.state = {loading: true, modalVisible: false};
 	}
 
 	componentDidMount() {
@@ -39,15 +40,15 @@ class Dashboard extends Component {
 	}
 
 	navigationToggle() {
-		this.props.navigation.navigate('Catalogue', {
-			screen: 'Catalogue',
+		this.props.navigation.navigate('Categories', {
+			screen: 'Categories',
 		});
 	}
 
-	onNavigation = (res) => {
-		this.props.navigation.navigate('Catalogue', {
+	onNavigation = (id) => {
+		this.props.navigation.navigate('Categories', {
 			screen: 'ProductDetail',
-			params: {id: res, navigation: 'Home'},
+			params: {id: id, navigation: 'Home'},
 		});
 	};
 
@@ -69,90 +70,56 @@ class Dashboard extends Component {
 				<SearchProdcut />
 				<ScrollView>
 					{allCategories && allCategories && (
-						<View style={styles._catalogue}>
-							<View style={[styles._spaceBetween, {paddingVertical: 10}]}>
-								<Text style={styles._itemTitle}>Catalogue</Text>
-								<TouchableOpacity style={styles._flexRow} onPress={() => this.navigationToggle()}>
-									<Text style={styles._seeAllText}>See All</Text>
-									<Entypo name="chevron-small-right" size={22} color="#7a7a7a"/>
-								</TouchableOpacity>
+						<View>
+							<View style={styles._catalogue}>
+								<View style={[styles._spaceBetween, {paddingVertical: 10}]}>
+									<Text style={Styles._itemTitle}>Catalogue</Text>
+									<TouchableOpacity style={styles._flexRow} onPress={() => this.navigationToggle()}>
+										<Text style={styles._seeAllText}>See All</Text>
+										<Entypo name="chevron-small-right" size={22} color="#7a7a7a"/>
+									</TouchableOpacity>
+								</View>
+								<View>
+									{allCategories.map((item, index) => {
+										return (
+											<View style={styles._spaceBetween} key={index}>
+												{item.taxons.slice(0, 4).map((item, index) => {
+													return (
+														<TouchableOpacity
+														  key={index}
+															onPress={() => this.navigationToggle()}>
+															<View style={styles._catalogWidget}>
+																{item.images ? item.images.slice(0,1).map((item, index) => {
+																	return(
+																    <View key={index}>
+																      <Image source={{uri: item.url}} style={styles._cateImage} />  
+																     </View>
+																		)
+															  	})
+		                              : 
+		                              <Image source={require('../../assets/images/unknow-image.png')} style={{width: 45, height: 45}} />
+															  }
+															</View>
+															<Text style={styles._catalogText}>{item.name}</Text>
+														</TouchableOpacity>
+													);
+												})}
+											</View>
+										);
+									})}
+								</View>
 							</View>
-							<View>
-								{allCategories.map((item, index) => {
-									return (
-										<View style={styles._spaceBetween} key={index}>
-											{item.taxons.slice(0, 4).map((item, index) => {
-												return (
-													<TouchableOpacity
-													  key={index}
-														onPress={() => this.navigationToggle()}>
-														<View style={styles._catalogWidget}>
-															{item.images ? item.images.slice(0,1).map((item, index) => {
-																return(
-															    <View key={index}>
-															      <Image source={{uri: item.url}} style={styles._cateImage} />  
-															     </View>
-																	)
-														  	})
-	                              : 
-	                              <Image source={require('../../assets/images/unknow-image.png')} style={{width: 45, height: 45}} />
-														  }
-														</View>
-														<Text style={styles._catalogText}>{item.name}</Text>
-													</TouchableOpacity>
-												);
-											})}
-										</View>
-									);
-								})}
-							</View>
-						</View>
+						  <View style={Styles._vrLine} />
+						</View>  
 					)}
 					{productsList && productsList && (
 						<View style={Styles._itemWrapper}>
-							<Text style={Styles._itemTitle}>
-								Best Sellers
-						  </Text>
-							<FlatList
-								data={productsList}
-								keyExtractor={(item, index) => index}
-								numColumns={2}
-								renderItem={({item}) => (
-									<TouchableOpacity
-										style={{flex: 1}}
-										onPress={() => this.onNavigation(item.id)}>
-										<View style={Styles._listItem}>
-											<View style={Styles._itemWidget}>
-											  {item.images.length > 0 
-											  	?
-											  	item.images.slice(0,1).map((item, index) => {
-												  	return(
-                              <View key={index}>
-                             	  <Image source={{uri: item.url}} style={styles._dasProductImage} />  
-                              </View> 
-											  		)
-												  })
-												  : 
-												  <Image
-														source={require('../../assets/images/unknow-image.png')}
-														style={{width: 80, height: 80}}
-													/>
-											  }
-											</View>
-											<View style={{height: 55, paddingVertical: 5}}>
-												<Text style={Styles._itemName}>{item.name}</Text>
-											</View>
-										</View>
-									</TouchableOpacity>
-								)}
-							/>
+							<Text style={[Styles._itemTitle, {paddingHorizontal: 10}]}>Best Sellers </Text>
+							<ProductView productsList={productsList} onNavigation={this.onNavigation}/> 
 						</View>
 					)}
 				</ScrollView>
-				<Modal
-					animationType="fade"
-					transparent={true}
-					visible={this.state.modalVisible}>
+				<Modal animationType="fade" transparent={true} visible={this.state.modalVisible}>
 					<View style={Styles._centeredView}>
 						<View style={Styles._fullView}>
 							<Notification
@@ -198,12 +165,6 @@ const styles = StyleSheet.create({
 		color: '#7a7a7a',
 	},
 
-	_itemTitle: {
-		fontSize: 13,
-		fontFamily: 'Montserrat-SemiBold',
-		textTransform: 'uppercase',
-	},
-
 	_catalogue: {
 		paddingHorizontal: 10,
 	},
@@ -224,10 +185,11 @@ const styles = StyleSheet.create({
 	},
 
 	_catalogText: {
-		fontSize: 13,
-		marginTop: 2,
+		fontSize: 12,
+		marginTop: 5,
 		fontFamily: 'Montserrat-Medium',
 		textAlign: 'center',
+		textTransform: 'uppercase'
 	},
 });
 

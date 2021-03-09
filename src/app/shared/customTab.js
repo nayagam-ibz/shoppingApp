@@ -54,7 +54,7 @@ class DrawerContent extends Component {
                       }}
                     />
                   )}
-                  {label === 'Catalogue' ? (
+                  {label === 'Categories' ? (
                     <SimpleLineIcons
                       name="grid"
                       size={15}
@@ -63,7 +63,7 @@ class DrawerContent extends Component {
                       }}
                     />
                   ) : null}
-                  {label === 'Favourite' ? (
+                  {label === 'Wishlist' ? (
                     <SimpleLineIcons
                       name="heart"
                       size={16}
@@ -103,7 +103,8 @@ class DrawerContent extends Component {
                   style={{
                     color: isFocused ? '#7B5996' : '#7a7a7a',
                     fontFamily: 'Montserrat-Medium',
-                    fontSize: 12,
+                    letterSpacing: 0.5,
+                    fontSize: 13,
                     marginTop: 2,
                   }}>
                   {label}

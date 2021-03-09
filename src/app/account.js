@@ -7,16 +7,17 @@ import {
 	Image,
 	TouchableOpacity,
 } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import LogoutConfirmaton from './shared/logoutConfirmation';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import { CurrentUser } from '../app/store/actions/products';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {CurrentUser} from '../app/store/actions/products';
-import {connect} from 'react-redux';
-
-import LogoutConfirmaton from './shared/logoutConfirmation';
+import Authentication from './shared/authentication'; 
+import RBSheet from 'react-native-raw-bottom-sheet';
+import { connect } from 'react-redux';
 
 class Account extends Component {
 	constructor(props) {
@@ -37,19 +38,20 @@ class Account extends Component {
 		}
 	}
 
-	componentDidMount() {
-		this.unsubscribe = this.props.navigation.addListener('focus', () => {
-			setTimeout(() => {
-				return CurrentUser().then((token) => {
-					console.log(token);
-					if (!token) {
-						this.props.navigation.navigate('Catalogue', {screen: 'Signin'});
-						return;
-					}
-				});
-			}, 800);
-		});
+	onNavigation = (navigation) => {
+		return CurrentUser().then((token) => {
+			if (!token) {
+				this.RBSheet.open();
+				return;
+			}else {
+	      this.props.navigation.navigate(navigation) 
+			}
+		})
 	}
+
+	sheetClose = () => {
+		this.RBSheet.close();
+	} 
 
 	render() {
 		const {initialData} = this.props;
@@ -82,14 +84,14 @@ class Account extends Component {
 					</View>
 					<TouchableOpacity
 						style={styles._editProfile}
-						onPress={() => this.props.navigation.navigate('Profile')}>
+						onPress={() => this.onNavigation('Profile')}>
 						<Feather name="edit-2" size={18} color="#3B2D46" />
 					</TouchableOpacity>
 				</LinearGradient>
 				<View style={styles._menuView}>
 					<TouchableOpacity
 						style={styles._accountMenu}
-						onPress={() => this.props.navigation.navigate('ManageAddress')}>
+						onPress={() => this.onNavigation('ManageAddress')}>
 						<Feather
 							name="map-pin"
 							size={18}
@@ -107,17 +109,11 @@ class Account extends Component {
 						/>
 						<Text style={styles._menuTitle}>Payment Methods</Text>
 					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles._accountMenu}
-						onPress={() => this.props.navigation.navigate('Myorders')}>
-						<MaterialCommunityIcons
-							name="truck-fast-outline"
-							size={18}
-							color="#3B2D46"
-							style={styles._menuIcon}
-						/>
+					<TouchableOpacity style={styles._accountMenu} onPress={() => this.onNavigation('Myorders')}>
+						<MaterialCommunityIcons name="truck-fast-outline" size={18} color="#3B2D46" style={styles._menuIcon}/>
 						<Text style={styles._menuTitle}>My Orders</Text>
 					</TouchableOpacity>
+
 					<TouchableOpacity
 						style={styles._accountMenu}
 						onPress={() => this.confirmationModal(true)}>
@@ -136,6 +132,16 @@ class Account extends Component {
 						confirmationModal={() => this.confirmationModal(false)}
 					/>
 				)}
+
+				<RBSheet ref={(ref) => {this.RBSheet = ref;}}
+					height={400}
+					openDuration={300} closeOnPressMask={true} closeOnDragDown={true}
+					customStyles={{
+				    wrapper: {backgroundColor: 'rgba(0,0,0,.7)'},
+				    draggableIcon: {backgroundColor: '#fff'},
+				  }}>
+					<Authentication sheetClose={this.sheetClose}/>
+				</RBSheet>
 			</SafeAreaView>
 		);
 	}

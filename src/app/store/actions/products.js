@@ -14,7 +14,8 @@ import {
   UPDATE_ADDRESS,
   USER_LOGIN,
   USER_REGISTRATION,
-  GET_SUB_PRODUCTS
+  GET_SUB_PRODUCTS,
+  ADD_FAVOURITE
 } from '../actions/types';
 import {
   makeGETRequest,
@@ -55,13 +56,6 @@ export function getSubProduct(id) {
   };
 }
 
-export function getFavourite() {
-  // const response = makeGETRequest('/products');
-  return {
-    type: GET_FAVOURITE,
-    payload: {data: products},
-  };
-}
 
 
 export function getProductDetail(id) {
@@ -71,6 +65,23 @@ export function getProductDetail(id) {
     payload: response
   };
 }
+
+export function addRemoveFavourite(id) {
+  const response = makePOSTRequest(`/storefront/favorite_products/add_or_remove_favorite`, {product_id: id});
+  return {
+    type: ADD_FAVOURITE,
+    payload: response,
+  };
+}
+
+export function getFavourite() {
+  const response = makeGETRequest(`/storefront/favorite_products`);
+  return {
+    type: GET_FAVOURITE,
+    payload: response
+  };
+}
+
 
 export function getCart() {
   // const response = makeGETRequest('/products');

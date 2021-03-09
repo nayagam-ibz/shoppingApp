@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
-
 export default (Preview = ({
   style,
   item,
@@ -29,14 +28,11 @@ export default (Preview = ({
 const styles = StyleSheet.create({
   videoContainer: {
     width: 360,
-    // aspectRatio: 1 * 0.7,
   },
   videoPreview: {
-    // height: 400,
     flex: 0.5,
     aspectRatio: 0.75, 
     resizeMode: 'contain',
   },
- 
-});
+ });
 

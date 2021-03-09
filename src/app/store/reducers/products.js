@@ -13,6 +13,7 @@ import {
 	UPDATE_ADDRESS,
 	UNAUTH_USER,
 	GET_SUB_PRODUCTS,
+	ADD_FAVOURITE
 } from '../actions/types';
 import {handleResponse} from '../../utils/Axios';
 const initialState = {
@@ -29,8 +30,6 @@ export default function handleUsers(state = initialState, action) {
 				...state,
 				allSubProducts: handleResponse(action.payload).products,
 			};
-		case GET_FAVOURITE:
-			return {...state, allFavourite: handleResponse(action.payload).products};
 		case GET_CATEGORIES:
 			return {
 				...state,
@@ -44,7 +43,7 @@ export default function handleUsers(state = initialState, action) {
 		case MY_ORDERS:
 			return {...state, myorders: handleResponse(action.payload).orders};
 		case GET_PRODUCT_DETAIL:
-			return {...state, productDetail: handleResponse(action.payload).data};
+			return {...state, productDetail: handleResponse(action.payload)};
 		case INITIAL_DATA:
 			return {...state, initialData: handleResponse(action.payload).product};
 		case GET_ALL_ADDRESS:
@@ -57,6 +56,10 @@ export default function handleUsers(state = initialState, action) {
 			return {...state, states: handleResponse(action.payload).states};
 		case NEW_ADDRESS:
 			return {...state, ...action.payload};
+	  case ADD_FAVOURITE: 
+	    return { ...state, favourite: handleResponse(action.payload)};		
+		case GET_FAVOURITE:
+			return {...state, favouriteList: handleResponse(action.payload).favoriteProducts};
 		default:
 			return state;
 	}

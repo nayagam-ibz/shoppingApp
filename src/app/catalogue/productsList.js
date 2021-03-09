@@ -19,6 +19,7 @@ import {getSubProduct} from '../../app/store/actions/products';
 import {connect} from 'react-redux';
 import Loader from '../shared/loader';
 import Filter from '../shared/filter';
+import ProductView from '../shared/productView'
 import Styles from '../../../assets/style';
 
 class CataloguMenuDetail extends Component {
@@ -44,7 +45,7 @@ class CataloguMenuDetail extends Component {
 		this.RBSheet.close();
 	};
 
-	setModalVisible = (visible) => {
+	triggerModal = (visible) => {
 		this.setState({modalVisible: visible});
 	};
 
@@ -61,7 +62,7 @@ class CataloguMenuDetail extends Component {
 	}
 
 	render() {
-		const {allSubProducts, allCategories, initialData} = this.props;
+		const {allSubProducts, initialData} = this.props;
 		const title = this.props.route.params?.title ?? '';
 		const id = this.props.route.params?.id ?? '';
 		const value = 0
@@ -72,7 +73,7 @@ class CataloguMenuDetail extends Component {
 					navigation={this.props.navigation}
 					isHeader="home" isBack="isBack" headertitle={title}
 					openModal="openModal" name="Catalogue" filterIcon={true}
-					headerModal={() => this.setModalVisible(true)}
+					headerModal={() => this.triggerModal(true)}
 				/>
 				<SearchProdcut />
 				<ScrollView>
@@ -88,41 +89,7 @@ class CataloguMenuDetail extends Component {
 								<Text style={Styles._sortValue}>{this.state.sortyBy}</Text>
 							</TouchableOpacity>
 						</View>
-						<FlatList
-							data={allSubProducts && allSubProducts}
-							keyExtractor={(item, index) => index}
-							numColumns={2}
-							renderItem={({item}) => (
-								<View style={{flex: 1}}>
-									<TouchableOpacity
-										style={Styles._listItem}
-										onPress={() => this.onNavigation(item.id)}>
-										<View style={Styles._itemWidget}>
-										  {item.images.length > 0 ? 
-                        item.images.map((item, index) => {
-                        	return(
-                          	<View key={index}>
-                           	  <Image source={{uri: item.url}} style={Styles._dasProductImage} />  
-                            </View>
-                        	)
-                        }) 
-                        : 
-                        <Image
-													source={require('../../../assets/images/unknow-image.png')}
-													style={{width: 80, height: 80}}
-												/>
-										  }
-											<TouchableOpacity style={Styles._itemFavourite}>
-												<Entypo name="heart-outlined" size={18} color='#3B2D46' style={{paddingTop: 2}} />
-											</TouchableOpacity>
-										</View>
-										<View style={{height: 55, paddingVertical: 5}}>
-											<Text style={Styles._itemName}>{item.name}</Text>
-										</View>
-									</TouchableOpacity>
-								</View>
-							)}
-						/>
+						<ProductView productsList={allSubProducts} onNavigation={this.onNavigation}/> 
 					</View>
 				</ScrollView>
 				<RBSheet ref={(ref) => {this.RBSheet = ref;}}
@@ -151,7 +118,7 @@ class CataloguMenuDetail extends Component {
 						<View style={Styles._fullView}>
 							<Filter
 								form="salesMenuListFilter"
-								handleClose={() => this.setModalVisible(false)}
+								handleClose={() => this.triggerModal(false)}
 								applyFilter={this.applyFilter}
 							/>
 						</View>
@@ -164,7 +131,6 @@ class CataloguMenuDetail extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		allCategories: state.products.allCategories,
 		allSubProducts: state.products.allSubProducts,
 		initialData: state.products.initialData,
 	};

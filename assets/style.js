@@ -17,10 +17,14 @@ const styles = StyleSheet.create({
 
   _itemWrapper: {
     flex: 1,
-    marginTop: 10,
     paddingLeft: 0,
     paddingRight: 10,
   },
+
+  _pdhorizontal10: {
+    paddingHorizontal: 10
+  },
+
 
   _itemsRow: {
     marginBottom: 20,
@@ -84,11 +88,10 @@ const styles = StyleSheet.create({
   },
 
   _itemTitle: {
-    fontSize: 13,
-    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 14,
+    fontFamily: 'Montserrat-Medium',
     textTransform: 'uppercase',
-    paddingHorizontal: 10,
-    paddingVertical: 15
+    paddingBottom: 15
   },
 
   _seeAllText: {
@@ -99,16 +102,14 @@ const styles = StyleSheet.create({
 
   _itemName: {
     color: '#333',
-    fontSize: 13,
+    fontSize: 15,
     fontFamily: 'Montserrat-Medium',
-    lineHeight: 20,
   },
 
   _itemPrice: {
-    fontSize: 15,
-    color: '#3B2D46',
-    paddingVertical: 5,
-    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 14,
+    color: '#333',
+    fontFamily: 'Montserrat-Medium',
   },
 
   _ratingView: {
@@ -305,14 +306,14 @@ const styles = StyleSheet.create({
   _detailRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 5,
   },
 
   _detTitle: {
     fontFamily: 'Montserrat-SemiBold',
     color: '#333',
-    fontSize: 12,
-    width: 130,
+    fontSize: 11.5,
+    width: 120,
     textTransform: 'uppercase',
   },
 
@@ -330,7 +331,7 @@ const styles = StyleSheet.create({
   },
 
   _inStock: {
-    fontSize: 13,
+    fontSize: 11,
     fontFamily: 'Montserrat-SemiBold',
     color: 'green',
   },
@@ -347,14 +348,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     height: 65,
-    borderTopWidth: 1,
-    borderRightWidth: 1,
-    borderLeftWidth: 1,
-    borderColor: '#ddd',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingHorizontal: 10,
     justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 5,
   },
 
   _styleView: {
@@ -379,10 +384,10 @@ const styles = StyleSheet.create({
   },
 
   _productTitle: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 14,
+    fontFamily: 'Montserrat-Medium',
+    fontSize: 13,
     color: '#3B2D46',
-    paddingVertical: 10,
+    paddingBottom: 10
   },
 
   _productText: {
@@ -395,7 +400,7 @@ const styles = StyleSheet.create({
   _vrLine: {
     backgroundColor: '#ddd',
     height: 5,
-    marginTop: 20,
+    marginVertical: 15
   },
 
   _addToBtn: {
@@ -461,10 +466,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  _productDetails: {
-    marginTop: 5,
-  },
-
   shareBtn: {
     width: 30,
     height: 30,
@@ -473,6 +474,43 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 8,
+  },
+
+  _headerAuthText: {
+    fontSize: 18,
+    fontFamily: 'Montserrat-Medium',
+    color: '#3B2D46',
+  },
+
+  _formGroup: {
+    marginBottom: 15,
+  },
+
+  _cartBtn: {
+    backgroundColor: 'orange',
+    paddingHorizontal: 70,
+    paddingVertical: 10,
+    borderRadius: 3,
+    marginBottom: 5,
+    width: '100%',
+  },
+
+  _cartText: {
+    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 14,
+    color: '#fff',
+  },
+
+  _regiText: {
+    fontFamily: 'Montserrat-Medium',
+    fontSize: 14,
+  },
+
+  _sigText: {
+    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 12,
+    color: 'orange',
+    paddingVertical: 10
   },
 });
 
