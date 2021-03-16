@@ -13,7 +13,10 @@ import {
 	UPDATE_ADDRESS,
 	UNAUTH_USER,
 	GET_SUB_PRODUCTS,
-	ADD_FAVOURITE
+	ADD_FAVOURITE,
+	USER_LOGIN,
+	ADD_TO_CART,
+	GET_CART_ITEMS
 } from '../actions/types';
 import {handleResponse} from '../../utils/Axios';
 const initialState = {
@@ -35,15 +38,14 @@ export default function handleUsers(state = initialState, action) {
 				...state,
 				allCategories: handleResponse(action.payload).taxons,
 			};
-
+	  case USER_LOGIN:
+	    return {...state, userLogin: handleResponse(action.payload)}		
 		case UNAUTH_USER:
 			return {...state, unauthReq: true};
-		case GET_CART:
-			return {...state, cartList: handleResponse(action.payload).cart};
 		case MY_ORDERS:
 			return {...state, myorders: handleResponse(action.payload).orders};
 		case GET_PRODUCT_DETAIL:
-			return {...state, productDetail: handleResponse(action.payload)};
+			return {...state, productDetail: handleResponse(action.payload).product};
 		case INITIAL_DATA:
 			return {...state, initialData: handleResponse(action.payload).product};
 		case GET_ALL_ADDRESS:
@@ -56,10 +58,15 @@ export default function handleUsers(state = initialState, action) {
 			return {...state, states: handleResponse(action.payload).states};
 		case NEW_ADDRESS:
 			return {...state, ...action.payload};
-	  case ADD_FAVOURITE: 
+	    case ADD_FAVOURITE: 
 	    return { ...state, favourite: handleResponse(action.payload)};		
 		case GET_FAVOURITE:
 			return {...state, favouriteList: handleResponse(action.payload).favoriteProducts};
+    case ADD_TO_CART:
+      return {...state, ...action.payload}
+    case GET_CART_ITEMS:
+      return {...state, cartList: handleResponse(action.payload).data}
+               
 		default:
 			return state;
 	}

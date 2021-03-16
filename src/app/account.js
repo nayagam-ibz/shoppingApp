@@ -8,21 +8,22 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LogoutConfirmaton from './shared/logoutConfirmation';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { CurrentUser } from '../app/store/actions/products';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Authentication from './shared/authentication'; 
 import RBSheet from 'react-native-raw-bottom-sheet';
+import { CurrentUser } from '../app/store/actions/products';
 import { connect } from 'react-redux';
 
 class Account extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {modalVisible: false};
+		this.state = {modalVisible: false, logout: false };
 		this.confirmationModal = this.confirmationModal.bind(this);
 	}
 
@@ -31,12 +32,18 @@ class Account extends Component {
 		if (res == true) {
 			this.setState({modalVisible: true});
 		} else {
-			this.setState({modalVisible: false});
-			setTimeout(() => {
-				this.props.navigation.navigate('Catalogue', {screen: 'Signin'});
-			}, 200);
+			this.setState({modalVisible: false, logout: false});
+			
 		}
 	}
+
+	componentDidMount() {
+    return CurrentUser().then((token) => {
+			if (token) {
+				this.setState({logout: true })
+			}
+		})
+  }
 
 	onNavigation = (navigation) => {
 		return CurrentUser().then((token) => {
@@ -49,8 +56,11 @@ class Account extends Component {
 		})
 	}
 
-	sheetClose = () => {
+	sheetClose = (res) => {
 		this.RBSheet.close();
+		if(res === true){
+			this.setState({logout: true})
+		}
 	} 
 
 	render() {
@@ -62,18 +72,13 @@ class Account extends Component {
 					end={{x: 1, y: 0.1}}
 					colors={['#3B2D46', '#7B5996']}
 					style={styles._accountHeader}>
-					<View style={{flexDirection: 'row', alignItems: 'center'}}>
-						<Image
-							source={{uri: initialData && initialData.url}}
-							style={{
-								width: 70,
-								height: 70,
-								borderRadius: 100,
-								borderWidth: 1,
-								borderColor: '#eee',
-							}}
-						/>
-						<View style={{marginLeft: 15, flexDirection: 'column'}}>
+				</LinearGradient>
+				<View style={styles._accountSubHeader}>
+					<Image
+						source={{uri: initialData && initialData.url}}
+						style={styles._userProfile} />
+					{this.state.logout ? 
+						<View style={{ paddingLeft: 10}}>
 							<Text style={styles._userName}>
 								{initialData && initialData.name}
 							</Text>
@@ -81,50 +86,58 @@ class Account extends Component {
 								{initialData && initialData.email}
 							</Text>
 						</View>
-					</View>
-					<TouchableOpacity
-						style={styles._editProfile}
-						onPress={() => this.onNavigation('Profile')}>
-						<Feather name="edit-2" size={18} color="#3B2D46" />
-					</TouchableOpacity>
-				</LinearGradient>
+					 : 
+           <TouchableOpacity style={styles._loginBtn} onPress={this.onNavigation}>  
+					   <Text style={styles._loginText}>LOG IN / SIGN UP</Text>
+           </TouchableOpacity>
+					}	
+				</View>
 				<View style={styles._menuView}>
 					<TouchableOpacity
 						style={styles._accountMenu}
 						onPress={() => this.onNavigation('ManageAddress')}>
-						<Feather
-							name="map-pin"
-							size={18}
-							color="#3B2D46"
-							style={styles._menuIcon}
-						/>
-						<Text style={styles._menuTitle}>Manage Address </Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles._accountMenu}>
-						<Feather
-							name="credit-card"
-							size={18}
-							color="#3B2D46"
-							style={styles._menuIcon}
-						/>
-						<Text style={styles._menuTitle}>Payment Methods</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles._accountMenu} onPress={() => this.onNavigation('Myorders')}>
-						<MaterialCommunityIcons name="truck-fast-outline" size={18} color="#3B2D46" style={styles._menuIcon}/>
-						<Text style={styles._menuTitle}>My Orders</Text>
+						<View style={styles._flexRow}>
+							<Feather name="map-pin" size={20} color="#3B2D46" style={styles._menuIcon}/>
+							<View>
+								<Text style={styles._menuTitle}>Manage Address </Text>
+						    <Text style={styles._submenTitle}>Help your delivery product</Text> 
+						  </View>  
+					  </View>		
+					  <EvilIcons name="chevron-right" size={20} color="#3B2D46" />
 					</TouchableOpacity>
 
-					<TouchableOpacity
-						style={styles._accountMenu}
-						onPress={() => this.confirmationModal(true)}>
-						<Feather
-							name="log-out"
-							size={18}
-							color="#3B2D46"
-							style={styles._menuIcon}
-						/>
-						<Text style={styles._menuTitle}>Log Out</Text>
+					<TouchableOpacity style={styles._accountMenu} onPress={() => this.onNavigation('Myorders')}>
+					  <View style={styles._flexRow}>
+							<SimpleLineIcons name="social-dropbox" size={20} color="#333" style={styles._menuIcon}/>
+							<View>
+								<Text style={styles._menuTitle}>My Orders</Text>
+							  <Text style={styles._submenTitle}>Check you orders status</Text> 
+							</View>  
+						</View>	
+						<EvilIcons name="chevron-right" size={20} color="#3B2D46" />
 					</TouchableOpacity>
+
+					<TouchableOpacity style={styles._accountMenu} onPress={() => this.onNavigation('Wishlist')}>
+					  <View style={styles._flexRow}>
+							<Entypo name="heart-outlined" size={22} color="#333" style={styles._menuIcon}/>
+							<View>
+								<Text style={styles._menuTitle}>My Wishlist</Text>
+							  <Text style={styles._submenTitle}>Your most loved styles</Text> 
+							</View>  
+						</View>	
+						<EvilIcons name="chevron-right" size={20} color="#3B2D46" />
+					</TouchableOpacity>
+
+					{this.state.logout &&(
+						<TouchableOpacity
+							style={styles._accountMenu}
+							onPress={() => this.confirmationModal(true)}>
+							<View style={styles._flexRow}> 
+								<Feather name="log-out" size={18} color="#3B2D46" style={styles._menuIcon}/>
+								<Text style={styles._menuTitle}>Log Out</Text>
+						  </View>		
+						</TouchableOpacity>
+					)}
 				</View>
 				{this.state.modalVisible && (
 					<LogoutConfirmaton
@@ -160,23 +173,20 @@ const styles = StyleSheet.create({
 	},
 
 	_accountHeader: {
-		height: 120,
-		backgroundColor: '#3B2D46',
-		borderBottomRightRadius: 100,
+		height: 80,
+		backgroundColor: '#eee',
 		paddingHorizontal: 10,
 		justifyContent: 'center',
 	},
 
 	_userName: {
 		fontSize: 16,
-		marginTop: 3,
 		fontFamily: 'Montserrat-Medium',
-		color: '#fff',
+		color: '#333',
 	},
 	_userCaption: {
 		fontSize: 12,
-		marginTop: 5,
-		color: '#fff',
+		color: '#333',
 		fontFamily: 'Montserrat-Medium',
 	},
 
@@ -194,27 +204,74 @@ const styles = StyleSheet.create({
 	},
 
 	_menuView: {
-		paddingHorizontal: 10,
-		marginTop: 10,
+		marginTop: 20,
+	},
+
+	_flexRow: {
+		flexDirection:'row',
+		alignItems:'center',
 	},
 
 	_accountMenu: {
 		backgroundColor: '#fff',
 		paddingHorizontal: 10,
-		paddingVertical: 12,
-		borderRadius: 5,
-		elevation: 2,
-		marginTop: 15,
-		flexDirection: 'row',
-		alignItems: 'center',
+		paddingVertical: 20,
+		borderBottomWidth: 1,
+		borderBottomColor:'#eee',
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'center'
 	},
 
 	_menuTitle: {
 		fontFamily: 'Montserrat-Medium',
-		color: '#3B2D46',
+		color: '#333',
+		fontSize: 14
+	},
+
+	_submenTitle: {
+    fontSize: 11,
+    fontFamily: 'Montserrat-Regular',
+    color:'#7a7a7a',
+    marginTop: 5
 	},
 
 	_menuIcon: {
-		width: 30,
+		width: 35,
 	},
+
+	_userProfile: {
+		width: 115,
+		height: 125,
+		backgroundColor:'#fff',
+		borderRadius: 3,
+		borderWidth: 1,
+		borderColor: '#eee',
+		marginTop: -60
+	},
+
+	_accountSubHeader: {
+	  flexDirection: 'row',
+	  paddingHorizontal: 10, 
+	  backgroundColor:'#fff', 
+	  height: 90,
+	  alignItems:'center',
+	},
+
+	_loginBtn: {
+		backgroundColor:'orange', 
+		paddingVertical: 13, 
+		alignItems:'center', 
+		justifyContent:'center', 
+		width: '61%', 
+		marginLeft: 15, 
+		marginRight: 10, 
+		borderRadius: 3
+	},
+
+	_loginText: {
+		color:'#fff',
+		fontFamily: 'Montserrat-Medium',
+	}
+
 });

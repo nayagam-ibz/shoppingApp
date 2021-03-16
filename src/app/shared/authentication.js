@@ -13,8 +13,8 @@ class Authentication extends React.Component {
 		this.setState({auth: true});
 	};
 
-	onClose = () => {
-		this.props.sheetClose();
+	onClose = (res) => {
+		this.props.sheetClose(res);
 	};
 
 	render() {

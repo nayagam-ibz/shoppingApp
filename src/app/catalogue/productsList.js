@@ -10,8 +10,6 @@ import {
 	Modal,
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomHeader from '../header/header';
 import SearchProdcut from '../shared/search';
 import CategoryMenus from '../shared/categoryMenus';
@@ -25,16 +23,24 @@ import Styles from '../../../assets/style';
 class CataloguMenuDetail extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { loading: true, sortyBy: 'Featured', modalVisible: false };
+		this.state = {  sortyBy: 'Featured', modalVisible: false };
 		this.applyFilter = this.applyFilter.bind(this);
 	}
 
-	componentDidMount() {
-		const id = this.props.route.params?.id ?? '';
-		this.props.getSubProduct(id).then((data) => {
-      this.setState({loading: false})
-		});
+	componentDidMount () {
+	  this.unsubscribe= this.props.navigation.addListener('focus', () => {
+	  	this.setState({loading: true})
+      const id = this.props.route.params?.id ?? '';
+			this.props.getSubProduct(id).then((data) => {
+	      this.setState({loading: false})
+			});
+	  })
 	}
+
+	componentWillUnmount () {
+	  this.unsubscribe()
+	}
+
 
 	openSheet = () => {
 		this.RBSheet.open();
@@ -52,7 +58,7 @@ class CataloguMenuDetail extends Component {
 	onNavigation = (res) => {
 		this.props.navigation.navigate('ProductDetail', {
 			id: res,
-			navigation: 'Categories',
+			navigation: 'ProductsList',
 		});
 	};
 
@@ -89,7 +95,7 @@ class CataloguMenuDetail extends Component {
 								<Text style={Styles._sortValue}>{this.state.sortyBy}</Text>
 							</TouchableOpacity>
 						</View>
-						<ProductView productsList={allSubProducts} onNavigation={this.onNavigation}/> 
+						<ProductView productsList={allSubProducts} onNavigation={this.onNavigation} navigation={this.props.navigation}/> 
 					</View>
 				</ScrollView>
 				<RBSheet ref={(ref) => {this.RBSheet = ref;}}

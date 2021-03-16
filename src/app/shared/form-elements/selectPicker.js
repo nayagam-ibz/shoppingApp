@@ -20,6 +20,7 @@ const selectPicker = (props) => {
     picker,
     defaultName,
     defaultId,
+    placeholder,
     input: {onChange},
   } = props;
   const [value, setValue] = useState();
@@ -36,7 +37,6 @@ const selectPicker = (props) => {
   };
   return (
     <View>
-      <Text style={styles._textLabel}>{label}</Text>
       <View style={{flexDirection: 'row'}}>
         <TouchableOpacity
           style={styles._selectOption}
@@ -49,7 +49,7 @@ const selectPicker = (props) => {
               {name ? name : 'Select value'}
             </Text>
             : 
-            <Text style={[styles._selectValue, {color:'#989898'}]}>{defaultName}</Text> 
+            <Text style={[styles._selectValue, {color:'#989898'}]}>{defaultName ? defaultName : placeholder}</Text> 
           }
         </TouchableOpacity>
         <View style={styles._positionIcons}>
@@ -136,14 +136,14 @@ const styles = StyleSheet.create({
 
   _selectOption: {
     height: 38,
-    backgroundColor: '#fff',
+    backgroundColor: '#ddd',
     justifyContent: 'center',
     paddingHorizontal: 10,
     borderWidth: 1,
     color: '#7a7a7a',
     fontSize: 13,
     borderColor: '#ddd',
-    borderRadius: 3,
+    borderRadius: 5,
     width: '100%',
   },
 

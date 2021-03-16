@@ -5,13 +5,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
+import { CurrentUser } from '../../app/store/actions/products';
 import {connect} from 'react-redux';
 import LogoutConfirmaton from '../shared/logoutConfirmation';
 
 class DrawerContent extends Component {
   constructor(props) {
     super(props);
-    this.state = {modalVisible: false};
+    this.state = {modalVisible: false, logout: false};
     this.confirmationModal = this.confirmationModal.bind(this);
   }
   confirmationModal(res) {
@@ -19,11 +20,31 @@ class DrawerContent extends Component {
       this.setState({modalVisible: true});
     } else {
       this.setState({modalVisible: false});
+      this.setState({logout: false})
       setTimeout(() => {
         this.props.navigation.navigate('Home');
       }, 200);
     }
   }
+
+   componentWillMount() {
+  }
+
+
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      return CurrentUser().then((token) => {
+        if (token) {
+          this.setState({logout: true })
+        }
+      })
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
+  }
+
   render() {
     const {initialData} = this.props;
     return (
@@ -66,40 +87,8 @@ class DrawerContent extends Component {
                 />
                 <Text style={styles._drwerTitle}>Home</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate('Account', {
-                    screen: 'Myorders',
-                  })
-                }
-                style={styles._drawerRow}>
-                <MaterialCommunityIcons
-                  name="truck-fast-outline"
-                  size={20}
-                  color="#7B5996"
-                  style={styles._drawerIcons}
-                />
-                <Text style={styles._drwerTitle}>My Orders</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate('Catalogue', {
-                    screen: 'Signin',
-                  })
-                }
-                style={styles._drawerRow}>
-                <MaterialCommunityIcons
-                  name="truck-fast-outline"
-                  size={20}
-                  color="#7B5996"
-                  style={styles._drawerIcons}
-                />
-                <Text style={styles._drwerTitle}>Login</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => {
+               
+              <TouchableOpacity onPress={() => {
                   this.props.navigation.navigate('Catalogue');
                 }}
                 style={styles._drawerRow}>
@@ -109,20 +98,7 @@ class DrawerContent extends Component {
                   color="#7B5996"
                   style={styles._drawerIcons}
                 />
-                <Text style={styles._drwerTitle}>Catalogue</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate('Favourite');
-                }}
-                style={styles._drawerRow}>
-                <Entypo
-                  name="heart-outlined"
-                  size={20}
-                  color="#7B5996"
-                  style={styles._drawerIcons}
-                />
-                <Text style={styles._drwerTitle}>My Wishlist</Text>
+                <Text style={styles._drwerTitle}>Categories</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -137,18 +113,44 @@ class DrawerContent extends Component {
                 />
                 <Text style={styles._drwerTitle}>My Account</Text>
               </TouchableOpacity>
+              {this.state.logout && (
+                <View>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate('Account', {
+                        screen: 'Myorders',
+                      })
+                    }
+                    style={styles._drawerRow}>
+                    <MaterialCommunityIcons
+                      name="truck-fast-outline"
+                      size={20}
+                      color="#7B5996"
+                      style={styles._drawerIcons}
+                    />
+                    <Text style={styles._drwerTitle}>My Orders</Text>
+                  </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => this.confirmationModal(true)}
-                style={styles._drawerRow}>
-                <Feather
-                  name="log-out"
-                  size={20}
-                  color="#7B5996"
-                  style={styles._drawerIcons}
-                />
-                <Text style={styles._drwerTitle}>Logout</Text>
-              </TouchableOpacity>
+                  <TouchableOpacity onPress={() => { this.props.navigation.navigate('Account', {screen: 'Wishlist'})}}
+                    style={styles._drawerRow}>
+                    <Entypo name="heart-outlined" size={20} color="#7B5996"
+                      style={styles._drawerIcons}/>
+                    <Text style={styles._drwerTitle}>My Wishlist</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() => this.confirmationModal(true)}
+                    style={styles._drawerRow}>
+                    <Feather
+                      name="log-out"
+                      size={20}
+                      color="#7B5996"
+                      style={styles._drawerIcons}
+                    />
+                    <Text style={styles._drwerTitle}>Logout</Text>
+                  </TouchableOpacity>
+                </View>  
+              )}
             </View>
           </View>
         </DrawerContentScrollView>

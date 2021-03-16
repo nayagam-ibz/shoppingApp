@@ -24,29 +24,37 @@ import { connect } from 'react-redux';
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {loading: true, modalVisible: false};
+		this.state = { modalVisible: false};
+	}
+	componentDidMount () {
+	  this.unsubscribe= this.props.navigation.addListener('focus', () => {
+	  	this.setState({loading: true})
+			this.props.getCategories().then((data) => {
+			  this.props.getProducts(19).then((data) => {
+				  this.setState({loading: false});
+			  })
+			}).catch(error => {
+	      this.setState({ loading:false })
+	      console.log(error)
+	      throw new SubmissionError(error);
+	    })
+	  })
 	}
 
-	componentDidMount() {
-		this.props.getCategories().then((data) => {
-		  this.props.getProducts(19).then((data) => {
-			  this.setState({loading: false});
-		  })
-		}).catch(error => {
-      this.setState({ loading:false })
-      console.log(error)
-      throw new SubmissionError(error);
-    })
+	componentWillUnmount () {
+	  this.unsubscribe()
 	}
 
-	navigationToggle() {
-		this.props.navigation.navigate('Categories', {
-			screen: 'Categories',
+	navigationToggle(name) {
+	  this.props.navigation.navigate('Catalogue', {
+			screen: 'Catalogue',
+			params: { name: name},
 		});
 	}
 
+
 	onNavigation = (id) => {
-		this.props.navigation.navigate('Categories', {
+		this.props.navigation.navigate('Catalogue', {
 			screen: 'ProductDetail',
 			params: {id: id, navigation: 'Home'},
 		});
@@ -73,7 +81,7 @@ class Dashboard extends Component {
 						<View>
 							<View style={styles._catalogue}>
 								<View style={[styles._spaceBetween, {paddingVertical: 10}]}>
-									<Text style={Styles._itemTitle}>Catalogue</Text>
+									<Text style={Styles._itemTitle}>Categories</Text>
 									<TouchableOpacity style={styles._flexRow} onPress={() => this.navigationToggle()}>
 										<Text style={styles._seeAllText}>See All</Text>
 										<Entypo name="chevron-small-right" size={22} color="#7a7a7a"/>
@@ -87,12 +95,12 @@ class Dashboard extends Component {
 													return (
 														<TouchableOpacity
 														  key={index}
-															onPress={() => this.navigationToggle()}>
+															onPress={() => this.navigationToggle(item.name)}>
 															<View style={styles._catalogWidget}>
-																{item.images ? item.images.slice(0,1).map((item, index) => {
+																{item.images ? [item.images[1]].map((item, index) => {
 																	return(
 																    <View key={index}>
-																      <Image source={{uri: item.url}} style={styles._cateImage} />  
+																      <Image source={{uri: item.url}} style={styles._cateImage} />
 																     </View>
 																		)
 															  	})
@@ -115,7 +123,7 @@ class Dashboard extends Component {
 					{productsList && productsList && (
 						<View style={Styles._itemWrapper}>
 							<Text style={[Styles._itemTitle, {paddingHorizontal: 10}]}>Best Sellers </Text>
-							<ProductView productsList={productsList} onNavigation={this.onNavigation}/> 
+							<ProductView productsList={productsList} onNavigation={this.onNavigation} navigation={this.props.navigation}/> 
 						</View>
 					)}
 				</ScrollView>
@@ -173,15 +181,15 @@ const styles = StyleSheet.create({
 		width: 70,
 		height: 70,
 		borderRadius: 100,
-		borderWidth: 1,
-		borderColor: '#ddd',
 		alignItems:'center',
-		justifyContent:'center'
+		justifyContent:'center',
+		backgroundColor:'#fff'
 	},
 
 	_cateImage: {
-		width: 55,
-		height: 55,
+		width: 65,
+		height: 65,
+		borderRadius: 100
 	},
 
 	_catalogText: {

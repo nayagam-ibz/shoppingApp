@@ -16,10 +16,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomHeader from '../header/header';
 import {getCart} from '../../app/store/actions/products';
 import {connect} from 'react-redux';
+import Styles from '../../../assets/style';
+import StepIndicator from '../shared/stepIndicator'
 
 class Checkout extends React.Component {
   state = {
-    modalVisible: false,
+    modalVisible: false, step1: true , step2: true , step3: true
+
   };
 
   setModalVisible = (visible) => {
@@ -36,62 +39,35 @@ class Checkout extends React.Component {
   };
 
   goProductDetail = () => {
-     this.setState({modalVisible: false});
-    this.props.navigation.navigate('ProductDetail');
+    this.setState({modalVisible: false});
+    this.props.navigation.navigate('Home');
+  }
+
+  backNavigation = () => {
+    this.props.navigation.navigate('ShippingAddress')
+    this.setState({step3: false})
   }
 
   render() {
     const {cartList} = this.props;
     const {modalVisible} = this.state;
-    const id =  this.props.route.params && this.props.route.params.id;
-    const navigation =  this.props.route.params && this.props.route.params.navigation
-    console.log(navigation)
-    console.log(id)
     return (
       <View style={styles._container}>
-        <CustomHeader
-          navigation={this.props.navigation}
-          isHeader="Checkout"
-          isBack="isBack"
-          name={navigation && navigation ? "Home" : "ProductDetail"}
-        />
+        <View style={[Styles._headerGradient, Styles._flexRow,  {height: 45, backgroundColor:'#3B2D46'}]}>
+          <View style={{flex: 1}}>
+            <TouchableOpacity onPress={() => this.backNavigation()}>
+              <Entypo name="chevron-small-left" size={35} color="#fff" style={{marginLeft: -10}}/>
+            </TouchableOpacity>
+          </View>
+          <View style={{flex: 5}}>
+            <Text style={[ Styles._subTitleApp,{color: '#fff'}]}>Payment</Text>
+          </View>
+          <View style={{flex: 1}}></View>
+        </View>
         <SafeAreaView>
+          <StepIndicator step1={this.state.step1} step2={this.state.step2} step3={this.state.step3}/>
           <View style={styles._paymentView}>
-            <View style={styles._flexRow}>
-              <Feather
-                name="map-pin"
-                size={18}
-                color="#3B2D46"
-                style={styles._menuIcon}
-              />
-              <Text style={styles._addressTitle}>SHIPPING ADDRESS</Text>
-            </View>
-            <View style={styles._addressView}>
-              <View
-                style={[
-                  styles._spaceBetween,
-                  {flex: 1, paddingHorizontal: 10},
-                ]}>
-                <View style={{flex: 4}}>
-                  <Text style={styles._addressName}>Oleh Chabanov</Text>
-                  <Text style={styles._addressText}>
-                    225 Highland Ave, Springfield, Il 62704, USA
-                  </Text>
-                </View>
-                <View style={{flex: 1}}>
-                  <TouchableOpacity
-                    style={styles._flexRow}
-                    onPress={() => this.props.navigation.navigate('Account',{screen: 'ManageAddress',})}>
-                    <Text style={styles._onChangeText}>CHANGE</Text>
-                    <Entypo
-                      name="chevron-small-right"
-                      size={20}
-                      color="#7a7a7a"
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
+            <Text>List Payment </Text> 
           </View>
         </SafeAreaView>
         <View style={styles._flexEnd}>

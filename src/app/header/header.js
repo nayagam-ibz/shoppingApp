@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
 	Text,
-	StyleSheet,
+	Stylesheet,
 	View,
 	SafeAreaView,
 	TouchableOpacity,
@@ -13,6 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Authentication from '../shared/authentication'; 
 import RBSheet from 'react-native-raw-bottom-sheet';
+import Styles from '../../../assets/style';
 
 export class CustomHeader extends Component {
 	onNavigation = () => {
@@ -41,9 +42,9 @@ export class CustomHeader extends Component {
 						<LinearGradient
 							start={{x: 0, y: 0.9}}
 							end={{x: 1, y: 0.1}}
-							colors={['#3B2D46', '#7B5996']}
-							style={[styles._headerGradient, {height: 60}]}>
-							<View style={[styles._innerHeader, {height: 20}]}>
+							colors={['#3B2D46', '#3B2D46']}
+							style={[Styles._headerGradient, {height: 60}]}>
+							<View style={[Styles._innerHeader, {height: 20}]}>
 								<Text style={{flex: 1}}>
 									<TouchableOpacity
 										onPress={
@@ -65,15 +66,15 @@ export class CustomHeader extends Component {
 								</Text>
 								<Text style={{flex: 5, textAlign: 'center'}}>
 									{isBack && isBack ? (
-										<Text style={[styles._subTitleApp, {color: '#fff'}]}>
+										<Text style={[Styles._subTitleApp, {color: '#fff'}]}>
 											{headertitle}
 										</Text>
 									) : (
-										<View style={styles._flexRow}>
-											<Text style={[styles._titleApp, {color: '#E7B844'}]}>
+										<View style={Styles._flexRow}>
+											<Text style={[Styles._titleApp, {color: '#E7B844'}]}>
 												My
 											</Text>
-											<Text style={[styles._titleApp, {color: '#fff'}]}>
+											<Text style={[Styles._titleApp, {color: '#fff'}]}>
 												Shop
 											</Text>
 										</View>
@@ -96,9 +97,9 @@ export class CustomHeader extends Component {
 					<LinearGradient
 						start={{x: 0, y: 0.9}}
 						end={{x: 1, y: 0.1}}
-						colors={['#3B2D46', '#7B5996']}
-						style={[styles._headerGradient, {height: 45}]}>
-						<View style={[styles._innerHeader, {flex: 1}]}>
+						colors={['#3B2D46', '#3B2D46']}
+						style={[Styles._headerGradient, {height: 45}]}>
+						<View style={[Styles._innerHeader, {flex: 1}]}>
 							<View style={{flex: 1}}>
 								<TouchableOpacity
 									onPress={() => this.props.navigation.navigate(name)}>
@@ -108,8 +109,8 @@ export class CustomHeader extends Component {
 							<View style={{flex: 5}}>
 								<Text
 									style={[
-										styles._subTitleApp,
-										{color: '#fff', textAlign: 'center'},
+										Styles._subTitleApp,
+										{color: '#fff'},
 									]}>
 									{isHeader}
 								</Text>
@@ -135,33 +136,3 @@ export class CustomHeader extends Component {
 export default CustomHeader;
 
 
-const styles = StyleSheet.create({
-	_flexRow: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-
-	_titleApp: {
-		fontSize: 20,
-		letterSpacing: 1,
-		fontFamily: 'Montserrat-ExtraBold',
-	},
-
-	_subTitleApp: {
-		fontSize: 15,
-		fontFamily: 'Montserrat-Medium',
-		textTransform: 'uppercase'
-	},
-
-	_innerHeader: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-	},
-
-	_headerGradient: {
-		paddingVertical: 10,
-		paddingHorizontal: 10,
-	},
-});

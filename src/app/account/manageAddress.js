@@ -78,7 +78,7 @@ class ManageAddress extends Component {
 										<TouchableOpacity
 											onPress={() => this.onNavigation(item.id)}
 											style={[styles._actionBtn, {marginRight: 10}]}>
-											<Text style={styles._actionText}>EDIT {item.id}</Text>
+											<Text style={styles._actionText}>EDIT</Text>
 										</TouchableOpacity>
 										<TouchableOpacity
 											style={styles._actionBtn}
@@ -107,7 +107,6 @@ class ManageAddress extends Component {
 								<TouchableOpacity style={[styles._actionBtn, {marginRight: 10}]} onPress={() => this.setModalVisible(false)}>
 									<Text style={styles._actionText}>CANCEL</Text>
 								</TouchableOpacity>
-								<Text>{itemId}.....</Text>
 								<TouchableOpacity style={styles._actionBtn} onPress={() => this.delteAddress(itemId)}>
 									<Text style={styles._actionText}>YES, DELETE</Text>
 								</TouchableOpacity>

@@ -15,7 +15,9 @@ import {
   USER_LOGIN,
   USER_REGISTRATION,
   GET_SUB_PRODUCTS,
-  ADD_FAVOURITE
+  ADD_FAVOURITE,
+  ADD_TO_CART,
+  GET_CART_ITEMS
 } from '../actions/types';
 import {
   makeGETRequest,
@@ -56,8 +58,6 @@ export function getSubProduct(id) {
   };
 }
 
-
-
 export function getProductDetail(id) {
   const response = makeGETRequest(`/storefront/products/${id}`);
   return {
@@ -82,12 +82,21 @@ export function getFavourite() {
   };
 }
 
+export function addToCart(id) {
+  const response = makePOSTRequest(`/storefront/cart/add_item`, {variant_id: id});
+  return{
+    type: ADD_TO_CART,
+    payload: response
+  }
+}
 
-export function getCart() {
+
+export function getCartItems() {
   // const response = makeGETRequest('/products');
+  const response = makeGETRequest(`/storefront/cart`);
   return {
-    type: GET_CART,
-    payload: {data: cart},
+    type: GET_CART_ITEMS,
+    payload: response
   };
 }
 
@@ -152,7 +161,7 @@ export function createAddress(reqParam, id) {
   if (id === '') {
     response = makePOSTRequest(`/storefront/account/addresses`, reqParam);
   } else {
-    response = makePOSTRequest(`/storefront/account/addresses/${id}`, reqParam);
+    response = makePOSTRequest(`/storefront/account/addresses/detail_update`, reqParam);
   }
   return {
     type: NEW_ADDRESS,

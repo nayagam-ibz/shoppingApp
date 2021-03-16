@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
 
   _itemFavourite: {
     backgroundColor: '#fff',
-    width: 25,
-    height: 25,
+    width: 30,
+    height: 30,
     position: 'absolute',
     right: 10,
     top: 10,
@@ -81,10 +81,10 @@ const styles = StyleSheet.create({
   },
 
   _dasProductImage: {
-    width: '100%',
-    height: 180,
+    width: 165,
+    height: 200,
     borderRadius: 3,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
 
   _itemTitle: {
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
 
   _imageStyle: {
-    width: 150,
+    width: 180,
     height: 110,
     resizeMode: 'contain',
   },
@@ -347,11 +347,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'absolute',
     bottom: 0,
-    height: 65,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    height: 55,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
     paddingHorizontal: 10,
     justifyContent: 'center',
+    alignItems:'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -420,6 +421,7 @@ const styles = StyleSheet.create({
 
   _productList: {
     paddingVertical: 2,
+    marginBottom: 100
   },
 
   _imageView: {
@@ -431,8 +433,8 @@ const styles = StyleSheet.create({
   },
 
   _productImage: {
-    height: 90,
-    width: 90,
+    height: 150,
+    width: 100,
     borderWidth: 1,
     borderRadius: 5,
     alignItems: 'center',
@@ -446,17 +448,11 @@ const styles = StyleSheet.create({
   },
 
   _cartAttirubute: {
-    fontSize: 11,
-    fontFamily: 'Montserrat-Medium',
-    marginBottom: 5,
+    flexDirection:'row',
+    alignItems:'center',
+    paddingVertical: 1
   },
-  _cartView: {
-    flexDirection: 'row',
-    paddingHorizontal: 10,
-    marginTop: 10,
-    backgroundColor: '#fff',
-    paddingVertical: 10,
-  },
+  
   _cartRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -512,6 +508,132 @@ const styles = StyleSheet.create({
     color: 'orange',
     paddingVertical: 10
   },
+
+  _passwordPosition: {    
+    position: 'absolute',
+    right: 0,
+    top: 20
+  },
+
+   _passwordText: {
+    color: '#7a7a7a',
+    fontSize: 12,
+    fontFamily: 'Montserrat-Medium',
+    padding: 11,
+  },
+
+  _emptyView: {
+    flex: 1,
+    alignItems:'center',
+    justifyContent:'center',
+    paddingHorizontal: 10
+  },
+
+  _emptyTitle: {
+    fontSize: 18,
+    color:'#333',
+    fontFamily: 'Montserrat-Medium',
+    textAlign:'center'
+  },
+
+  _emptySubTitle: {
+    fontSize: 13.5,
+    color:'#7a7a7a',
+    fontFamily: 'Montserrat-Medium',
+    textAlign:'center',
+    paddingVertical: 10,
+    lineHeight: 20
+  },
+  _shopBtn: {
+    borderWidth: 1,
+    borderColor:'orange',
+    paddingHorizontal: 40,
+    paddingVertical: 8,
+    borderRadius: 3,
+    marginTop: 15
+  },
+  _shopBtnText: {
+    color:'orange',
+    fontFamily: 'Montserrat-Medium',
+    fontSize: 15,
+    textTransform: 'uppercase'
+  },
+
+  _flexRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  _titleApp: {
+    fontSize: 20,
+    letterSpacing: 1,
+    fontFamily: 'Montserrat-ExtraBold',
+  },
+
+  _subTitleApp: {
+    fontSize: 15,
+    fontFamily: 'Montserrat-Medium',
+    textTransform: 'uppercase'
+  },
+
+  _innerHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  _headerGradient: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
+
+  _orerCount: {
+    fontSize: 13,
+    fontFamily: 'Montserrat-Medium',
+    paddingVertical: 5,
+    marginTop: -5,
+    textAlign:'center'
+  },
+
+  _counterView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor:'#fff',
+    width: 80, 
+    borderWidth: 1,
+    borderRadius: 2,
+    borderColor: '#ddd',
+  },
+
+  _addItems: {
+    width: 25,
+    height: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  _addCounter: {
+    width: 30,
+    textAlign: 'center',
+    alignItems: 'center',
+    height: 18,
+    justifyContent: 'center',
+    fontFamily: 'Montserrat-Medium',
+  },
+
+  _variationValues: {
+    fontFamily: 'Montserrat-Medium',
+    color:'#333',
+    fontSize: 14
+  },
+
+  _optionTypes: {
+   fontFamily: 'Montserrat-Medium',
+    color:'#7a7a7a',
+    fontSize: 12,
+  }
+
 });
 
 module.exports = styles;

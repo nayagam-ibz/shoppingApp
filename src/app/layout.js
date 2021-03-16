@@ -10,15 +10,16 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import Dashboard from './dashboard';
 import Catalogue from './catalogue';
 import Wishlist from './account/wishlist';
+import MyProfile from './account/myProfile';
 import Account from './account';
 import Splash from './auth/splash';
 import ProductsList from './catalogue/productsList';
 import ProductDetail from './catalogue/productDetail';
-import UserProfile from './account/profile';
-import NewAddress from './account/newAddress';
 import ManageAddress from './account/manageAddress';
 import Cart from './catalogue/cart';
-import Checkout from './catalogue/checkout';
+import ShippingAddress from './catalogue/shippingAddress';
+import NewAddress from './catalogue/newAddress';
+import Payment from './catalogue/payment';
 import CustomDrawer from './shared/customDrawer';
 import CustomTab from './shared/customTab';
 import SignIn from './catalogue/signin';
@@ -48,10 +49,13 @@ function CatalogueStackScreen({navigation, route}) {
     routeName === 'Categories' ||
     routeName === 'ProductDetail' ||
     routeName === 'Cart' ||
-    routeName === 'Checkout' ||
+    routeName === 'Payment' ||
     routeName === 'Signin' ||
     routeName === 'Signup' ||
-    routeName === 'Myorders'
+    routeName === 'Myorders' ||
+    routeName === 'MyProfile'||
+    routeName === 'ShippingAddress'||
+    routeName === 'NewAddress'
   ) {
     navigation.setOptions({tabBarVisible: false});
   } else {
@@ -65,13 +69,16 @@ function CatalogueStackScreen({navigation, route}) {
          cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
       }}>
       <CatalogueStack.Screen name="Catalogue" component={Catalogue} />
-      <CatalogueStack.Screen name="Categories" component={ProductsList} />
+      <CatalogueStack.Screen name="ProductsList" component={ProductsList} />
       <CatalogueStack.Screen name="ProductDetail" component={ProductDetail} />
       <CatalogueStack.Screen name="Cart" component={Cart} />
-      <CatalogueStack.Screen name="Checkout" component={Checkout} />
+      <CatalogueStack.Screen name="Payment" component={Payment} />
       <CatalogueStack.Screen name="Signin" component={SignIn} />
       <CatalogueStack.Screen name="Signup" component={SignUp} />
       <CatalogueStack.Screen name="Myorders" component={MyOrders} />
+      <CatalogueStack.Screen name="MyProfile" component={MyProfile} />
+      <CatalogueStack.Screen name="ShippingAddress" component={ShippingAddress} />
+      <CatalogueStack.Screen name="NewAddress" component={NewAddress} />
     </CatalogueStack.Navigator>
   );
 }
@@ -98,16 +105,14 @@ function AccountStackScreen({navigation, route}) {
   }
   return (
     <AccountStack.Navigator
-      initialRouteName="Setting"
+      initialRouteName="Account"
       screenOptions={{
         headerShown: false,
          cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
       }}>
       <AccountStack.Screen name="Account" component={Account} />
-      <AccountStack.Screen name="UserProfile" component={UserProfile} />
       <AccountStack.Screen name="Myorders" component={MyOrders} />
       <AccountStack.Screen name="ManageAddress" component={ManageAddress} />
-      <AccountStack.Screen name="NewAddress" component={NewAddress} />
       <AccountStack.Screen name="Wishlist" component={Wishlist} />
     </AccountStack.Navigator>
   );
@@ -116,8 +121,8 @@ function TabNavigator() {
   return (
     <SafeAreaProvider>
       <Tab.Navigator tabBar={(props) => <CustomTab {...props} />}>
-        <Tab.Screen name="Home" component={HomeStackScreen} item="testing" />
-        <Tab.Screen name="Categories" component={CatalogueStackScreen} />
+        <Tab.Screen name="Home" component={HomeStackScreen} />
+        <Tab.Screen name="Catalogue" component={CatalogueStackScreen} />
         <Tab.Screen name="Account" component={AccountStackScreen} />
       </Tab.Navigator>
     </SafeAreaProvider>

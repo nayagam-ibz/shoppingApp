@@ -8,23 +8,37 @@ import {
 	FlatList,
 	ScrollView,
 } from 'react-native';
-import RBSheet from 'react-native-raw-bottom-sheet';
-import CustomHeader from './header/header';
-import SearchProdcut from './shared/search';
-import {connect} from 'react-redux';
-import Loader from './shared/loader';
-import Styles from '../../assets/style';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import SearchProdcut from './shared/search';
+import CustomHeader from './header/header';
+import Styles from '../../assets/style';
+import Loader from './shared/loader';
+import {connect} from 'react-redux';
 
 const  colors = ['#EED9BC', '#EEDAD3', '#fdecba', '#abcdef', '#F8F9F9', '#F2F4F4', '#FEF9E7', '#FAE5D3', '#D5F5E3', '#D6EAF8'];
 class Catalogue extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {title: '', loading: false};
+		this.state = {title: null};
 	}
 
-	componentDidMount() {
-		setTimeout(() => this.setState({loading: false}), 2000);
+	componentDidMount () {
+	  this.unsubscribe= this.props.navigation.addListener('focus', () => {
+	  	this.setState({loading: true})
+	    setTimeout(() => {
+		     const name = this.props.route.params?.name?? '';
+		     console.log(name)
+		     if(name){
+		       this.openSheet(name)
+		     }
+		     this.setState({loading: false})
+			}, 2000);
+	  })
+	}
+
+	componentWillUnmount () {
+	  this.unsubscribe()
 	}
 
 	openSheet = (name, id) => {
@@ -35,13 +49,13 @@ class Catalogue extends Component {
 	onNavigation = (id, title) => {
 		this.RBSheet.close();
 		setTimeout(() => {
-			this.props.navigation.navigate('Categories', {id: id, title: title});
+			this.props.navigation.navigate('ProductsList', {id: id, title: title});
 		}, 200);
 	};
 
 	render() {
-		const {allCategories} = this.props;
-		const {title} = this.state;
+		const { allCategories } = this.props;
+		const { title } = this.state;
 		return (
 			<SafeAreaView style={{backgroundColor:'#fff'}}>
 				<Loader loading={this.state.loading} />
@@ -82,10 +96,13 @@ class Catalogue extends Component {
 														</View>
 										      </View>
 												 <View style={Styles._catImage}>
-													<Image
-														style={Styles._imageStyle}
-														source={require('../../assets/images/kids.png')}
-													/>
+													  {item.images && [item.images[1]].map((item, index) => {
+													  	return(
+                                <View key={index}>
+                                 	<Image source={{uri: item.url}} style={Styles._imageStyle} /> 
+                                </View> 
+												  		)
+													  })} 
 												</View>
 												</TouchableOpacity>	
 											</View>

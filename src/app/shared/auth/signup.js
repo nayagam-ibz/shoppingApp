@@ -15,6 +15,7 @@ import {connect} from 'react-redux';
 
 class Form extends React.Component {
 	state = {loading: false};
+
 	_userSignUp(values) {
 		this.setState({loading: true});
 		return this.props
@@ -24,7 +25,7 @@ class Form extends React.Component {
 					this.setState({loading: false});
 					const responseObj = handleResponse(data.payload);
 					StoreUserToken(responseObj.accessToken);
-					this.props.onClose();
+					this.props.onClose(true);
 				} else {
 					throw handleResponse(data.payload).errors;
 					this.setState({loading: false});
@@ -47,6 +48,7 @@ class Form extends React.Component {
 							<EvilIcons name="close" size={20} color="#333" />
 						</TouchableOpacity>
 					</View>
+					{error && <Text>{error}</Text>}
 					<View style={Styles._formGroup}>
 						<Field
 							name="email"
@@ -56,26 +58,11 @@ class Form extends React.Component {
 							styleName="signInput"
 						/>
 					</View>
-					<View style={Styles._formGroup}>
-						<Field
-							name="password"
-							component={textInput}
-							label="Password"
-							secureTextEntry={true}
-							underlineColorAndroid="transparent"
-							styleName="signInput"
-						/>
-					</View>
-					<View style={Styles._formGroup}>
-						<Field
-							name="passwordConfirmation"
-							component={textInput}
-							label="Password Confirmation"
-							secureTextEntry={true}
-							underlineColorAndroid="transparent"
-							styleName="signInput"
-						/>
-					</View>
+					<PasswordFields label="Password" name="password" />
+					<PasswordFields
+						label="Password Confirmation"
+						name="passwordConfirmation"
+					/>
 					<TouchableOpacity
 						style={[Styles._cartBtn, {marginTop: 10}]}
 						onPress={handleSubmit(this._userSignUp.bind(this))}>
@@ -90,6 +77,37 @@ class Form extends React.Component {
 						<Text style={Styles._sigText}> Sign in </Text>
 					</TouchableOpacity>
 				</View>
+			</View>
+		);
+	}
+}
+
+class PasswordFields extends React.Component {
+	state = {password: true};
+
+	_visiblePassword = (ev) => {
+		this.setState({password: !this.state.password});
+	};
+
+	render() {
+		const {label, name} = this.props;
+		return (
+			<View style={Styles._formGroup}>
+				<Field
+					name={name}
+					component={textInput}
+					label={label}
+					underlineColorAndroid="transparent"
+					secureTextEntry={this.state.password}
+					styleName="signInput"
+				/>
+				<TouchableOpacity
+					onPress={this._visiblePassword}
+					style={Styles._passwordPosition}>
+					<Text style={Styles._passwordText}>
+						{this.state.password === true ? 'Hide' : 'Show'}
+					</Text>
+				</TouchableOpacity>
 			</View>
 		);
 	}

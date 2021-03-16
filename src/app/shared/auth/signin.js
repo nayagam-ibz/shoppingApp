@@ -12,7 +12,12 @@ import Styles from '../../../../assets/style';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 class Form extends React.Component {
-	state = {loading: false};
+	state = {loading: false, password: true};
+
+  
+	_visiblePassword = (ev) => {
+		this.setState({password: !this.state.password});
+	};
 
 	_userSignIn(values) {
 		this.setState({loading: true});
@@ -23,15 +28,14 @@ class Form extends React.Component {
 					this.setState({loading: false});
 					const responseObj = handleResponse(data.payload);
 					StoreUserToken(responseObj.accessToken);
-					this.props.onClose();
+					this.props.onClose(true);
 				} else {
-					throw handleResponse(data.payload).errors;
+					throw handleResponse(data.payload.data).errors;
 					this.setState({loading: false});
 				}
 			})
 			.catch((error) => {
 				this.setState({loading: false});
-				console.log(error);
 				throw new SubmissionError(error);
 			});
 	}
@@ -53,7 +57,7 @@ class Form extends React.Component {
 							<EvilIcons name="close" size={20} color="#333" />
 						</TouchableOpacity>
 					</View>
-					{error && <Text>{error}</Text>}
+					<Text>{error}</Text>
 					<View style={Styles._formGroup}>
 						<Field
 							name="username"
@@ -68,10 +72,15 @@ class Form extends React.Component {
 							name="password"
 							component={textInput}
 							label="Password"
-							secureTextEntry={true}
+							secureTextEntry={this.state.password}
 							underlineColorAndroid="transparent"
 							styleName="signInput"
 						/>
+						<TouchableOpacity onPress={this._visiblePassword} style={Styles._passwordPosition}>
+							<Text style={Styles._passwordText}>
+								{this.state.password === true ? 'Hide' : 'Show'}
+							</Text>
+						</TouchableOpacity>
 					</View>
 					<TouchableOpacity
 						style={[Styles._cartBtn, {marginTop: 30}]}

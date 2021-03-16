@@ -6,68 +6,66 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  Dimensions
 } from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import { getProductDetail, addToCart, CurrentUser} from '../../app/store/actions/products';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getProductDetail} from '../../app/store/actions/products';
-import {connect} from 'react-redux';
+import ProductDetailFilter from '../shared/productDetailFilter'
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { FlatListSlider} from 'react-native-flatlist-slider';
+import Entypo from 'react-native-vector-icons/Entypo';
+import SimilarProduct from '../shared/similarProduct';
+import Authentication from '../shared/authentication'; 
+import RBSheet from 'react-native-raw-bottom-sheet';
+import PreviewSlider from '../shared/previewSlider'; 
+import ShareOptions from '../shared/shareOptions'; 
 import Styles from '../../../assets/style';
 import Loader from '../shared/loader';
-import {FlatListSlider} from 'react-native-flatlist-slider';
-import PreviewSlider from '../shared/previewSlider' 
-import ShareOptions from '../shared/shareOptions' 
-import SimilarProduct from '../shared/similarProduct'
-import ProductDetailFilter from '../shared/productDetailFilter'
-
+import { connect} from 'react-redux';
 
 const  details = ['Type', 'Collection', 'Manufacturer', 'Brand', 'Material', 'Fit', 'Gender', 'Model'];
-
-const images = [
-   {
-    image:'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2414313/2018/3/13/11520926368526-HERENOW-Men-Red--Black-Regular-Fit-Checked-Casual-Shirt-8881520926368447-1.jpg',
-   },
-
-   {
-    image:'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2414313/2018/3/13/11520926368507-HERENOW-Men-Red--Black-Regular-Fit-Checked-Casual-Shirt-8881520926368447-2.jpg',
-   },
-
-   {
-    image:'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2414313/2018/3/13/11520926368495-HERENOW-Men-Red--Black-Regular-Fit-Checked-Casual-Shirt-8881520926368447-3.jpg',
-   },
-  {
-    image:'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2414313/2018/3/13/11520926368483-HERENOW-Men-Red--Black-Regular-Fit-Checked-Casual-Shirt-8881520926368447-4.jpg',
-  },
-  ]
-
+const win = Dimensions.get('window');
 
 class ProductDetail extends React.Component {
-  state = {loading: true}
-
-  componentDidMount() {
-    const { navigation } = this.props;
-    this.focusListener = navigation.addListener('focus', () => {
+  state = {loading: false}
+  componentDidMount () {
+    this.unsubscribe= this.props.navigation.addListener('focus', () => {
+      this.setState({loading: true})
       const { id } = this.props.route.params;
       this.props.getProductDetail(id).then((data) => {
-        this.setState({loading: false})
+        if(data.payload.data.status === "ok") {
+          this.setState({loading: false})
+        }
       })
     })
   }
 
-  componentWillUnmount() {
-    if (this.focusListener != null && this.focusListener.remove) {
-      this.focusListener.remove();
-    }
+  componentWillUnmount () {
+    this.unsubscribe()
   }
 
-  _navigate = () => {
-    this.props.navigation.navigate('Cart');
-  };
+  _addCartItems = (id) => {
+    return CurrentUser().then((token) => {
+      if (!token) {
+        this.RBSheet.open();
+        return;
+      }else {
+        this.props.addToCart(id.id).then((data) => {
+          this.props.navigation.navigate('Cart', {id: id.id});
+        })
+      }
+    })
+  }
+
+  sheetClose = (res) => {
+    this.RBSheet.close();
+  } 
 
   render() {
     const {productDetail, route} = this.props;
     const { navigation } = route.params;
     const productFilter = productDetail && productDetail.optionTypes;
+    const varientId = productDetail && productDetail.variants.find(data => data.id)
     const value = 0
     return (
       <SafeAreaView style={Styles._container}>
@@ -77,15 +75,34 @@ class ProductDetail extends React.Component {
             <ScrollView>
               <View>
                 <View style={{marginBottom: 10}}>
-                  <FlatListSlider
-                    data={images}
-                    component={<PreviewSlider />}
-                    autoscroll={false}
-                    indicatorActiveWidth={9}
-                    indicatorActiveColor="orange"
-                    indicatorStyle={{width:9, height:9, borderRadius: 20}}
-                    indicatorContainerStyle={{position:'absolute', bottom: 20}}
-                  />
+                    {productDetail.images.length > 0 
+                      ?
+                        <FlatListSlider
+                          data={productDetail.images }
+                          component={<PreviewSlider />}
+                          autoscroll={false}
+                          imageKey={'url'}
+                          indicatorActiveWidth={9}
+                          indicatorActiveColor="orange"
+                          indicatorStyle={{width:9, height:9, borderRadius: 20}}
+                          indicatorContainerStyle={{position:'absolute', bottom: 20}}
+                        />
+                      :
+                      <View style={{flex: 1, backgroundColor:'#eee'}}> 
+                        <Image
+                          style={{
+                            width: win.width/1,
+                            height: 450,
+                            resizeMode: "contain",
+                            alignSelf: "center",
+                            borderWidth: 1,
+                            borderRadius: 20,
+                          }}
+                          source={require('../../../assets/images/unknow-image.png')}
+                          resizeMode="cover"
+                        /> 
+                      </View>   
+                    }
                   <View style={{position:'absolute', left: 10, top: 15}}>
                     <TouchableOpacity
                       style={Styles.shareBtn}
@@ -141,17 +158,22 @@ class ProductDetail extends React.Component {
               </View>
             </ScrollView>
             <View style={Styles._checkEnd}>
-              <View style={Styles._spaceBetween}>
-                <TouchableOpacity style={[Styles._addToBtn,{width: '49%'}]} onPress={this._navigate}>
-                  <Text  style={[Styles._btnText, {color:'#333'}]}>ADD TO CART</Text>
-                </TouchableOpacity>
-               <TouchableOpacity style={[Styles._bynowBtn ,{width: '49%'}]} onPress={this._navigate}>
-                  <Text style={Styles._btnText}>BUY NOW</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity style={[Styles._addToBtn,{width: '100%', backgroundColor:'orange'}]} onPress={() => this._addCartItems(varientId)}>
+                <Text  style={[Styles._btnText, {color:'#fff'}]}>ADD TO CART</Text>
+              </TouchableOpacity>
             </View>
           </View>  
         )}
+
+        <RBSheet ref={(ref) => {this.RBSheet = ref;}}
+          height={400}
+          openDuration={300} closeOnPressMask={true} closeOnDragDown={true}
+          customStyles={{
+            wrapper: {backgroundColor: 'rgba(0,0,0,.7)'},
+            draggableIcon: {backgroundColor: '#fff'},
+          }}>
+          <Authentication sheetClose={this.sheetClose}/>
+        </RBSheet>
       </SafeAreaView>
     );
   }
@@ -161,5 +183,5 @@ const mapStateToProps = (state) => {
   return {productDetail: state.products.productDetail};
 };
 
-export default connect(mapStateToProps, {getProductDetail})(ProductDetail);
+export default connect(mapStateToProps, {getProductDetail, addToCart})(ProductDetail);
 

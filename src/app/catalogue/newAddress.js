@@ -75,7 +75,7 @@ class Form extends React.Component {
 		return (
 			<View style={styles.container}>
 			  <Loader loading={this.state.loading} />
-				<CustomHeader navigation={this.props.navigation} isHeader="Shipping Address" isBack="isBack" name="ManageAddress" />
+				<CustomHeader navigation={this.props.navigation} isHeader="New Address" isBack="isBack" name="ShippingAddress" />
 				<ScrollView>
 				  <View style={styles._adheaderView}>
             <Text style={styles._adheaderTitle}>Contact Detail</Text>

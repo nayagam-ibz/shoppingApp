@@ -31,14 +31,17 @@ class ShareOptions extends React.Component {
 
   render() {
     const {like} = this.state
+    const { itemObject } = this.props
     return (
       <View style={styles._socialView}>
         <TouchableOpacity style={styles.shareBtn} onPress={this.myShare}>
           <Ionicons name="share-social" size={20} color="#3B2D46" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.shareBtn} onPress={this._myFavourite}>
-          <Entypo name={like ? "heart" : "heart-outlined"} size={22} color={like ? 'red': "#7a7a7a" } />
-        </TouchableOpacity>
+        {itemObject.isFavorite === true && (
+          <TouchableOpacity style={styles.shareBtn} onPress={this._myFavourite}>
+            <Entypo name="heart" size={22} color='red'/>
+          </TouchableOpacity>
+        )}
       </View>
     );
   }

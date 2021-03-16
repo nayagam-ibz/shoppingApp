@@ -10,15 +10,15 @@ const textInput = ({
   underlineColorAndroid,
   styleName,
   maxLength,
+  hideClass,
   meta: {error, touched},
   input,
 }) => {
   return (
     <View>
-      <Text style={styles._textLable}>{label}</Text>
       <TextInput
         secureTextEntry={secureTextEntry}
-        style={styleName ? styles._textInput : styles._normalInput }
+        style={hideClass ? styles.hiddenInput : styles._textInput }
         underlineColorAndroid={underlineColorAndroid}
         placeholder={placeholder}
         keyboardType={keyboardType}
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     height: 38,
     color:'#7a7a7a',
     fontSize: 13,
-    borderRadius: 3,
+    borderRadius: 5,
     alignItems: 'center',
     fontFamily: 'Montserrat-Medium',
   },
@@ -65,9 +65,14 @@ const styles = StyleSheet.create({
     height: 40,
     color:'#7a7a7a',
     fontSize: 13,
-    borderRadius: 3,
+    borderRadius: 5,
     alignItems: 'center',
     fontFamily: 'Montserrat-Medium',
+  },
+
+  hiddenInput: {
+    height: 0,
+    marginBottom: -100
   },
 
   _errorText: {

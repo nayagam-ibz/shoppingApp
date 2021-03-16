@@ -54,7 +54,7 @@ class DrawerContent extends Component {
                       }}
                     />
                   )}
-                  {label === 'Categories' ? (
+                  {label === 'Catalogue' ? (
                     <SimpleLineIcons
                       name="grid"
                       size={15}
