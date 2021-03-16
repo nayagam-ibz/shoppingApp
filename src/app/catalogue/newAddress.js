@@ -26,7 +26,7 @@ class Form extends React.Component {
 		return this.props.createAddress(values, id).then((data) => {
 			if(data.payload.data){
 				this.setState({loading: false})
-				this.props.navigation.navigate("ManageAddress")
+				this.props.navigation.navigate("ShippingAddress")
 				this.props.getAllAddress()
 				this.resetForm()
 			} else {

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {DrawerContentScrollView} from '@react-navigation/drawer';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
+import { CurrentUser } from '../../app/store/actions/products';
+import { connect } from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
-import { CurrentUser } from '../../app/store/actions/products';
-import {connect} from 'react-redux';
 import LogoutConfirmaton from '../shared/logoutConfirmation';
 
 class DrawerContent extends Component {
@@ -26,11 +26,6 @@ class DrawerContent extends Component {
       }, 200);
     }
   }
-
-   componentWillMount() {
-  }
-
-
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       return CurrentUser().then((token) => {

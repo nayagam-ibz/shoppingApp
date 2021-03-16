@@ -13,8 +13,8 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import CustomHeader from '../header/header';
 import SearchProdcut from '../shared/search';
 import CategoryMenus from '../shared/categoryMenus';
-import {getSubProduct} from '../../app/store/actions/products';
-import {connect} from 'react-redux';
+import { getSubProduct } from '../../app/store/actions/products';
+import { connect } from 'react-redux';
 import Loader from '../shared/loader';
 import Filter from '../shared/filter';
 import ProductView from '../shared/productView'
@@ -41,7 +41,6 @@ class CataloguMenuDetail extends Component {
 	  this.unsubscribe()
 	}
 
-
 	openSheet = () => {
 		this.RBSheet.open();
 	};
@@ -57,9 +56,8 @@ class CataloguMenuDetail extends Component {
 
 	onNavigation = (res) => {
 		this.props.navigation.navigate('ProductDetail', {
-			id: res,
-			navigation: 'ProductsList',
-		});
+			id: res, navigation: 'ProductsList',
+		})
 	};
 
 	applyFilter(filter, filterApplied = '') {
@@ -98,10 +96,8 @@ class CataloguMenuDetail extends Component {
 						<ProductView productsList={allSubProducts} onNavigation={this.onNavigation} navigation={this.props.navigation}/> 
 					</View>
 				</ScrollView>
-				<RBSheet ref={(ref) => {this.RBSheet = ref;}}
-					height={250} openDuration={500} closeDuration={500}
-					closeOnPressMask={true} closeOnDragDown={true}
-					customStyles={{container: {borderTopLeftRadius: 15,borderTopRightRadius: 15,}}}>
+				<RBSheet ref={(ref) => {this.RBSheet = ref}} height={250} openDuration={500} closeDuration={500}
+					closeOnPressMask={true} closeOnDragDown={true} customStyles={{container: {borderTopLeftRadius: 15,borderTopRightRadius: 15,}}}>
 					<View style={Styles._catList}>
 						<FlatList
 							data={initialData && initialData.sortby}
@@ -116,10 +112,7 @@ class CataloguMenuDetail extends Component {
 						/>
 					</View>
 				</RBSheet>
-				<Modal
-					animationType="fade"
-					transparent={true}
-					visible={this.state.modalVisible}>
+				<Modal animationType="fade" transparent={true} visible={this.state.modalVisible}>
 					<View style={Styles._centeredView}>
 						<View style={Styles._fullView}>
 							<Filter

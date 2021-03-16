@@ -30,7 +30,7 @@ class Checkout extends React.Component {
   };
 
   componentDidMount() {
-    this.props.getCart();
+    // this.props.getCart();
   }
 
   goOrders = () => {
@@ -129,11 +129,6 @@ class Checkout extends React.Component {
                   onPress={this.goProductDetail}>
                   <Text style={[styles._cartText, {textAlign: 'center'}]}>
                     CONTINUE SHOPPING
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.goOrders}>
-                  <Text style={[styles._goOrdes, {textAlign: 'center'}]}>
-                    Go To Orders
                   </Text>
                 </TouchableOpacity>
               </View>

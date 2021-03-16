@@ -15,15 +15,12 @@ import Account from './account';
 import Splash from './auth/splash';
 import ProductsList from './catalogue/productsList';
 import ProductDetail from './catalogue/productDetail';
-import ManageAddress from './account/manageAddress';
 import Cart from './catalogue/cart';
 import ShippingAddress from './catalogue/shippingAddress';
 import NewAddress from './catalogue/newAddress';
 import Payment from './catalogue/payment';
 import CustomDrawer from './shared/customDrawer';
 import CustomTab from './shared/customTab';
-import SignIn from './catalogue/signin';
-import SignUp from './catalogue/signup';
 import MyOrders from './account/myOrders';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
@@ -50,8 +47,6 @@ function CatalogueStackScreen({navigation, route}) {
     routeName === 'ProductDetail' ||
     routeName === 'Cart' ||
     routeName === 'Payment' ||
-    routeName === 'Signin' ||
-    routeName === 'Signup' ||
     routeName === 'Myorders' ||
     routeName === 'MyProfile'||
     routeName === 'ShippingAddress'||
@@ -73,8 +68,6 @@ function CatalogueStackScreen({navigation, route}) {
       <CatalogueStack.Screen name="ProductDetail" component={ProductDetail} />
       <CatalogueStack.Screen name="Cart" component={Cart} />
       <CatalogueStack.Screen name="Payment" component={Payment} />
-      <CatalogueStack.Screen name="Signin" component={SignIn} />
-      <CatalogueStack.Screen name="Signup" component={SignUp} />
       <CatalogueStack.Screen name="Myorders" component={MyOrders} />
       <CatalogueStack.Screen name="MyProfile" component={MyProfile} />
       <CatalogueStack.Screen name="ShippingAddress" component={ShippingAddress} />
@@ -98,7 +91,7 @@ function WishlistStackScreen() {
 const AccountStack = createStackNavigator();
 function AccountStackScreen({navigation, route}) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-  if (routeName === 'Profile' || routeName === 'NewAddress' || routeName ==='ManageAddress' ) {
+  if (routeName === 'Profile') {
     navigation.setOptions({tabBarVisible: false});
   } else {
     navigation.setOptions({tabBarVisible: true});
@@ -112,7 +105,6 @@ function AccountStackScreen({navigation, route}) {
       }}>
       <AccountStack.Screen name="Account" component={Account} />
       <AccountStack.Screen name="Myorders" component={MyOrders} />
-      <AccountStack.Screen name="ManageAddress" component={ManageAddress} />
       <AccountStack.Screen name="Wishlist" component={Wishlist} />
     </AccountStack.Navigator>
   );

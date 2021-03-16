@@ -29,8 +29,6 @@ import {
 } from '../../utils/Axios';
 import cart from '../../../app/json/cart.json';
 import orders from '../../../app/json/orders.json';
-import detail from '../../../app/json/details.json';
-import address from '../../../app/json/address.json';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -92,7 +90,6 @@ export function addToCart(id) {
 
 
 export function getCartItems() {
-  // const response = makeGETRequest('/products');
   const response = makeGETRequest(`/storefront/cart`);
   return {
     type: GET_CART_ITEMS,

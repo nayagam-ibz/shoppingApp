@@ -134,14 +134,10 @@ class ManageAddress extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    allAddress: state.products.allAddress,
-  };
+  return { allAddress: state.products.allAddress }
 };
 
 export default connect(mapStateToProps, {getAllAddress, deleteAddress})(ManageAddress);
-
-
 
 const styles = StyleSheet.create({
   _container: {

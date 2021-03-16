@@ -22,9 +22,8 @@ const styles = StyleSheet.create({
   },
 
   _pdhorizontal10: {
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
-
 
   _itemsRow: {
     marginBottom: 20,
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Montserrat-Medium',
     textTransform: 'uppercase',
-    paddingBottom: 15
+    paddingBottom: 15,
   },
 
   _seeAllText: {
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
   _size10: {
     fontFamily: 'Montserrat-Regular',
     fontSize: 10,
-    marginRight: 5
+    marginRight: 5,
   },
 
   _catImage: {
@@ -352,11 +351,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
     paddingHorizontal: 10,
     justifyContent: 'center',
-    alignItems:'center',
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 1,
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
@@ -388,7 +387,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Medium',
     fontSize: 13,
     color: '#3B2D46',
-    paddingBottom: 10
+    paddingBottom: 10,
   },
 
   _productText: {
@@ -401,7 +400,7 @@ const styles = StyleSheet.create({
   _vrLine: {
     backgroundColor: '#ddd',
     height: 5,
-    marginVertical: 15
+    marginVertical: 15,
   },
 
   _addToBtn: {
@@ -421,7 +420,7 @@ const styles = StyleSheet.create({
 
   _productList: {
     paddingVertical: 2,
-    marginBottom: 100
+    marginBottom: 100,
   },
 
   _imageView: {
@@ -448,11 +447,11 @@ const styles = StyleSheet.create({
   },
 
   _cartAttirubute: {
-    flexDirection:'row',
-    alignItems:'center',
-    paddingVertical: 1
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 1,
   },
-  
+
   _cartRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -506,16 +505,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 12,
     color: 'orange',
-    paddingVertical: 10
+    paddingVertical: 10,
   },
 
-  _passwordPosition: {    
+  _passwordPosition: {
     position: 'absolute',
     right: 0,
-    top: 20
+    top: 20,
   },
 
-   _passwordText: {
+  _passwordText: {
     color: '#7a7a7a',
     fontSize: 12,
     fontFamily: 'Montserrat-Medium',
@@ -524,39 +523,39 @@ const styles = StyleSheet.create({
 
   _emptyView: {
     flex: 1,
-    alignItems:'center',
-    justifyContent:'center',
-    paddingHorizontal: 10
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
   },
 
   _emptyTitle: {
     fontSize: 18,
-    color:'#333',
+    color: '#333',
     fontFamily: 'Montserrat-Medium',
-    textAlign:'center'
+    textAlign: 'center',
   },
 
   _emptySubTitle: {
     fontSize: 13.5,
-    color:'#7a7a7a',
+    color: '#7a7a7a',
     fontFamily: 'Montserrat-Medium',
-    textAlign:'center',
+    textAlign: 'center',
     paddingVertical: 10,
-    lineHeight: 20
+    lineHeight: 20,
   },
   _shopBtn: {
     borderWidth: 1,
-    borderColor:'orange',
+    borderColor: 'orange',
     paddingHorizontal: 40,
     paddingVertical: 8,
     borderRadius: 3,
-    marginTop: 15
+    marginTop: 15,
   },
   _shopBtnText: {
-    color:'orange',
+    color: 'orange',
     fontFamily: 'Montserrat-Medium',
     fontSize: 15,
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
 
   _flexRow: {
@@ -574,7 +573,7 @@ const styles = StyleSheet.create({
   _subTitleApp: {
     fontSize: 15,
     fontFamily: 'Montserrat-Medium',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
 
   _innerHeader: {
@@ -593,14 +592,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Medium',
     paddingVertical: 5,
     marginTop: -5,
-    textAlign:'center'
+    textAlign: 'center',
   },
 
   _counterView: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor:'#fff',
-    width: 80, 
+    backgroundColor: '#fff',
+    width: 80,
     borderWidth: 1,
     borderRadius: 2,
     borderColor: '#ddd',
@@ -624,16 +623,15 @@ const styles = StyleSheet.create({
 
   _variationValues: {
     fontFamily: 'Montserrat-Medium',
-    color:'#333',
-    fontSize: 14
+    color: '#333',
+    fontSize: 14,
   },
 
   _optionTypes: {
-   fontFamily: 'Montserrat-Medium',
-    color:'#7a7a7a',
+    fontFamily: 'Montserrat-Medium',
+    color: '#7a7a7a',
     fontSize: 12,
-  }
-
+  },
 });
 
 module.exports = styles;

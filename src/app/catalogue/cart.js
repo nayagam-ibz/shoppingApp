@@ -11,15 +11,13 @@ import {
   Dimensions
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { getCartItems } from '../../app/store/actions/products';
-import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Authentication from '../shared/authentication'; 
-import RBSheet from 'react-native-raw-bottom-sheet';
+import Entypo from 'react-native-vector-icons/Entypo';
 import StepIndicator from '../shared/stepIndicator';
 import CustomHeader from '../header/header';
 import Styles from '../../../assets/style';
 import Loader from '../shared/loader';
+import { getCartItems } from '../../app/store/actions/products';
 import { connect } from 'react-redux';
 
 const windowWidth = Dimensions.get('window').width;
@@ -46,13 +44,13 @@ class Cart extends React.Component {
 
   _plusQty = (id) => {
     const cartItemsArray =  this.state.listCartItems
-     let array = cartItemsArray.map((item) => {
-       if(id === item.id) {
-         item.quantity = item.quantity + 1 
-       }
+    let array = cartItemsArray.map((item) => {
+      if(id === item.id) {
+        item.quantity = item.quantity + 1 
+      }
       return{...item}
-     })
-   this.setState({listCartItems: array})
+    })
+    this.setState({listCartItems: array})
   };
 
 
@@ -60,12 +58,12 @@ class Cart extends React.Component {
     let qty = min_qty;
     if (qty > 0) {
       const cartItemsArray =  this.state.listCartItems
-       let array = cartItemsArray.map((item) => {
-         if(id === item.id) {
-          item.quantity = item.quantity - 1 
-         }
-        return{...item}
-       })
+        let array = cartItemsArray.map((item) => {
+          if(id === item.id) {
+           item.quantity = item.quantity - 1 
+          }
+          return{...item}
+        })
       this.setState({listCartItems: array})
     }
   }
@@ -160,11 +158,7 @@ class Cart extends React.Component {
                           </TouchableOpacity>
                         </View>
                         <TouchableOpacity style={{marginRight: 10}}>
-                          <MaterialCommunityIcons
-                            name="delete-variant"
-                            size={22}
-                            color="red"
-                          />
+                          <MaterialCommunityIcons name="delete-variant" size={22} color="red"/>
                         </TouchableOpacity>
                       </View>
                     </View>

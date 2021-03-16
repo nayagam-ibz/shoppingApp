@@ -7,9 +7,7 @@ import {
 	Image,
 	TouchableOpacity,
 } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LogoutConfirmaton from './shared/logoutConfirmation';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import LinearGradient from 'react-native-linear-gradient';
@@ -33,7 +31,6 @@ class Account extends Component {
 			this.setState({modalVisible: true});
 		} else {
 			this.setState({modalVisible: false, logout: false});
-			
 		}
 	}
 
@@ -93,19 +90,6 @@ class Account extends Component {
 					}	
 				</View>
 				<View style={styles._menuView}>
-					<TouchableOpacity
-						style={styles._accountMenu}
-						onPress={() => this.onNavigation('ManageAddress')}>
-						<View style={styles._flexRow}>
-							<Feather name="map-pin" size={20} color="#3B2D46" style={styles._menuIcon}/>
-							<View>
-								<Text style={styles._menuTitle}>Manage Address </Text>
-						    <Text style={styles._submenTitle}>Help your delivery product</Text> 
-						  </View>  
-					  </View>		
-					  <EvilIcons name="chevron-right" size={20} color="#3B2D46" />
-					</TouchableOpacity>
-
 					<TouchableOpacity style={styles._accountMenu} onPress={() => this.onNavigation('Myorders')}>
 					  <View style={styles._flexRow}>
 							<SimpleLineIcons name="social-dropbox" size={20} color="#333" style={styles._menuIcon}/>
@@ -116,7 +100,6 @@ class Account extends Component {
 						</View>	
 						<EvilIcons name="chevron-right" size={20} color="#3B2D46" />
 					</TouchableOpacity>
-
 					<TouchableOpacity style={styles._accountMenu} onPress={() => this.onNavigation('Wishlist')}>
 					  <View style={styles._flexRow}>
 							<Entypo name="heart-outlined" size={22} color="#333" style={styles._menuIcon}/>
@@ -127,7 +110,6 @@ class Account extends Component {
 						</View>	
 						<EvilIcons name="chevron-right" size={20} color="#3B2D46" />
 					</TouchableOpacity>
-
 					{this.state.logout &&(
 						<TouchableOpacity
 							style={styles._accountMenu}
@@ -145,7 +127,6 @@ class Account extends Component {
 						confirmationModal={() => this.confirmationModal(false)}
 					/>
 				)}
-
 				<RBSheet ref={(ref) => {this.RBSheet = ref;}}
 					height={400}
 					openDuration={300} closeOnPressMask={true} closeOnDragDown={true}
